@@ -1,0 +1,29 @@
+% **************************************************
+% Load and Configure Packages
+% **************************************************
+\usepackage[utf8]{inputenc}		% defines file's character encoding
+\usepackage[english]{babel} % babel system, adjust the language of the content
+\usepackage[					% clean thesis style
+figuresep=colon,%
+sansserif=false,%
+hangfigurecaption=false,%
+hangsection=true,%
+hangsubsection=true,%
+colorize=full,%
+colortheme=bluemagenta,%
+bibsys=bibtex,%
+bibfile=bib-refs,%
+bibstyle=alphabetic,%
+]{cleanthesis}
+
+\hypersetup{					% setup the hyperref-package options
+	pdftitle={\thesisTitle},	% 	- title (PDF meta)
+	pdfsubject={\thesisSubject},% 	- subject (PDF meta)
+	pdfauthor={\thesisName},	% 	- author (PDF meta)
+	plainpages=false,			% 	-
+	colorlinks=false,			% 	- colorize links?
+	pdfborder={0 0 0},			% 	-
+	breaklinks=true,			% 	- allow line break inside links
+	bookmarksnumbered=true,		%
+	bookmarksopen=true			%
+}
