@@ -16,18 +16,24 @@ captions=tableabove,		% display table captions above the float env
 draft=false,				% value for draft version
 ]{scrreprt}%
 
+
 % **************************************************
 % Debug LaTeX Information
 % **************************************************
 %\listfiles
+
+
+% **************************************************
+% Commands and packages
+% **************************************************
 \input{tex/cmd.tex}
 \input{tex/packages.tex}
+
 
 % **************************************************
 % Document CONTENT
 % **************************************************
 \begin{document}
-	
 	% --------------------------
 	% rename document parts
 	% --------------------------
@@ -39,14 +45,14 @@ draft=false,				% value for draft version
 	% --------------------------
 	\pagenumbering{roman}			% roman page numbing (invisible for empty page style)
 	\pagestyle{empty}				% no header or footers
-	\input{tex/titlepages}		% INCLUDE: all titlepages
+	\input{tex/titlepages}			% INCLUDE: all titlepages
 	\cleardoublepage
 	
 	\pagestyle{plain}				% display just page numbers
-	\input{tex/abstract}		% INCLUDE: the abstracts (english and german)
+	\input{tex/abstract}			% INCLUDE: the abstracts (english and german)
 	\cleardoublepage
 	%
-	\input{tex/acknowledgement} % INCLUDE: acknowledgement
+	\input{tex/acknowledgement} 	% INCLUDE: acknowledgement
 	\cleardoublepage
 	%
 	\setcounter{tocdepth}{2}		% define depth of toc
