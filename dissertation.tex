@@ -49,10 +49,10 @@ draft=false,				% value for draft version
 	\cleardoublepage
 	
 	\pagestyle{plain}				% display just page numbers
-	\input{tex/abstract}			% INCLUDE: the abstracts (english and german)
+	\input{tex/sections/abstract}			% INCLUDE: the abstracts (english and german)
 	\cleardoublepage
 	%
-	\input{tex/acknowledgement} 	% INCLUDE: acknowledgement
+	\input{tex/sections/acknowledgement} 	% INCLUDE: acknowledgement
 	\cleardoublepage
 	%
 	\setcounter{tocdepth}{2}		% define depth of toc
@@ -67,7 +67,7 @@ draft=false,				% value for draft version
 	\pagestyle{maincontentstyle} 	% fancy header and footer
 	
 	\input{tex/sections/introduction} % INCLUDE: introduction
-	%\input{content/chapter-related-work} % INCLUDE: related work
+	\input{tex/content/chapter_nanopype} % INCLUDE: related work
 	%\input{content/chapter-system}	% INCLUDE: system
 	%\input{content/chapter-concepts} % INCLUDE: concepts
 	%\input{content/chapter-conclusion} % INCLUDE: conclusion
@@ -92,10 +92,10 @@ draft=false,				% value for draft version
 	\listoftables
 	\cleardoublepage
 	
-	\input{tex/colophon}
+	\input{tex/sections/colophon}
 	\cleardoublepage
 	
-	\input{tex/declaration}
+	\input{tex/sections/declaration}
 	\clearpage
 	\newpage
 	\mbox{}
