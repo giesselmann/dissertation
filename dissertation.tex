@@ -45,7 +45,7 @@ draft=false,				% value for draft version
 	% --------------------------
 	\pagenumbering{roman}			% roman page numbing (invisible for empty page style)
 	\pagestyle{empty}				% no header or footers
-	\input{tex/titlepages}			% INCLUDE: all titlepages
+	\input{tex/sections/titlepages}			% INCLUDE: all titlepages
 	\cleardoublepage
 	
 	\pagestyle{plain}				% display just page numbers
@@ -66,11 +66,12 @@ draft=false,				% value for draft version
 	\setcounter{page}{1}			% set page counter
 	\pagestyle{maincontentstyle} 	% fancy header and footer
 	
-	\input{tex/sections/introduction} % INCLUDE: introduction
-	\input{tex/content/chapter_nanopype} % INCLUDE: related work
-	%\input{content/chapter-system}	% INCLUDE: system
-	%\input{content/chapter-concepts} % INCLUDE: concepts
-	%\input{content/chapter-conclusion} % INCLUDE: conclusion
+	\input{tex/sections/introduction}
+	\input{tex/sections/state_of_art}
+	\input{tex/content/chapter_nanopype}
+	\input{tex/content/chapter_signal}
+	\input{tex/content/chapter_strique}
+	\input{tex/sections/summary}
 	\cleardoublepage
 	
 	% --------------------------
