@@ -9,6 +9,9 @@ Long-read third-generation nanopore sequencing enables researchers to now addres
     \label{fig:nanopype:ga}
 \end{figure}
 
+
+
+
 \section{Background}
 \label{sec:nanopype:background}
 Third-generation sequencing techniques are currently introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules including base modifications since no synthesis or amplification is required.
@@ -17,27 +20,105 @@ Current examples of nanopore data processing pipelines are Katuali\footnote{gith
 To overcome these issues, we have developed Nanopype, a pipeline designed explicitly for streamlined and automated nanopore long read processing. Apart from the integration of essential base calling, quality control, and alignment tools, we facilitate a set of published analysis applications for barcode demultiplexing, DNA methylation readout, structural variant calling, and RNA isoform detection. 
 Based on the Snakemake engine \cite{Koester2012} our method integrates established error handling and uniform output structures across multiple experiments. Furthermore, Nanopype can be run in a parallel setup on both, single computers and server clusters. Deployed as a python module, Nanopype is mostly build from source with encapsulated routines to simplify the initial setup and integration into existing environments. Additionally, we provide Singularity images for all modules and an automatically built all-in-one Docker container. This enables the usage of the pipeline for both, less bioinformatically experienced experimental scientists and bioinformaticians. Lastly, Nanopype provides a well-defined framework for standardized processing independent of the underlying operating system.
 
+
+
+
 \section{Design}
 \label{sec:nanopype:design}
 Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
-Storage: The first core design component is the consistent storage of the raw signal data from any ONT sequencer. Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide an import and packaging into TAR archives module. Indexing the content of both, packaged and the more recently realized bulk-FAST5 output enables the fast retrieval of individual reads. This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
-Encapsulation: The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
+
+\subsection{Storage}
+\label{subsec:nanopype:storage}
+The first core design component is the consistent storage of the raw signal data from any ONT sequencer. Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide an import and packaging into TAR archives module. Indexing the content of both, packaged and the more recently realized bulk-FAST5 output enables the fast retrieval of individual reads. This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
+
+\subsection{Encapsulation}
+\label{subsec:nanopype:encapsulation}
+The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
 Internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation.
 An all-in-one Docker container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. Consistent versioning ensures reproducibility independent of the installation method.
-Transparency: Nanopype follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories.
+
+\subsection{Transparency}
+\label{subsec:nanopype:transparency}
+Nanopype follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories.
+
+
+
+
+\section{Installation}
+\label{sec:nanopype:installation}
+
+\subsection{Source}
+
+\begin{itemize}
+	\item dependencies
+	\item build rules
+	\item tests
+\end{itemize}
+
+\subsection{Container}
+
+\begin{itemize}
+	\item Docker
+	\item Singularity
+	\item Staged builds
+\end{itemize}
+
+\subsection{Configuration}
+
+\begin{itemize}
+	\item environment
+	\item workflow
+	\item profiles
+	\item cluster
+	\subitem shadow prefix
+	\item GPU support
+\end{itemize}
+
+
+
 
 \section{Modules}
 \label{sec:nanopype:modules}
 Nanopype’s backbone consists of a set of modules that resolve a specific task, like basecalling, alignment or further downstream analyses. If available, alternative applications are provided for the same task and grouped into a module with a coherent output format. Integrating first and foremost low-level nanopore data processing applications provided by ONT, established community developed software packages have been included in the first Nanopype release, as well.
-Basecalling: The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is either the standardized FASTA or FASTQ and supplemented by us with a basic quality control summary.
-Alignment: The core functionality of the pipeline is the alignment of reads against a reference genome or draft assembly. Here, we provide three different aligners with distinct advantages, which make them favorable for different applications downstream. While Minimap2 \cite{Li2018} is a fast, low memory footprint solution suitable for both DNA and RNA alignments, GraphMap \cite{Sovic2016} is a sensitive aligner but with comparably high memory requirements. NGMLR \cite{Sedlazeck2018} is the recommended tool for the structural variation module. Any combination of basecalling, alignment, and reference genome is supported and reports BAM format files.
-DNA methylation: Sequencing without prior DNA amplification enables the direct readout of DNA base modifications. The current state of the art approach, Nanopolish \cite{Simpson2017} as well as the more experimental flip-flop basecaller Flappie, are incorporated into Nanopype. Subsequently, Nanopype splits Flappie’s atypical sequence output into standard FASTQ and methylation status. DNA methylation at CpG dinucleotides of both tools is reported in a table format for single reads. Furthermore, we provide common bedGraph and bigWig files for genome-wide methylation tracks and thus enable downstream processing using established workflows, e.g., calling of differential methylated regions and comparison to bisulfite sequencing.
-Structural variation: Detection and characterization of structural variation play a central role in cancer research and population genetics. Long read sequencing particularly facilitates investigation of variants with unprecedented accuracy and resolution. Therefore, Nanopype encompasses the variant caller Sniffles \cite{Sedlazeck2018} and provides output in the standard variant calling format (VCF).
-Transcriptome: Another application of the long-read nanopore technology is sequencing of cDNA and RNA molecules directly. Recovery of full-length transcripts enables, for instance, the detection of alternatively spliced isoforms and is implemented in Nanopype using the Pinfish package. The output of polished transcripts is provided in the GFF format.
-Demultiplexing: Barcoded sequencing allows pooling of multiple samples on a single flow-cell. The demultiplexing module uses Deepbinner \cite{Wick2018} to assign a barcode label to the individual reads. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally.
+
+\subsection{Basecalling}
+\label{subsec:nanopype:basecalling}
+The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is either the standardized FASTA or FASTQ and supplemented by us with a basic quality control summary.
+
+\subsection{Alignment}
+\label{subsec:nanopype:alignment}
+The core functionality of the pipeline is the alignment of reads against a reference genome or draft assembly. Here, we provide three different aligners with distinct advantages, which make them favorable for different applications downstream. While Minimap2 \cite{Li2018} is a fast, low memory footprint solution suitable for both DNA and RNA alignments, GraphMap \cite{Sovic2016} is a sensitive aligner but with comparably high memory requirements. NGMLR \cite{Sedlazeck2018} is the recommended tool for the structural variation module. Any combination of basecalling, alignment, and reference genome is supported and reports BAM format files.
+
+\begin{itemize}
+	\item sorting
+	\item merging of many files
+\end{itemize}
+
+\subsection{DNA methylation}
+\label{subsec:nanopype:methylation}
+Sequencing without prior DNA amplification enables the direct readout of DNA base modifications. The current state of the art approach, Nanopolish \cite{Simpson2017} as well as the more experimental flip-flop basecaller Flappie, are incorporated into Nanopype. Subsequently, Nanopype splits Flappie’s atypical sequence output into standard FASTQ and methylation status. DNA methylation at CpG dinucleotides of both tools is reported in a table format for single reads. Furthermore, we provide common bedGraph and bigWig files for genome-wide methylation tracks and thus enable downstream processing using established workflows, e.g., calling of differential methylated regions and comparison to bisulfite sequencing.
+
+\begin{itemize}
+	\item tracks
+	\item single read tracks
+\end{itemize}
+
+\subsection{Structural variation}
+\label{subsec:nanopype:sv}
+Detection and characterization of structural variation play a central role in cancer research and population genetics. Long read sequencing particularly facilitates investigation of variants with unprecedented accuracy and resolution. Therefore, Nanopype encompasses the variant caller Sniffles \cite{Sedlazeck2018} and provides output in the standard variant calling format (VCF).
+
+\subsection{Transcriptome}
+\label{subsec:nanopype:transcriptom}
+Another application of the long-read nanopore technology is sequencing of cDNA and RNA molecules directly. Recovery of full-length transcripts enables, for instance, the detection of alternatively spliced isoforms and is implemented in Nanopype using the Pinfish package. The output of polished transcripts is provided in the GFF format.
+
+
 Miscellaneous: Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan2010} and UCSCtools \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
 
+
+
+
 \section{Usage}
+\label{sec:nanopype:usage}
 Due to the functional range of Nanopype, dependent on the operating system, and selected installation method the setup can require advanced information technology knowledge. However, after deployment, the subsequent usage is straightforward given basic command line understanding. Complete Nanopype workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following line:
 
 \begin{lstlisting}[language=sh, caption=Snakemake example]
@@ -45,8 +126,35 @@ snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/sa
 \end{lstlisting}
 
 This command invokes basecalling, alignment and methylation detection using declared tools without further user interaction. The basecalling and alignment outputs are kept and can be reused to avoid redundant processing.
+
+\begin{itemize}
+	\item tag concept
+	\item special tag introduction
+\end{itemize}
+
+\subsection{Batch processing}
 The automatic distribution of workflows into independent batches enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and most importantly in case of terminated or failed batches. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command which enhances the overall error robustness.
 The source and Singularity versions of Nanopype do not interfere with the extensive cluster support of Snakemake.
+
+\begin{itemize}
+	\item raw signal batches
+	\item temporary data
+	\item non batch modules e.g. sv
+\end{itemize}
+
+\subsection{Barcoding}
+
+Demultiplexing: Barcoded sequencing allows pooling of multiple samples on a single flow-cell. The demultiplexing module uses Deepbinner \cite{Wick2018} to assign a barcode label to the individual reads. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally.
+
+\subsection{Logging}
+
+\begin{itemize}
+	\item cluster job logging
+	\item TODO: implement log of config values into tagged logfile
+\end{itemize}
+
+
+
 
 \section{Summary}
 \label{sec:nanopype:summary}

@@ -1,9 +1,30 @@
 \chapter{Nanopore Signal Analysis}
 \label{sec:signal}
 
+\begin{itemize}
+	\item basics set with pipeline
+	\item need to understand signal, contrast to 2nd gen.
+	\item tombo, squiggle-kit?
+	\item custom, easy to configure
+	\item python for fast prototyping
+\end{itemize}
+
 \section{Normalization}
 \label{sec:signal:normalization}
+
+\begin{itemize}
+	\item mean/std vs median/MAD (cite tombo)
+	\item min-max normalization
+	\item polyfit?
+	\item smoothing with grayscale morphological operations
+\end{itemize}
 
 \section{Segmentation and Alignment}
 \label{sec:signal:alignment}
 
+\begin{itemize}
+	\item estimated event alignment
+	\item seqan vs. edlib
+	\item event length
+	\item profile HMM for precise mapping
+\end{itemize}
