@@ -1,0 +1,46 @@
+# acknowledgment wordcloud
+python3
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+from wordcloud import WordCloud, ImageColorGenerator
+
+
+
+# mask
+x, y = np.ogrid[:300, :300]
+mask = (x - 150) ** 2 + (y - 150) ** 2 > 130 ** 2
+mask = 255 * mask.astype(int)
+
+mask = np.array(Image.open("minion2_mask.jpg"))
+image_colors = ImageColorGenerator(mask)
+
+
+# word frequencies
+freqs = {
+'Alex':1.0, 'Knut':1.0, 'Franzef':1.0,
+'Helene':0.9, 'Björn':0.8, 'Bernhard':0.8,
+'Sine':0.8, 'Berni':0.8, 'Bente':0.8,
+'Timo':0.7, 'Steffi':0.5, 'Christoph':0.5, 'Martin':0.6, 'Petz':0.7, 'Thorsten':0.7,
+'Sara':0.7, 'Chuck':0.7, 'Sandy':0.7, 'Nina':0.7, 'Sebastian':0.7,
+'Christina':0.6, 'Jocelyn':0.6, 'Christian':0.5,
+'Steffi':0.3,
+'Ulrich Sowada':0.5, 'Ulrich Jetzek': 0.5,
+'René':0.2,
+'Miss Pini': 0.1}
+
+# wordcloud
+wc = WordCloud(background_color="white",
+        repeat=True, mask=mask,
+        min_font_size=4, max_font_size=80,
+        width=800, height=800, scale=20.0)
+wc.generate_from_frequencies(freqs)
+
+plt.figure(figsize=(10,10))
+plt.axis("off")
+#plt.imshow(wc, interpolation='bilinear')
+plt.imshow(wc.recolor(color_func=image_colors), interpolation="bilinear")
+plt.show()
+
+```
