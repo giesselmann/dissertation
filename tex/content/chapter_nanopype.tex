@@ -31,11 +31,23 @@ Nanopype’s core element is a modular setup to easily update existing tools and
 \label{subsec:nanopype:storage}
 The first core design component is the consistent storage of the raw signal data from any ONT sequencer. Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide an import and packaging into TAR archives module. Indexing the content of both, packaged and the more recently realized bulk-FAST5 output enables the fast retrieval of individual reads. This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
 
+\begin{itemize}
+	\item syncthing
+	\item fast5Index, different formats over time
+	\item separation of raw and processed data
+\end{itemize}
+
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
 The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
 Internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation.
 An all-in-one Docker container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. Consistent versioning ensures reproducibility independent of the installation method.
+
+\begin{itemize}
+	\item discuss container size on distributed systems
+	\item more details on Docker vs. Singularity
+\end{itemize}
+
 
 \subsection{Transparency}
 \label{subsec:nanopype:transparency}
