@@ -62,14 +62,6 @@ Since other CRISPR/Cas-nucleases also generate phosphorylated 5’-ends after DN
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1.0\textwidth]{figures/strique/count_hmm.pdf}
-    \captionsetup{format=plain}
-    \caption[Nanopore signal processing with STRique]{\textbf{a}, A compound profile HMM of prefix, a single repeat and the suffix sequence assigns either prefix, repeat or suffix label to each signal value. Repeat counts are obtained through dummy states between repeat and suffix. \textbf{b}, Nanopore signal profile HMM with normal distributed match state and uniform distributed insertion state emission probabilities.}
-    \label{fig:strique:count_hmm}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_sequence_corr.pdf}
     \captionsetup{format=plain}
     \caption[Correlation of sequence based STR detection methods]{\textbf{a}, Correlation of manual counted repeat lengths with sequence base methods. Decoy alignment against reference with 3-100 repeats with Albacore (window 10k and 16k), Guppy (fast and hac mode, 1k and 16k window size) and Flappie base-calling (n=204 reads). \textbf{b}, Correlation of manual count with RepeatHMM and STRique results (n=204 reads).}
