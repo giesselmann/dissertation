@@ -9,15 +9,21 @@ Long-read third-generation nanopore sequencing enables researchers to now addres
     \label{fig:nanopype:ga}
 \end{figure}
 
+\textbf{Note:} This chapter is based on the publication P. Giesselmann et al. \textit{Nanopype: a modular and scalable nanopore data processing pipeline}, Bioinformatics, 2019 and contains text from the original paper.
 
+The chapter starts with a brief \textbf{background} in \ref{sec:nanopype:background} followed by high-level pipeline \textbf{design} decisions covering storage, tool encapsulation and reproducibility in section \ref{sec:nanopype:design}.
+The \textbf{installation} section \ref{sec:nanopype:installation} illustrates the setup and configuration of the pipeline in different environments. Grouped into \textbf{modules} individual tools are highlighted in section \ref{sec:nanopype:modules}.
+Finally the \textbf{usage} on a daily production level is outlined in section \ref{sec:nanopype:usage}.
 
 
 \section{Background}
 \label{sec:nanopype:background}
 Third-generation sequencing techniques are currently introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules including base modifications since no synthesis or amplification is required.
+
 Due to constant development and improvement of applications, frequent reprocessing of the raw signal and downstream data is necessary. Thus, novel archiving and processing strategies are needed for data storage and handling that scale with the large amount of data produced by the MinION sequencer. This will be even more relevant as higher throughput devices such as the PromethION become more widely available. Furthermore, a limiting factor of the applicability of this new technology are the currently available, research-grade software packages for nanopore long-read data analyses. These tend to be difficult to install and require complex software environments. Despite the growing number of recently developed algorithms \cite{Magi2018}, primary data processing remains challenging due to stand alone tools without congruent data formats and requirements. 
 Current examples of nanopore data processing pipelines are Katuali\footnote{github.com/nanoporetech/katuali} for basecalling and assembly and Pinfish\footnote{github.com/nanoporetech/pipeline-pinfish-analysis} for RNA isoform detection from cDNA and direct RNA sequencing experiments. However they have been developed to perform specific analysis workflows without integrated handling of the critical raw data storage or version control of wrapped tools.
-To overcome these issues, we have developed Nanopype, a pipeline designed explicitly for streamlined and automated nanopore long read processing. Apart from the integration of essential base calling, quality control, and alignment tools, we facilitate a set of published analysis applications for barcode demultiplexing, DNA methylation readout, structural variant calling, and RNA isoform detection. 
+
+To overcome these issues, we have developed Nanopype, a pipeline designed explicitly for streamlined and automated nanopore long read processing. Apart from the integration of essential base calling, quality control, and alignment tools, we facilitate a set of published analysis applications for barcode demultiplexing, DNA methylation readout, structural variant calling, RNA isoform detection and genome assembly. 
 Based on the Snakemake engine \cite{Koester2012} our method integrates established error handling and uniform output structures across multiple experiments. Furthermore, Nanopype can be run in a parallel setup on both, single computers and server clusters. Deployed as a python module, Nanopype is mostly build from source with encapsulated routines to simplify the initial setup and integration into existing environments. Additionally, we provide Singularity images for all modules and an automatically built all-in-one Docker container. This enables the usage of the pipeline for both, less bioinformatically experienced experimental scientists and bioinformaticians. Lastly, Nanopype provides a well-defined framework for standardized processing independent of the underlying operating system.
 
 
@@ -29,13 +35,26 @@ Nanopype’s core element is a modular setup to easily update existing tools and
 
 \subsection{Storage}
 \label{subsec:nanopype:storage}
-The first core design component is the consistent storage of the raw signal data from any ONT sequencer. Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide an import and packaging into TAR archives module. Indexing the content of both, packaged and the more recently realized bulk-FAST5 output enables the fast retrieval of individual reads. This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
+The first core design component is the consistent storage of the raw signal data from any ONT sequencer. 
+Raw nanopore reads are stored in FAST5 files, an ONT specification of the universal HDF5 file format. Initially the sequencers exported one file per read, resulting in hundreds of thousands of files per sequencing run. 
+The number of files generated could, especially on UNIX file systems, disrupt background services such as nightly mirrors and backups.
+Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide a module to import and package single reads into TAR archive batches.
+
+More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
+Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads. 
 
 \begin{itemize}
 	\item syncthing
 	\item fast5Index, different formats over time
 	\item separation of raw and processed data
+	\item user management
+	\item archive
 \end{itemize}
+
+This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
+
+
+
 
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
