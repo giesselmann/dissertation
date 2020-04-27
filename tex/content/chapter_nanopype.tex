@@ -41,11 +41,10 @@ The number of files generated could, especially on UNIX file systems, disrupt ba
 Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide a module to import and package single reads into TAR archive batches.
 
 More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
-Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads. 
+
 
 \begin{itemize}
 	\item syncthing
-	\item fast5Index, different formats over time
 	\item separation of raw and processed data
 	\item user management
 	\item archive
@@ -176,6 +175,8 @@ The source and Singularity versions of Nanopype do not interfere with the extens
 \subsection{Barcoding}
 
 Demultiplexing: Barcoded sequencing allows pooling of multiple samples on a single flow-cell. The demultiplexing module uses Deepbinner \cite{Wick2018} to assign a barcode label to the individual reads. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally.
+
+Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads. 
 
 \subsection{Logging and Reports}
 
