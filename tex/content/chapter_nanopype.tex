@@ -1,7 +1,7 @@
 \chapter{Nanopype Processing Pipeline}
 \label{sec:nanopype}
 
-Long-read third-generation nanopore sequencing enables researchers to now address a range of questions that are difficult to tackle with short read approaches. The rapidly expanding user base and continuously increasing throughput have sparked the development of a growing number of specialized analysis tools. However, streamlined processing of nanopore datasets using reproducible and transparent workflows is still lacking. Here we present Nanopype, a nanopore data processing pipeline that integrates a diverse set of established bioinformatics software while maintaining consistent and standardized output formats. Seamless integration into compute cluster environments makes the framework suitable for high-throughput applications. As a result, Nanopype facilitates comparability of nanopore data analysis workflows and thereby should enhance the reproducibility of biological insights.
+Long-read third-generation nanopore sequencing enables researchers to now address a range of questions that are difficult to tackle with short read approaches. The rapidly expanding user base and continuously increasing throughput have sparked the development of a growing number of specialized analysis tools. However, streamlined processing of nanopore datasets using reproducible and transparent workflows is still lacking. Here we present Nanopype, a nanopore data processing pipeline that integrates a diverse set of established bioinformatics software while maintaining consistent and standardized output formats. Seamless integration into compute cluster environments makes the framework suitable for high-throughput applications. As a result, Nanopype facilitates comparability of nanopore data analysis workflows and thereby should enhance the reproducibility of biological insights. Nanopype is available at \textit{https://github.com/giesselmann/nanopype}.
 
 \begin{figure}[h]
     \centering
@@ -37,7 +37,7 @@ Nanopype’s core element is a modular setup to easily update existing tools and
 \label{subsec:nanopype:storage}
 The first core design component is the consistent storage of the raw signal data from any ONT sequencer. 
 Raw nanopore reads are stored in FAST5 files, an ONT specification of the universal HDF5 file format. Initially the sequencers exported one file per read, resulting in hundreds of thousands of files per sequencing run. 
-The number of files generated could, especially on UNIX file systems, disrupt background services such as nightly mirrors and backups.
+The number of files generated could, especially on Linux file systems, disrupt background services such as nightly mirrors and backups.
 Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide a module to import and package single reads into TAR archive batches.
 
 More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
@@ -50,7 +50,7 @@ More recently ONT utilized the full functionality of the HDF5 format with groups
 	\item archive
 \end{itemize}
 
-This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
+
 
 \begin{figure}[h]
 	\centering
@@ -60,6 +60,7 @@ This raw data archive forms the basis for any downstream analyses and enables sm
 	\label{fig:nanopype:storage}
 \end{figure}
 
+This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
 
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
@@ -93,10 +94,14 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 
 \subsection{Container}
 
+
+\lstinputlisting[language=docker, caption=Staged Docker build, label=lst:nanopype:docker]{listings/nanopype/docker_staged.txt}
+
+
 \begin{itemize}
 	\item Docker
 	\item Singularity
-	\item Staged builds
+	\item Staged builds \ref{lst:nanopype:docker}
 \end{itemize}
 
 \subsection{Configuration}
