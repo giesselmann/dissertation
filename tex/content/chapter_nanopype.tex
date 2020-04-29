@@ -16,6 +16,8 @@ The \textbf{installation} section \ref{sec:nanopype:installation} illustrates th
 Finally the \textbf{usage} on a daily production level is outlined in section \ref{sec:nanopype:usage}.
 
 
+
+
 \section{Background}
 \label{sec:nanopype:background}
 Third-generation sequencing techniques are currently introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules including base modifications since no synthesis or amplification is required.
@@ -42,31 +44,36 @@ Nanopype is backward compatible with datasets of single read FAST5 files, for wh
 
 More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
 
-
-\begin{itemize}
-	\item syncthing
-	\item separation of raw and processed data
-	\item user management
-	\item archive
-\end{itemize}
-
-
+In combination with the Nanopype pipeline we propose a multi-device and multi-user nanopore sequencing setup. Provided with a suitable server infrastructure the design supports processing of multiple sequencing runs per week from both local and remotely connected devices. Deploying \textit{syncthing}\footnote{https://github.com/syncthing/syncthing} on device and server side, we synchronize the output folder from the MinKNOW sequencing software with device specific folders in a central spooling area.
+After completion of the sequencing, the data is moved to the active storage, the file ownership is changed to a particular \textit{data user} and files are made write protected (Fig. \ref{fig:nanopype:storage}).
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/nanopype/storage.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopype data flow]{}
+	\caption[Nanopype data flow]{Data flow for multi-sequencer and multi-user setups: Raw data generated on local or remote devices is synchronized into local spooling directory. Complete runs with meta information are stored with read-only access and archived on tape. Processing combines multiple sequencing runs of the same sample and provides basic readout for downstream analysis.}
 	\label{fig:nanopype:storage}
 \end{figure}
 
-This raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as improved basecalling algorithms become available.
+The active storage contains one folder per sequencing run following a uniform naming pattern of date, flow cell ID, flow cell type, sequencing kit and a sequence of arbitrary user tags e.g.:
+
+\begin{center}
+	20200401\_FAH12345\_FLO-MIN106\_SQK-LSK109\_HUES64\_TKO
+\end{center}
+
+From the active storage, sequencing runs can be archived on e.g. tape drives for long term data retention. For the processing, sequencing runs are mapped into an additional interface (a directory with softlinks into the active storage). This extra layer allows the distribution of raw data across multiple physical devices, while maintaining consistent access.
+The raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as for example improved basecalling algorithms become available.
 
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
 The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
-Internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation.
-An all-in-one Docker container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. Consistent versioning ensures reproducibility independent of the installation method.
+
+The internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation. In contrast to Docker, the execution of Singularity containers does not require root privileges on the target system.
+An all-in-one Docker container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. 
+
+
+
+Consistent versioning ensures reproducibility independent of the installation method.
 
 \begin{itemize}
 	\item discuss container size on distributed systems
