@@ -146,10 +146,14 @@ The core functionality of the pipeline is the alignment of reads against a refer
 \label{subsec:nanopype:methylation}
 Sequencing without prior DNA amplification enables the direct readout of DNA base modifications. The current state of the art approach, Nanopolish \cite{Simpson2017} as well as the more experimental flip-flop basecaller Flappie, are incorporated into Nanopype. Subsequently, Nanopype splits Flappie’s atypical sequence output into standard FASTQ and methylation status. DNA methylation at CpG dinucleotides of both tools is reported in a table format for single reads. Furthermore, we provide common bedGraph and bigWig files for genome-wide methylation tracks and thus enable downstream processing using established workflows, e.g., calling of differential methylated regions and comparison to bisulfite sequencing.
 
-\begin{itemize}
-	\item tracks
-	\item single read tracks
-\end{itemize}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/nanopype/sr_methylation.pdf}
+	\captionsetup{format=plain}
+	\caption[Nanopype single read methylation track]{Nanopype single read methylation track of nanopore sequenced HUES8 hESCs. Mean methylation track of CpGs with >=10\textit{x} coverage. Single read methylation computed from original alignment by substituting unmethylated Cs to Ts (imitated bisulfite conversion, blue). Unclassified sites (abs. nanopolish log-likelihood-ratio < 2.5) are substituted with As and appear as mismatches (orange). All remaining mismatches in the nanopore reads are replaced with the genomic sequence. Shown is DIRAS3 as imprinted gene on genome build hg38.}
+	\label{fig:nanopype:sr_methylation}
+\end{figure}
+
 
 \subsection{Structural variation}
 \label{subsec:nanopype:sv}
