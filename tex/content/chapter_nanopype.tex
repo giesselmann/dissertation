@@ -51,17 +51,17 @@ After completion of the sequencing, the data is moved to the active storage, the
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/nanopype/storage.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopype data flow]{Data flow for multi-sequencer and multi-user setups: Raw data generated on local or remote devices is synchronized into local spooling directory. Complete runs with meta information are stored with read-only access and archived on tape. Processing combines multiple sequencing runs of the same sample and provides basic readout for downstream analysis.}
+	\caption[Nanopype data flow]{Data flow for multi-sequencer and multi-user setup: Raw data generated on local or remote devices is synchronized into local spooling directory. Complete runs with meta information are stored with read-only access and archived on tape. Processing combines multiple sequencing runs of the same sample and provides basic readout for downstream analysis.}
 	\label{fig:nanopype:storage}
 \end{figure}
 
 The active storage contains one folder per sequencing run following a uniform naming pattern of date, flow cell ID, flow cell type, sequencing kit and a sequence of arbitrary user tags e.g.:
 
 \begin{center}
-	20200401\_FAH12345\_FLO-MIN106\_SQK-LSK109\_HUES64\_TKO
+	20200401\_FAH12345\_FLO-MIN106\_SQK-LSK109\_HUES64\_WT
 \end{center}
 
-From the active storage, sequencing runs can be archived on e.g. tape drives for long term data retention. For the processing, sequencing runs are mapped into an additional interface (a directory with softlinks into the active storage). This extra layer allows the distribution of raw data across multiple physical devices, while maintaining consistent access.
+From the active storage, sequencing runs can be archived on e.g. tape drives for long term data retention. For the processing, sequencing runs are mapped into an interface (a directory with softlinks into the active storage). This additional layer allows the distribution of raw data across multiple physical devices, while maintaining consistent access.
 The raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as for example improved basecalling algorithms become available.
 
 \subsection{Encapsulation}
