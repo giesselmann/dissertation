@@ -44,7 +44,7 @@ Nanopype is backward compatible with datasets of single read FAST5 files, for wh
 
 More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
 
-In combination with the Nanopype pipeline we propose a multi-device and multi-user nanopore sequencing setup. Provided with a suitable server infrastructure the design supports processing of multiple sequencing runs per week from both local and remotely connected devices. Deploying \textit{syncthing}\footnote{https://github.com/syncthing/syncthing} on device and server side, we synchronize the output folder from the MinKNOW sequencing software with device specific folders in a central spooling area.
+In combination with the Nanopype pipeline we propose a multi-device and multi-user nanopore sequencing setup (Fig. \ref{fig:nanopype:storage}). Provided with a suitable server infrastructure the design supports processing of multiple sequencing runs per week from both local and remotely connected devices. Deploying \textit{syncthing}\footnote{https://github.com/syncthing/syncthing} on device and server side, we synchronize the output folder from the \textit{MinKNOW} sequencing software with device specific folders in a central spooling area.
 After completion of the sequencing, the data is moved to the active storage, the file ownership is changed to a particular \textit{data user} and files are made write protected (Fig. \ref{fig:nanopype:storage}).
 
 \begin{figure}[h]
@@ -66,24 +66,44 @@ The raw data archive forms the basis for any downstream analyses and enables smo
 
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
-The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
+The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming, but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
 
-The internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation. In contrast to Docker, the execution of Singularity containers does not require root privileges on the target system.
-An all-in-one Docker container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. 
+The internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. The images are automatically pulled once a module is used. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation. In contrast to Docker, the execution of Singularity containers does not require root privileges on the target system.
+An all-in-one Singularity container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. 
 
-
-
-Consistent versioning ensures reproducibility independent of the installation method.
-
-\begin{itemize}
-	\item discuss container size on distributed systems
-	\item more details on Docker vs. Singularity
-\end{itemize}
+While greatly simplifying the installation process, containerized software comes at the cost of the container size. Whereas the \textit{minimap2} binary alone is 1 MB small, the size of the Nanopype alignment image is 314 MB due to integration of alignment tools, samtools, libraries and the Ubuntu kernel. Especially within distributed environments this means, that each cluster job needs to fetch these images from a file server, leading to noticeable overhead depending on the jobs core function. 
 
 
 \subsection{Transparency}
 \label{subsec:nanopype:transparency}
-Nanopype follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories.
+Nanopype follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories (Fig. \ref{fig:nanopype:dir_tree}).
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{.7\linewidth}
+	\dirtree{%
+		.1 ./.
+		.2 sequences/.
+		.3 guppy/.
+		.4 batches/.
+		.4 Hues8.fast.fastq.gz.
+		.2 alignments/.
+		.3 ngmlr/.
+		.4 guppy/.
+		.5 batches/.
+		.5 Hues8.fast.hg38.bam.
+		.2 methylation/.
+		.3 nanopolish/.
+		.4 ngmlr/.
+		.5 guppy/.
+		.6 batches/.
+		.6 Hues8.fast.10x.hg38.bw.
+	}
+	\end{minipage}
+	\captionsetup{format=plain}
+	\caption[Possible nanopype output directory]{Possible nanopype output directory structure after basecalling, alignment and methylation detection. Top level directories represent pipeline modules with the applied tools in subjacent levels. \textbf{Hues8.fast} is the user defined tag of the output, in this case for the hESC HUES8 and guppy basecalling in fast mode. \textbf{10x} is the coverage wildcard indicating to filter for CpGs with at least 10 reads coverage. \textbf{Hg38} defines the reference genome and \textbf{.bw} the output file format.}
+	\label{fig:nanopype:dir_tree}
+\end{figure}
 
 
 
@@ -101,15 +121,14 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 
 \subsection{Container}
 
-
 \lstinputlisting[language=docker, caption=Staged Docker build, label=lst:nanopype:docker]{listings/nanopype/docker_staged.txt}
-
 
 \begin{itemize}
 	\item Docker
 	\item Singularity
 	\item Staged builds \ref{lst:nanopype:docker}
 \end{itemize}
+
 
 \subsection{Configuration}
 
@@ -122,6 +141,8 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 	\item GPU support
 \end{itemize}
 
+Consistent versioning ensures reproducibility independent of the installation method.
+
 
 
 
@@ -131,16 +152,12 @@ Nanopype’s backbone consists of a set of modules that resolve a specific task,
 
 \subsection{Basecalling}
 \label{subsec:nanopype:basecalling}
-The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is either the standardized FASTA or FASTQ and supplemented by us with a basic quality control summary.
+The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is the standardized FASTQ and supplemented by us with a basic quality control summary.
 
 \subsection{Alignment}
 \label{subsec:nanopype:alignment}
 The core functionality of the pipeline is the alignment of reads against a reference genome or draft assembly. Here, we provide three different aligners with distinct advantages, which make them favorable for different applications downstream. While Minimap2 \cite{Li2018} is a fast, low memory footprint solution suitable for both DNA and RNA alignments, GraphMap \cite{Sovic2016} is a sensitive aligner but with comparably high memory requirements. NGMLR \cite{Sedlazeck2018} is the recommended tool for the structural variation module. Any combination of basecalling, alignment, and reference genome is supported and reports BAM format files.
 
-\begin{itemize}
-	\item sorting
-	\item merging of many files
-\end{itemize}
 
 \subsection{DNA methylation}
 \label{subsec:nanopype:methylation}
@@ -150,7 +167,7 @@ Sequencing without prior DNA amplification enables the direct readout of DNA bas
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/nanopype/sr_methylation.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopype single read methylation track]{Nanopype single read methylation track of nanopore sequenced HUES8 hESCs. Mean methylation track of CpGs with >=10\textit{x} coverage. Single read methylation computed from original alignment by substituting unmethylated Cs to Ts (imitated bisulfite conversion, blue). Unclassified sites (abs. nanopolish log-likelihood-ratio < 2.5) are substituted with As and appear as mismatches (orange). All remaining mismatches in the nanopore reads are replaced with the genomic sequence. Shown is DIRAS3 as imprinted gene on genome build hg38.}
+	\caption[Nanopype single read methylation track]{Nanopype single read methylation track of nanopore sequenced HUES8 hESCs. Mean methylation track of CpGs with >=10\textit{x} coverage. Single read methylation computed from original alignment by substituting unmethylated Cs to Ts (imitated bisulfite conversion, blue). Unclassified sites (abs. nanopolish log-likelihood-ratio < 2.5) are substituted with As and appear as mismatches (orange). All remaining mismatches in the nanopore reads are replaced with the genomic sequence. Shown are reads overlapping DIRAS3 as imprinted gene on genome build hg38, grouped by allele and shaded by strand.}
 	\label{fig:nanopype:sr_methylation}
 \end{figure}
 
@@ -163,8 +180,20 @@ Detection and characterization of structural variation play a central role in ca
 \label{subsec:nanopype:transcriptom}
 Another application of the long-read nanopore technology is sequencing of cDNA and RNA molecules directly. Recovery of full-length transcripts enables, for instance, the detection of alternatively spliced isoforms and is implemented in Nanopype using the Pinfish package. The output of polished transcripts is provided in the GFF format.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/nanopype/rna_isoforms.pdf}
+	\captionsetup{format=plain}
+	\caption[Nanopore direct RNA sequencing]{Nanopore direct RNA sequencing of hESC H1 from one MinION flow cell. Shown are \textit{minimap2} splice-aligned reads spanning DNMT3B, obtained by using the RNA sequencing without amplification. The isoform detected from the \textit{Pinfish} package matches one of the reference isoforms.}
+	\label{fig:nanopype:rna_isoforms}
+\end{figure}
 
-Miscellaneous: Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan2010} and UCSCtools \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
+\subsection{Genome Assembly}
+\label{subsec:nanopype:assembly}
+
+
+
+Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan2010} and UCSCtools \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
 
 
 
@@ -174,7 +203,7 @@ Miscellaneous: Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan201
 Due to the functional range of Nanopype, dependent on the operating system, and selected installation method the setup can require advanced information technology knowledge. However, after deployment, the subsequent usage is straightforward given basic command line understanding. Complete Nanopype workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following line:
 
 \begin{lstlisting}[language=sh, caption=Snakemake example]
-snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/sample.5x.hg38.bw
+snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/Hues8.5x.hg38.bw
 \end{lstlisting}
 
 This command invokes basecalling, alignment and methylation detection using declared tools without further user interaction. The basecalling and alignment outputs are kept and can be reused to avoid redundant processing.
@@ -191,6 +220,8 @@ The source and Singularity versions of Nanopype do not interfere with the extens
 \begin{itemize}
 	\item raw signal batches
 	\item temporary data
+	\item sorting
+	\item command line length, open files
 	\item non batch modules e.g. sv
 \end{itemize}
 
@@ -204,7 +235,7 @@ Indexing the content of both, packaged and multi-FAST5 output enables the fast r
 
 \begin{itemize}
 	\item cluster job logging
-	\item TODO: implement log of config values into tagged logfile
+	\item log of config values into tagged logfile
 \end{itemize}
 
 
