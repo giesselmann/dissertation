@@ -111,37 +111,45 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 \section{Installation}
 \label{sec:nanopype:installation}
 
+Consistent versioning of source and container builds ensures reproducibility independent of the installation method.
+
 \subsection{Source}
 
-\begin{itemize}
-	\item dependencies
-	\item build rules
-	\item tests
-\end{itemize}
+
+
+%\begin{itemize}
+%	\item dependencies
+%	\item build rules
+%	\item tests
+%\end{itemize}
 
 \subsection{Container}
 
+Docker and Singularity enable the encapsulation of tools and dependencies into virtualized software containers. Packaging libraries and data, these containers can be executed on any operating system with just the virtualization set up. Due to the free availability, Nanopype module images are build as Docker containers on \textit{https://hub.docker.com/u/nanopype/}, but executed by Singularity from the Snakemake backend. Webhooks from Github trigger builds on each push to master and development branch. Tagged commits (e.g. \textit{v0.10.0}) to the master branch are build as tagged images. Upon execution the pipeline version is inferred from the git tag and associated Docker images are pulled as needed for the workflow.
+
+
+In order to minimize the size of each container, most Nanopype modules rely on a staged build process. Within the Dockerfile two separate images are configured. The first build stage contains installations of toolchains and development libraries. Bioinformatic tools required by Nanopype are compiled and linked in this stage. The build process for the alignment module is partially shown in listing \ref{lst:nanopype:docker}.
+
 \lstinputlisting[language=docker, caption=Staged Docker build, label=lst:nanopype:docker]{listings/nanopype/docker_staged.txt}
 
-\begin{itemize}
-	\item Docker
-	\item Singularity
-	\item Staged builds \ref{lst:nanopype:docker}
-\end{itemize}
+A subsequent runtime stage copies the binaries from the build stage and requires only the installation of libraries for dynamically linked executables. The build stage is dropped in the final compressed image.
 
 
 \subsection{Configuration}
 
-\begin{itemize}
-	\item environment
-	\item workflow
-	\item profiles
-	\item cluster
-	\subitem shadow prefix
-	\item GPU support
-\end{itemize}
+Nanopype has two configuration layers: The central environment configuration \textit{env.yaml} covers application paths and reference genomes and is set up independent of installation method and operating system once. The environment configuration is stored in the installation directory. If a compute cluster is available the respective Snakemake configuration is only needed once per Nanopype installation and explained here by the example of a custom scheduler called mxq.
 
-Consistent versioning ensures reproducibility independent of the installation method.
+For each project an additional workflow configuration is required providing data sources, tool flags and parameters. The workflow config file \textit{nanopype.yaml} is expected in the root of each project directory. Configuration files are in .yaml format.
+
+
+%\begin{itemize}
+%	\item environment
+%	\item workflow
+%	\item profiles
+%	\item cluster
+%	\subitem shadow prefix
+%	\item GPU support
+%\end{itemize}
 
 
 
@@ -150,9 +158,11 @@ Consistent versioning ensures reproducibility independent of the installation me
 \label{sec:nanopype:modules}
 Nanopype’s backbone consists of a set of modules that resolve a specific task, like basecalling, alignment or further downstream analyses. If available, alternative applications are provided for the same task and grouped into a module with a coherent output format. Integrating first and foremost low-level nanopore data processing applications provided by ONT, established community developed software packages have been included in the first Nanopype release, as well.
 
+
 \subsection{Basecalling}
 \label{subsec:nanopype:basecalling}
 The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is the standardized FASTQ and supplemented by us with a basic quality control summary.
+
 
 \subsection{Alignment}
 \label{subsec:nanopype:alignment}
@@ -176,6 +186,7 @@ Sequencing without prior DNA amplification enables the direct readout of DNA bas
 \label{subsec:nanopype:sv}
 Detection and characterization of structural variation play a central role in cancer research and population genetics. Long read sequencing particularly facilitates investigation of variants with unprecedented accuracy and resolution. Therefore, Nanopype encompasses the variant caller Sniffles \cite{Sedlazeck2018} and provides output in the standard variant calling format (VCF).
 
+
 \subsection{Transcriptome}
 \label{subsec:nanopype:transcriptom}
 Another application of the long-read nanopore technology is sequencing of cDNA and RNA molecules directly. Recovery of full-length transcripts enables, for instance, the detection of alternatively spliced isoforms and is implemented in Nanopype using the Pinfish package. The output of polished transcripts is provided in the GFF format.
@@ -187,6 +198,7 @@ Another application of the long-read nanopore technology is sequencing of cDNA a
 	\caption[Nanopore direct RNA sequencing]{Nanopore direct RNA sequencing of hESC H1 from one MinION flow cell. Shown are \textit{minimap2} splice-aligned reads spanning DNMT3B, obtained by using the RNA sequencing without amplification. The isoform detected from the \textit{Pinfish} package matches one of the reference isoforms.}
 	\label{fig:nanopype:rna_isoforms}
 \end{figure}
+
 
 \subsection{Genome Assembly}
 \label{subsec:nanopype:assembly}
@@ -208,35 +220,37 @@ snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/Hu
 
 This command invokes basecalling, alignment and methylation detection using declared tools without further user interaction. The basecalling and alignment outputs are kept and can be reused to avoid redundant processing.
 
-\begin{itemize}
-	\item tag concept
-	\item special tag introduction
-\end{itemize}
+%\begin{itemize}
+%	\item tag concept
+%	\item special tag introduction
+%\end{itemize}
+
 
 \subsection{Batch processing}
 The automatic distribution of workflows into independent batches enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and most importantly in case of terminated or failed batches. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command which enhances the overall error robustness.
 The source and Singularity versions of Nanopype do not interfere with the extensive cluster support of Snakemake.
 
-\begin{itemize}
-	\item raw signal batches
-	\item temporary data
-	\item sorting
-	\item command line length, open files
-	\item non batch modules e.g. sv
-\end{itemize}
+%\begin{itemize}
+%	\item raw signal batches
+%	\item temporary data
+%	\item sorting
+%	\item command line length, open files
+%	\item non batch modules e.g. sv
+%\end{itemize}
+
 
 \subsection{Barcoding}
-
 Demultiplexing: Barcoded sequencing allows pooling of multiple samples on a single flow-cell. The demultiplexing module uses Deepbinner \cite{Wick2018} to assign a barcode label to the individual reads. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally.
 
 Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads. 
 
+
 \subsection{Logging and Reports}
 
-\begin{itemize}
-	\item cluster job logging
-	\item log of config values into tagged logfile
-\end{itemize}
+%\begin{itemize}
+%	\item cluster job logging
+%	\item log of config values into tagged logfile
+%\end{itemize}
 
 
 
