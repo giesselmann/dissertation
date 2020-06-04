@@ -29,11 +29,16 @@ To overcome these issues, we have developed Nanopype, a pipeline designed explic
 Based on the Snakemake engine \cite{Koester2012} our method integrates established error handling and uniform output structures across multiple experiments. Furthermore, Nanopype can be run in a parallel setup on both, single computers and server clusters. Deployed as a python module, Nanopype is mostly build from source with encapsulated routines to simplify the initial setup and integration into existing environments. Additionally, we provide Singularity images for all modules and an automatically built all-in-one Docker container. This enables the usage of the pipeline for both, less bioinformatically experienced experimental scientists and bioinformaticians. Lastly, Nanopype provides a well-defined framework for standardized processing independent of the underlying operating system.
 
 
-SNAKEMAKE INTRO
+
 
 \section{Design}
 \label{sec:nanopype:design}
-Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
+Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
+
+\begin{tcolorbox}[breakable,title=Snakemake]
+	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. 
+\end{tcolorbox}
+
 
 \subsection{Storage}
 \label{subsec:nanopype:storage}
@@ -63,6 +68,7 @@ The active storage contains one folder per sequencing run following a uniform na
 
 From the active storage, sequencing runs can be archived on e.g. tape drives for long term data retention. For the processing, sequencing runs are mapped into an interface (a directory with softlinks into the active storage). This additional layer allows the distribution of raw data across multiple physical devices, while maintaining consistent access.
 The raw data archive forms the basis for any downstream analyses and enables smooth re-processing of legacy datasets as soon as for example improved basecalling algorithms become available.
+
 
 \subsection{Encapsulation}
 \label{subsec:nanopype:encapsulation}
@@ -101,7 +107,7 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 	}
 	\end{minipage}
 	\captionsetup{format=plain}
-	\caption[Possible nanopype output directory]{Possible nanopype output directory structure after basecalling, alignment and methylation detection. Top level directories represent pipeline modules with the applied tools in subjacent levels. \textbf{Hues8.fast} is the user defined tag of the output, in this case for the hESC HUES8 and guppy basecalling in fast mode. \textbf{10x} is the coverage wildcard indicating to filter for CpGs with at least 10 reads coverage. \textbf{Hg38} defines the reference genome and \textbf{.bw} the output file format.}
+	\caption[Possible nanopype output directory]{Possible nanopype output directory structure after basecalling, alignment and methylation detection. Top level directories represent pipeline modules with the applied tools in subjacent levels. \textbf{Hues8.fast} is the user defined tag of the output, in this case for the hESC HUES8 and guppy basecalling in fast mode. \textbf{10x} is the coverage wildcard, indicating to filter for CpGs with at least 10 reads coverage. \textbf{Hg38} defines the reference genome and \textbf{.bw} the output file format.}
 	\label{fig:nanopype:dir_tree}
 \end{figure}
 
@@ -112,6 +118,7 @@ Nanopype follows the Snakemake concept of output file driven computation: a sing
 \label{sec:nanopype:installation}
 
 Consistent versioning of source and container builds ensures reproducibility independent of the installation method.
+
 
 \subsection{Source}
 
@@ -266,6 +273,6 @@ Indexing the content of both, packaged and multi-FAST5 output enables the fast r
 \label{sec:nanopype:summary}
 Here we present Nanopype, a modular and easy-to-use data processing pipeline with a detailed online documentation, specifically designed to handle nanopore sequenced long-read data.
 Nanopype provides end-to-end processing of the raw sequencer signal into standard data formats and consequently closes the gap to downstream next-generation sequencing algorithms. Single command invocations of entire workflows reduce the hands-on-time for users to receive the desired output. Implicitly, this also lowers the potential of user mistakes and deviations in processing of multiple data sets. As a consequence, workflows are easier to reproduce with fixed versions among datasets or repeated with improved tool releases on existing ones.
-Nanopype is implemented as a python package and additionally provides pre-built and versioned Singluarity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms.
+Nanopype is implemented as a Python package and additionally provides pre-built and versioned Singluarity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms.
 
 
