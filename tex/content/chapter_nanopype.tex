@@ -33,10 +33,10 @@ Based on the Snakemake engine \cite{Koester2012} our method integrates establish
 
 \section{Design}
 \label{sec:nanopype:design}
-Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
+Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java for fast development. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
 
 \begin{tcolorbox}[breakable,title=Snakemake]
-	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. 
+	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. As a core concept Snakemake is build around \textit{rules} defining steps to compute an output from an input file. By requesting a single output file, the user initiates the construction of a directed acyclic graph (DAG), chaining all intermediate steps needed to complete the workflow. With the inputs of sequences and reference genome, an alignment rule could for instance compute alignments into an intermediate sam format, to be further sorted and converted to bam-files. Snakemake workflows are defined through the resulting file and folder structure and need a share file system across compute nodes.
 \end{tcolorbox}
 
 
@@ -122,20 +122,14 @@ Consistent versioning of source and container builds ensures reproducibility ind
 
 \subsection{Source}
 
-The workflow engine Snakemake can also be used to automate cloning and building of open source software. The snakefile \textit{rules/install.smk} in the Nanopype repository contains installation wrappers for all included tools, except proprietary software like the basecaller albacore. The following command would clone and build the minimap2 binary required by the currently installed pipeline version. A more detailed introduction into the Snakemake command line is given in \ref{sec:nanopype:usage}. 
+The workflow engine Snakemake can also be used to automate cloning and building of open source software. The snakefile \textit{rules/install.smk} in the Nanopype repository contains installation wrappers for all included tools, except proprietary software like the basecaller albacore. The following command would clone and build the minimap2 binary required by the currently installed pipeline version. A more detailed description of the Snakemake command line is given in \ref{sec:nanopype:usage}. 
 
 \begin{lstlisting}[language=sh, caption=Snakemake tool installation example]
 snakemake --snakefile ~/src/nanopype/rules/install.smk --directory ~/ minimap2
 \end{lstlisting}
 
-After completion the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable \textit{~/bin/minimap2}. 
+After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable \textit{~/bin/minimap2}. 
 
-
-%\begin{itemize}
-%	\item dependencies
-%	\item build rules
-%	\item tests
-%\end{itemize}
 
 \subsection{Container}
 
@@ -151,19 +145,10 @@ A subsequent runtime stage copies the binaries from the build stage and requires
 
 \subsection{Configuration}
 
-Nanopype has two configuration layers: The central environment configuration \textit{env.yaml} covers application paths and reference genomes and is set up independent of installation method and operating system once. The environment configuration is stored in the installation directory. If a compute cluster is available the respective Snakemake configuration is only needed once per Nanopype installation and explained here by the example of a custom scheduler called mxq.
+Nanopype has two configuration layers: The central environment configuration \textit{env.yaml} covers application paths and reference genomes and is set up independent of installation method and operating system once. The environment configuration is stored in the installation directory. For each project an additional workflow configuration is required providing data sources, tool flags and parameters. The workflow config file \textit{nanopype.yaml} is expected to be found in the root of each processing directory. Configuration files are in .yaml format.
 
-For each project an additional workflow configuration is required providing data sources, tool flags and parameters. The workflow config file \textit{nanopype.yaml} is expected in the root of each project directory. Configuration files are in .yaml format.
-
-
-%\begin{itemize}
-%	\item environment
-%	\item workflow
-%	\item profiles
-%	\item cluster
-%	\subitem shadow prefix
-%	\item GPU support
-%\end{itemize}
+If a compute cluster is available the respective Snakemake configuration is only needed once per Nanopype installation and shown by the example of a custom scheduler called mxq in the profiles folder of the repository. Nanopype makes extensive use of the Snakemake resource and shadow directory mechanisms. A compute rule can, depending on the number of threads assigned, define memory and time requirements. These parameters can be forwarded to the cluster scheduler upon execution. Both memory and run time are conservatively pre-configured, but can be adjusted via individual offset and scaling parameters in the environment configuration. 
+Per default rules are executed directly in the working directory. By specifying a shadow-directory, the input of supporting rules is linked into a temporary location and only expected outputs are copied to the working directory. Intended for the isolation of tools producing temporary intermediate outputs, this concept can also be used to move I/O heavy computations to local hard drives on each compute node and thus reducing the load on network file systems. Given that each compute node in the cluster has a local disk mounted as e.g. \textit{/scratch/local}, the Snakemake shadow-prefix would be set to this path.
 
 
 
