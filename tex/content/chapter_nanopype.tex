@@ -36,7 +36,7 @@ Based on the Snakemake engine \cite{Koester2012} our method integrates establish
 Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java for fast development. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
 
 \begin{tcolorbox}[breakable,title=Snakemake]
-	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. As a core concept Snakemake is build around \textit{rules} defining steps to compute an output from an input file. By requesting a single output file, the user initiates the construction of a directed acyclic graph (DAG), chaining all intermediate steps needed to complete the workflow. With the inputs of sequences and reference genome, an alignment rule could for instance compute alignments into an intermediate sam format, to be further sorted and converted to bam-files. Snakemake workflows are defined through the resulting file and folder structure and need a share file system across compute nodes.
+	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. As a core concept Snakemake is build around \textit{rules} defining steps to compute an output from an input file. By requesting a single output file, the user initiates the construction of a directed acyclic graph (DAG), chaining all intermediate steps needed to complete the workflow. With the inputs of sequences and reference genome, an alignment rule could for instance compute alignments into an intermediate sam format, to be further sorted and converted to bam-files. Snakemake workflows are defined through the resulting file and folder structure and need a shared file system across compute nodes.
 \end{tcolorbox}
 
 
@@ -128,7 +128,7 @@ The workflow engine Snakemake can also be used to automate cloning and building 
 snakemake --snakefile ~/src/nanopype/rules/install.smk --directory ~/ minimap2
 \end{lstlisting}
 
-After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable \textit{~/bin/minimap2}. 
+After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable $\sim$\textit{/bin/minimap2}.
 
 
 \subsection{Container}
