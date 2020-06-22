@@ -33,7 +33,7 @@ Based on the Snakemake engine \cite{Koester2012} our method integrates establish
 
 \section{Design}
 \label{sec:nanopype:design}
-Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java for fast development. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
+Nanopype’s core element is a modular setup to easily update existing tools and to seamlessly integrate the latest developments. Nonetheless, each pipeline release is freezing the included tool versions to guarantee reproducible results. Snakemake as workflow management is chosen over the competitor Nextflow to support a custom cluster engine and preferring Python over Java for rapid development. In a nutshell, Nanopype has been designed around three key components: raw data storage, tool encapsulation and standardized directory structures that mirror the applied toolchain.
 
 \begin{tcolorbox}[breakable,title=Snakemake]
 	Snakemake is a Python based workflow management system. Reproducibility and scaling on cluster environments make it preferable over plain bash script or Makefile based pipelines. As a core concept Snakemake is build around \textit{rules} defining steps to compute an output from an input file. By requesting a single output file, the user initiates the construction of a directed acyclic graph (DAG), chaining all intermediate steps needed to complete the workflow. With the inputs of sequences and reference genome, an alignment rule could for instance compute alignments into an intermediate sam format, to be further sorted and converted to bam-files. Snakemake workflows are defined through the resulting file and folder structure and need a shared file system across compute nodes.
@@ -47,7 +47,7 @@ Raw nanopore reads are stored in FAST5 files, an ONT specification of the univer
 The number of files generated could, especially on Linux file systems, disrupt background services such as nightly mirrors and backups.
 Nanopype is backward compatible with datasets of single read FAST5 files, for which we provide a module to import and package single reads into TAR archive batches.
 
-More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks.
+More recently ONT utilized the full functionality of the HDF5 format with groups (comparable to directories), datasets (structured arrays of primitive data types) and attributes (single values for meta information) and released the multi-read-FAST5 format. The new format typically groups 4000 reads into a single file, resulting in notable improvements regarding copy and synchronization tasks. Lately the replacement of the \textit{GZIP} by the custom \textit{VBZ} compression reduced file sizes by approximately 30\%.
 
 In combination with the Nanopype pipeline we propose a multi-device and multi-user nanopore sequencing setup (Fig. \ref{fig:nanopype:storage}). Provided with a suitable server infrastructure the design supports processing of multiple sequencing runs per week from both local and remotely connected devices. Deploying \textit{syncthing}\footnote{https://github.com/syncthing/syncthing} on device and server side, we synchronize the output folder from the \textit{MinKNOW} sequencing software with device specific folders in a central spooling area.
 After completion of the sequencing, the data is moved to the active storage, the file ownership is changed to a particular \textit{data user} and files are made write protected (Fig. \ref{fig:nanopype:storage}).
@@ -56,7 +56,7 @@ After completion of the sequencing, the data is moved to the active storage, the
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/nanopype/storage.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopype data flow]{Data flow for multi-sequencer and multi-user setup: Raw data generated on local or remote devices is synchronized into local spooling directory. Complete runs with meta information are stored with read-only access and archived on tape. Processing combines multiple sequencing runs of the same sample and provides basic readout for downstream analysis.}
+	\caption[Nanopype data flow]{Data flow for multi-sequencer and multi-user setup: Raw data generated on local or remote devices is synchronized into a local spooling directory. Complete runs with meta information are stored with read-only access and archived on tape. Processing combines multiple sequencing runs of the same sample and provides basic readout for downstream analysis.}
 	\label{fig:nanopype:storage}
 \end{figure}
 
@@ -74,7 +74,7 @@ The raw data archive forms the basis for any downstream analyses and enables smo
 \label{subsec:nanopype:encapsulation}
 The installation of experimental software packages still being actively developed with complex library dependencies can be time-consuming, but remains essential to make use of the current-generation nanopore analysis workflows. On a base level, Nanopype uses Snakemake rules to wrap the build from source and installation process of its dependencies and therefore does not require root privileges for the setup on common Linux and MacOS systems. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments.
 
-The internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. The images are automatically pulled once a module is used. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation. In contrast to Docker, the execution of Singularity containers does not require root privileges on the target system.
+The internal wrappers are used to automatically build and deploy Singularity images for preset modules and pipeline versions. The images are automatically pulled once a module is used. This mechanism enables the complete function set of Snakemake and Nanopype while only requiring a system-wide Python and Singularity installation. In contrast to Docker, the execution of Singularity containers does at run time not require root privileges on the target system.
 An all-in-one Singularity container is provided, wrapping the entire pipeline into a single environment. Primarily aimed for stand-alone usage, Windows systems, and for initial testing, this method does not offer support for cluster computation. 
 
 While greatly simplifying the installation process, containerized software comes at the cost of the container size. Whereas the \textit{minimap2} binary alone is 1 MB small, the size of the Nanopype alignment image is 314 MB due to integration of alignment tools, samtools, libraries and the Ubuntu kernel. Especially within distributed environments this means, that each cluster job needs to fetch these images from a file server, leading to noticeable overhead depending on the jobs core function. 
@@ -122,13 +122,15 @@ Consistent versioning of source and container builds ensures reproducibility ind
 
 \subsection{Source}
 
-The workflow engine Snakemake can also be used to automate cloning and building of open source software. The snakefile \textit{rules/install.smk} in the Nanopype repository contains installation wrappers for all included tools, except proprietary software like the basecaller albacore. The following command would clone and build the minimap2 binary required by the currently installed pipeline version. A more detailed description of the Snakemake command line is given in \ref{sec:nanopype:usage}. 
+The workflow engine Snakemake can also be used to automate cloning and building of open source software. The snakefile \textit{rules/install.smk} in the Nanopype repository contains installation wrappers for all included tools, except proprietary software like the basecaller albacore. The following command would clone and build the minimap2 binary required by the currently installed pipeline version. A more detailed description of the Snakemake command line is given in section \ref{sec:nanopype:usage}. 
 
 \begin{lstlisting}[language=sh, caption=Snakemake tool installation example]
 snakemake --snakefile ~/src/nanopype/rules/install.smk --directory ~/ minimap2
 \end{lstlisting}
 
 After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable $\sim$\textit{/bin/minimap2}.
+
+A special case when building from source is formed by heterogeneous server cluster environments in combination with vector instructions such as MMX, SSE and AVX. Depending on the software, the support of these parallel instructions is determined at build- and not at run time. Compiling the toolset of Nanopype on a modern CPU with e.g. AVX2 can cause program crashes (Signal 4, illegal instruction) on other older nodes. A simple solution can be building the pipeline on a node with the largest common subset of special CPU instructions.
 
 
 \subsection{Container}
@@ -148,6 +150,7 @@ A subsequent runtime stage copies the binaries from the build stage and requires
 Nanopype has two configuration layers: The central environment configuration \textit{env.yaml} covers application paths and reference genomes and is set up independent of installation method and operating system once. The environment configuration is stored in the installation directory. For each project an additional workflow configuration is required providing data sources, tool flags and parameters. The workflow config file \textit{nanopype.yaml} is expected to be found in the root of each processing directory. Configuration files are in .yaml format.
 
 If a compute cluster is available the respective Snakemake configuration is only needed once per Nanopype installation and shown by the example of a custom scheduler called mxq in the profiles folder of the repository. Nanopype makes extensive use of the Snakemake resource and shadow directory mechanisms. A compute rule can, depending on the number of threads assigned, define memory and time requirements. These parameters can be forwarded to the cluster scheduler upon execution. Both memory and run time are conservatively pre-configured, but can be adjusted via individual offset and scaling parameters in the environment configuration. 
+
 Per default rules are executed directly in the working directory. By specifying a shadow-directory, the input of supporting rules is linked into a temporary location and only expected outputs are copied to the working directory. Intended for the isolation of tools producing temporary intermediate outputs, this concept can also be used to move I/O heavy computations to local hard drives on each compute node and thus reducing the load on network file systems. Given that each compute node in the cluster has a local disk mounted as e.g. \textit{/scratch/local}, the Snakemake shadow-prefix would be set to this path.
 
 
@@ -202,7 +205,7 @@ Another application of the long-read nanopore technology is sequencing of cDNA a
 \subsection{Genome Assembly}
 \label{subsec:nanopype:assembly}
 
-
+De-nove assembly of genomes requires only the long read sequences and benefits barely from the integration into a pipeline. Due to its own cluster backend the still widely used Canu \cite{Koren2017} is not wrapped. The recently published Flye \cite{Kolmogorov2019} and wtdbg2 \cite{Ruan2020} assemblers provide comparable continuity of the output genome while reducing the required compute time. Both are part of Nanopype enabling basic assemblies already from 20-30x coverage.
 
 Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan2010} and UCSCtools \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
 
@@ -211,7 +214,7 @@ Complemented by samtools \cite{Li2009}, bedtools \cite{Quinlan2010} and UCSCtool
 
 \section{Usage}
 \label{sec:nanopype:usage}
-Due to the functional range of Nanopype, dependent on the operating system, and selected installation method the setup can require advanced information technology knowledge. However, after deployment, the subsequent usage is straightforward given basic command line understanding. Complete Nanopype workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following line:
+Due to the functional range of Nanopype, dependent on the operating system, and selected installation method the setup can require advanced system administrative knowledge. However, after deployment, the subsequent usage is straightforward given basic command line understanding. Complete Nanopype workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following line:
 
 \begin{lstlisting}[language=sh, caption=Snakemake example]
 snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/Hues8.5x.hg38.bw
@@ -219,37 +222,40 @@ snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/Hu
 
 This command invokes basecalling, alignment and methylation detection using declared tools without further user interaction. The basecalling and alignment outputs are kept and can be reused to avoid redundant processing.
 
-%\begin{itemize}
-%	\item tag concept
-%	\item special tag introduction
-%\end{itemize}
+The output path encodes the applied toolchain, the filename is composed of the tag and a sequence of workflow dependent wildcards. For the given example, \textit{Hues8} is the name of the cell line, while \textit{5x} and \textit{hg38} are parsed by the pipeline to determine minimum coverage and reference genome. Different tags can be used to test different settings on the same data set e.g. basecalling with guppy in fast and high-accuracy mode could be indicated by \textit{Hues8.fast} and \textit{Hues8.hac}.
+
+Tags are global, changing only the alignment settings and re-running a workflow would still trigger a new basecalling, since sequences for the new tag are not available. 
 
 
 \subsection{Batch processing}
-The automatic distribution of workflows into independent batches enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and most importantly in case of terminated or failed batches. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command which enhances the overall error robustness.
-The source and Singularity versions of Nanopype do not interfere with the extensive cluster support of Snakemake.
+\label{subsec:nanopype:batchprocessing}
+Nanopype exploits the storage of raw nanopore data into batches of single reads. The automatic distribution of workflows into independent compute portions enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and most importantly in case of terminated or failed jobs. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command which enhances the overall error robustness. Nanopype keeps the dataset separated as long as possible, the methylation detection of a single read for instance only requires its sequence and alignment while the structural variant detection requires all alignments to be merged into a single sorted file.
 
-%\begin{itemize}
-%	\item raw signal batches
-%	\item temporary data
-%	\item sorting
-%	\item command line length, open files
-%	\item non batch modules e.g. sv
-%\end{itemize}
+When working with batches of nanopore reads, two limitations of the underlying operating system require special handling: The maximum command line length and the limit of parallel opened files. Taking the example of sequence alignment and sorting, a naive merge of all batches into a single bam file would call \textit{samtools merge} followed by the list of independently computed alignment batches. For high throughput experiments this is likely to break either the maximum command argument length (getconf ARG\_MAX, on ubuntu e.g. 2097152) or the maximum allowed open files per process (ulimit -Sn, on ubuntu e.g. 1024). The former is solved by reading from files of filenames (.fofn) and piping data through stdin, the latter by first merging multiple times with the maximum opened files and a final merge of these intermediate results.
 
 
 \subsection{Barcoding}
-Demultiplexing: Barcoded sequencing allows pooling of multiple samples on a single flow-cell. The demultiplexing module uses Deepbinner \cite{Wick2018} to assign a barcode label to the individual reads. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally.
+\label{subsec:nanopype:barcoding}
+Barcoded sequencing allows pooling of multiple samples on a single flow-cell. Thus, sequencing of comparable small bacterial genomes can for instance be efficiently parallelized to use the available sequencing depth optimally. The corresponding demultiplexing is a special transparent module in Nanopype. Using Deepbinner \cite{Wick2018} on signal or guppy on sequence level, it assigns a barcode label to each individual read.  The following example illustrates the command to only process reads of barcode 01 from the ONT native barcoding kit:
 
-Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads. 
+\begin{lstlisting}[language=sh, caption=Nanopype demultiplexing]
+snakemake --snakefile ~/nanopype/Snakefile sequences/guppy/Ecoli.NB01.fastq.gz
+\end{lstlisting}
+
+The pipeline automatically scans the previously introduced tag for substrings indicating the usage of a barcode. Barcodes are specified through an additional config file \textit{barcodes.yaml}.
+Indexing the content of both, packaged and multi-FAST5 output enables the fast retrieval of individual reads by their ID. The demultiplexing module first generates batches of read IDs per barcode and then temporarily extracts those reads for downstream processing.
 
 
 \subsection{Logging and Reports}
+\label{subsec:nanopype:logging}
 
-%\begin{itemize}
-%	\item cluster job logging
-%	\item log of config values into tagged logfile
-%\end{itemize}
+Finally an extensive logging of both, job specific output on each compute node and a summary of configuration values ensures the complete documentation of the workflow. The quality control of the sequencing is enabled by automatic pdf reports containing basic statistics as read lengths, mapping rates and coverage. The report is obtained by the following command and contains dynamic sections for each of the pipelines modules.
+
+\begin{lstlisting}[language=sh, caption=Nanopype report]
+snakemake --snakefile ~/nanopype/Snakefile report.pdf
+\end{lstlisting}
+
+An example report is attached in appendix XY.
 
 
 
@@ -258,6 +264,6 @@ Indexing the content of both, packaged and multi-FAST5 output enables the fast r
 \label{sec:nanopype:summary}
 Here we present Nanopype, a modular and easy-to-use data processing pipeline with a detailed online documentation, specifically designed to handle nanopore sequenced long-read data.
 Nanopype provides end-to-end processing of the raw sequencer signal into standard data formats and consequently closes the gap to downstream next-generation sequencing algorithms. Single command invocations of entire workflows reduce the hands-on-time for users to receive the desired output. Implicitly, this also lowers the potential of user mistakes and deviations in processing of multiple data sets. As a consequence, workflows are easier to reproduce with fixed versions among datasets or repeated with improved tool releases on existing ones.
-Nanopype is implemented as a Python package and additionally provides pre-built and versioned Singluarity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms.
+Nanopype is implemented as a Python package and additionally provides pre-built and versioned Singularity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms and laboratories.
 
 
