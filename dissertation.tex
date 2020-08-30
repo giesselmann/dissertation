@@ -54,6 +54,9 @@ draft=false,				% value for draft version
 	%
 	\input{tex/sections/acknowledgement} 	% INCLUDE: acknowledgement
 	\cleardoublepage
+	
+
+	
 	%
 	\setcounter{tocdepth}{2}		% define depth of toc
 	\tableofcontents				% display table of contents
@@ -75,6 +78,13 @@ draft=false,				% value for draft version
 	\cleardoublepage
 	
 	% --------------------------
+	% Appendix
+	% --------------------------
+	\appendix
+	\input{tex/sections/supplement}
+	\cleardoublepage
+	
+	% --------------------------
 	% Back matter
 	% --------------------------
 	{%
@@ -83,7 +93,7 @@ draft=false,				% value for draft version
 		\setlength{\biblabelsep}{0pt}
 		\setlength{\bibitemsep}{0.5\baselineskip plus 0.5\baselineskip}
 		\printbibliography[nottype=online]
-		\printbibliography[heading=subbibliography,title={Webseiten},type=online,prefixnumbers={@}]
+		\printbibliography[heading=subbibliography,title={Websites},type=online,prefixnumbers={@}]
 	}
 	\cleardoublepage
 	
@@ -96,16 +106,17 @@ draft=false,				% value for draft version
     \renewcommand{\lstlistlistingname}{List of Listings}
     
     \lstlistoflistings
-    \cleardoublepage
+    \cleardoublepage 
+	
+	%\clearpage
+	%\newpage
+	%\mbox{}
+	
+	\input{tex/sections/declaration}
+	\cleardoublepage
 	
 	\input{tex/sections/colophon}
 	\cleardoublepage
-	
-	\input{tex/sections/declaration}
-	\clearpage
-	\newpage
-	\mbox{}
-	
 	% **************************************************
 	% End of Document CONTENT
 	% **************************************************
