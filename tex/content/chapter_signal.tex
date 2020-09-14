@@ -1,13 +1,12 @@
 \chapter{Nanopore Signal Analysis}
-\label{sec:signal}
+\label{cha:signal}
 
 \begin{itemize}
-	\item basics set with pipeline
+	\item basic framework for development set with pipeline
 	\item need to understand signal, contrast to 2nd gen.
-	\item tombo, squiggle-kit?
-	\item custom, easy to configure
-	\item python for fast prototyping
-	\item fast5 format, hdfviewer, BulkVis
+	\item tombo, squiggle-kit? available, but not customizable regarding normalization, parameter etc.
+	\item need for custom, easy to configure, python for fast prototyping
+	\item fast5 format, hdfviewer, BulkVis as basic tools to work with fast5 files
 \end{itemize}
 
 \section{Normalization}
@@ -15,21 +14,19 @@
 
 \begin{itemize}
 	\item mean/std vs median/MAD (cite tombo)
-	\item min-max normalization
-	\item polyfit?
+	\item min-max normalization with repeat signals in mind
 	\item smoothing with grayscale morphological operations
+	\item histogram equalization to deal with bimodal distribution of raw signal
 \end{itemize}
 
 \section{Segmentation and Alignment}
 \label{sec:signal:alignment}
 
-
-
 \begin{itemize}
-	\item estimated event alignment
-	\item seqan vs. edlib
-	\item event length
-	\item profile HMM for precise mapping
+	\item raw signal alignment with seqan based scoring and semi-global dp
+	\item segmentation with basic image processing tools, edge filter + threshold
+	\item event alignment with edlib to be more robust against time-warping
+	\item profile HMM for most precise mapping
 \end{itemize}
 
 \begin{figure}[h]

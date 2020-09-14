@@ -31,6 +31,11 @@ bibstyle=numeric,
 
 \usepackage{float}
 
+\usepackage{Pdfpages}
+
+
+
+
 %% Listings
 \usepackage{listings}
 \usepackage{xcolor}
@@ -110,6 +115,31 @@ bibstyle=numeric,
 	morestring=[b]"
 }
 
+\newcommand\YAMLcolonstyle{\color{darkgray}\mdseries}
+\newcommand\YAMLkeystyle{\color{darkgray}}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\lstdefinelanguage{yaml}
+{
+	keywords={true,false,null,y,n},
+	keywordstyle=\color{darkgray}\bfseries,
+	basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+	sensitive=false,
+	comment=[l]{\#},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{ForestGreen}\ttfamily,
+	stringstyle=\YAMLvaluestyle\ttfamily,
+	moredelim=[l][\color{orange}]{\&},
+	moredelim=[l][\color{magenta}]{*},
+	moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+	morestring=[b]',
+	morestring=[b]",
+	literate =    {---}{{\ProcessThreeDashes}}3
+	{>}{{\textcolor{red}\textgreater}}1     
+	{|}{{\textcolor{red}\textbar}}1 
+	{\ -\ }{{\mdseries\ -\ }}3,
+}
+
 \lstset{basicstyle=\ttfamily,
 	showstringspaces=false,
 	commentstyle=\color{green},
@@ -118,8 +148,13 @@ bibstyle=numeric,
 	extendedchars=true
 }
 
+
+
+
 %% Directory Trees
 \usepackage{dirtree}
+
+
 
 
 %% Colorbox Text
