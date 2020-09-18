@@ -244,7 +244,7 @@ When working with batches of nanopore reads, two limitations of the underlying o
 
 \subsection{Barcoding}
 \label{subsec:nanopype:barcoding}
-Barcoded sequencing allows pooling of multiple samples on a single flow-cell. Thus, sequencing of comparable small bacterial genomes can for instance be efficiently parallelized to use the available sequencing depth optimally. The corresponding demultiplexing is a special transparent module in Nanopype. Using Deepbinner \cite{Wick2018} on signal or guppy on sequence level, it assigns a barcode label to each individual read.  The following example illustrates the command to only process reads of barcode 01 from the ONT native barcoding kit:
+Barcoded sequencing allows pooling of multiple samples on a single flow-cell. Thus, sequencing of comparable small bacterial genomes can for instance be efficiently parallelized to use the available sequencing depth optimally. The corresponding demultiplexing is a special transparent module in Nanopype. Using Deepbinner \cite{Wick2018} on signal or guppy on sequence level, it assigns a barcode label to each individual read.  The following example illustrates the command to only process reads of barcode 1 from the ONT native barcoding kit:
 
 \begin{lstlisting}[language=sh, caption=Nanopype demultiplexing]
 snakemake --snakefile ~/nanopype/Snakefile sequences/guppy/Ecoli.NB01.fastq.gz

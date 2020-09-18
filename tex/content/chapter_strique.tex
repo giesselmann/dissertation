@@ -52,6 +52,14 @@ To enable a robust repeat analysis, we developed a general-purpose signal proces
 To first benchmark existing repeat expansion counting methods we constructed, verified and nanopore sequenced plasmids with several synthetic $ [(G_{4}C_{2})_{n}] $-repeat lengths.16 Current (May 2019) production grade (Guppy v3.0.3) software developed by Oxford Nanopore Technologies (ONT) was used to translate the nanopore raw signal into base-space representations.
 
 \begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{figures/strique/count_seq_manual.pdf}
+    \captionsetup{format=plain}
+    \caption[Correlation and strand bias in STR analysis methods]{Manual counted set of plasmid reads on y-axis correlating with guppy base-calling and decoy alignment approach (\textbf{a}) and RepeatHMM (\textbf{b}) on x-axis. Only data points shown which could be evaluated with all three methods (n=15, 49, 45, 48, 47; Pearson correlation).}
+    \label{fig:strique:count_seq_manual}
+\end{figure}
+
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_sequence_corr.pdf}
 	\captionsetup{format=plain}
@@ -61,13 +69,7 @@ To first benchmark existing repeat expansion counting methods we constructed, ve
 
 The analysis’ results revealed that the current generation of general-purpose basecalling algorithms cannot satisfactorily resolve expanded STR sequences (Supplementary Fig. 4). For our purpose we systematically combined outputs from three ONT basecaller generations (Albacore, Flappie, Guppy) and different parameter sets with two current sequence based STR quantification approaches (Decoy Alignment18 and RepeatHMM19, Fig. 1b). Albacore performed best with increased window size for the decoy alignment strategy while the high-accuracy model of Guppy provided the best sequence-derived results in combination with the RepeatHMM algorithm (Supplementary Fig. 4,5). Notably, we observed a systematic sequence strand bias resulting in more accurate counts for the GGGGCC sequence compared to the complementary strand (GGCCCC, Supplementary Fig. 5). We conclude, that the mentioned neural network basecallers, while enabling improved single read base quality on the genomic level,20 become unreliable for more than 32 (G4C2)n-repeats.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{figures/strique/count_bac.pdf}
-	\captionsetup{format=plain}
-	\caption[Strand bias in sequence based repeat counts]{Comparison of repeat counts from STRique, decoy alignment based on guppy (high accuracy model, 16k window size) and repeatHMM based on guppy (high accuracy model, 16k window size) for BAC data. One dot (n=5004) per read passing all three approaches and colored by strand.}
-	\label{fig:strique:count_bac}
-\end{figure}
+
 
 
 
@@ -86,7 +88,7 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_structure_plasmid.pdf}
 	\captionsetup{format=plain}
-	\caption[STRique: generic repeat detection pipeline on raw nanopore signals.]{\textbf{a}, Repeat quantification enabled by raw signal alignment of flanking prefix and suffix regions and HMM-based count on the signal of interest. \textbf{b}, Bioanalyzer electropherogram, decoy alignment, RepeatHMM and STRique counts of synthetic $ (G_{4}C_{2})_{n} $ repeats.}
+	\caption[STRique: generic repeat detection pipeline on raw nanopore signals.]{Repeat quantification enabled by raw signal alignment of flanking prefix and suffix regions and HMM-based count on the signal of interest.}
 	\label{fig:strique:count_structure_plasmid}
 \end{figure}
 
@@ -94,11 +96,17 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_signal_corr.pdf}
 	\captionsetup{format=plain}
-	\caption[Correlation and strand bias in STR analysis methods]{Manual counted set of plasmid reads on y-axis correlating with guppy base-calling and decoy alignment approach, RepeatHMM and STRique raw signal pipeline on x-axis. Only data points shown which could be evaluated with all four methods (n=15, 49, 45, 48, 47; Pearson correlation).}
+	\caption[Correlation and strand bias in STR analysis methods]{\textbf{a}, Bioanalyzer electropherogram, decoy alignment, RepeatHMM and STRique counts of synthetic $ (G_{4}C_{2})_{n} $ repeats. \textbf{b}, Manual counted set of plasmid reads on y-axis correlating with STRique raw signal pipeline on x-axis. Only data points shown which could be evaluated with both methods (n=15, 49, 45, 48, 47; Pearson correlation).}
 	\label{fig:strique:count_signal_corr}
 \end{figure}
 
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{figures/strique/count_bac.pdf}
+    \captionsetup{format=plain}
+    \caption[Strand bias in sequence based repeat counts]{Comparison of repeat counts from STRique, decoy alignment based on guppy (high accuracy model, 16k window size) and repeatHMM based on guppy (high accuracy model, 16k window size) for BAC data. One dot (n=5004) per read passing all three approaches and colored by strand.}
+    \label{fig:strique:count_bac}
+\end{figure}
 
 
 \subsection{Repeat expansion in C9orf72 and FMR1}
@@ -109,10 +117,6 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
 	\item Cas9 enrichment to increase on-target coverage
 	\item C9orf72 and FMR1 repeat counts
 \end{itemize}
-
-
-
-
 
 Previously, repeat instability had been noted in Bacterial Artificial Chromosomes (BAC) containing expanded C9orf72 $ [(G_{4}C_{2})_{n}] $-repeats (Online Methods).17 Analysing BAC clone 239 from a c9FTD/ALS patient (G4C2)~800 (Ref. 17) with STRique, we observed STR contractions in many reads and a secondary peak at 800 repeats (Fig 1d, Online Methods), while all evaluated sequence space based methods failed to mirror previously published Southern blot results (Fig.1d, Supplementary Fig. 5). 17
 
