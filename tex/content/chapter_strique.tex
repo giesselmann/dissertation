@@ -1,7 +1,7 @@
 \chapter{STRique Repeat Detection}
 \label{cha:strique}
 
-Expansions of short tandem repeats are genetic variants that have been implicated in several neuropsychiatric and other disorders, but their assessment remains challenging with current polymerase-based methods. Here we introduce a CRISPR-Cas-based enrichment strategy for nanopore sequencing combined with an algorithm for raw signal analysis. Our method, termed STRique for short tandem repeat identification, quantification and evaluation, integrates conventional sequence mapping of nanopore reads with raw signal alignment for the localization of repeat boundaries and a hidden Markov model-based repeat counting mechanism. We demonstrate the precise quantification of repeat numbers in conjunction with the determination of CpG methylation states in the repeat expansion and in adjacent regions at the single-molecule level without amplification. Our method enables the study of previously inaccessible genomic regions and their epigenetic marks. \textit{STRique} is available at \textit{https://github.com/giesselmann/STRique}.
+Expansions of short tandem repeats are genetic variants that have been implicated in several neuropsychiatric and other disorders, but their assessment remains challenging with current polymerase-based methods. Here we combine a CRISPR-Cas-based enrichment strategy for nanopore sequencing with an algorithm for raw signal analysis. Our method, termed \textit{STRique} for short tandem repeat identification, quantification and evaluation, integrates conventional sequence mapping of nanopore reads with raw signal alignment for the localization of repeat boundaries and a hidden Markov model-based repeat counting mechanism. We demonstrate the precise quantification of repeat numbers in conjunction with the determination of CpG methylation states in the repeat expansion and in adjacent regions at the single-molecule level without amplification. Our method enables the study of previously inaccessible genomic regions and their epigenetic marks. \textit{STRique} is available at \textit{https://github.com/giesselmann/STRique}.
 
 \begin{figure}[h]
     \centering
@@ -21,16 +21,22 @@ The chapter starts with a brief \textbf{background} in \ref{sec:strique:backgrou
 
 The expansion of unstable genomic Short Tandem Repeats (STRs) causes more than 30 Mendelian human disorders \cite{Gatchel2005}. An extended GGGGCC-repeat $ [(G_{4}C_{2})_{n}] $ within the C9orf72 gene is the most frequent monogenic cause of Frontotemporal Dementia and Amyotrophic Lateral Sclerosis c9FTD/ALS \cite{Paulson2018}. Similarly, accumulation of a CGG motif in the FMR1 gene underlies the Fragile X Syndrome, currently one of the most common identifiable genetic causes of mental retardation and autism \cite{Verkerk1991}. In both prototypical repeat expansion disorders, recent evidence has suggested pronounced inter- and intraindividual repeat variability as well as focal changes in DNA methylation to modulate the disease phenotype \cite{Blitterswijk2013, Xi2013, Russ2015}.
 
+Put STRs into context of other repeat classes.
+
+Difficulties in quantifying repeat lengths.
+
+Observation of repetitive signal in NA12878 on c9orf72 locus in cell line.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/signal.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore raw signal of the C9orf72 STR in NA12878 cells]{Compound multi signal HMM alignment of publicly available raw traces from two template and eight complement reads from the NA12878 cell line shows matching signal pattern in all reads \cite{Jain2018}. Displayed are the current measurements as dots and the model signal as black line. Blue dots indicate current measurements identified as prefix or suffix sequence. Red dots indicate raw current measurements identified by STRique as belonging to the C9orf72-$ (G_{4}C_{2})_{n} $-STR. STRique detects in this case a $ (G_{4}C_{2})_{5} $-repeat.}
+	\caption[Nanopore raw signal of the C9orf72 STR in NA12878 cells]{Compound multi signal HMM alignment of publicly available raw traces from two template and eight complement reads from the NA12878 cell line shows matching signal pattern in all reads \cite{Jain2018}. Displayed are the current measurements as dots and the model signal as black line. Blue dots indicate current measurements identified as prefix or suffix sequence. Red dots indicate raw current measurements identified by \textit{STRique} as belonging to the C9orf72-$ (G_{4}C_{2})_{n} $-STR. \textit{STRique} detects in this case a $ (G_{4}C_{2})_{5} $-repeat.}
 	\label{fig:strique:signal}
 \end{figure}
 
 To overcome current difficulties in characterizing expanded STRs we focused on three areas: i) optimization of nanopore sequencing and signal processing to capture STRs ii) development and implementation of a target enrichment strategy to increase efficiency and iii) integration of expansion measurements with CpG methylation at the single molecule level.
-To enable a robust repeat analysis, we developed a general-purpose signal processing algorithm for the exact quantification of STR numbers in raw nanopore signals (STRique: Short Tandem Repeat identification, quantification \& evaluation, https://github.com/giesselmann/STRique).
+To enable a robust repeat analysis, we developed \textit{STRique}, a general-purpose signal processing algorithm for the exact quantification of STR numbers in raw nanopore signals.
 
 
 
@@ -55,7 +61,7 @@ To first benchmark existing repeat expansion counting methods we constructed, ve
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_seq_manual.pdf}
     \captionsetup{format=plain}
-    \caption[Correlation and strand bias in STR analysis methods]{Manual counted set of plasmid reads on y-axis correlating with guppy base-calling and decoy alignment approach (\textbf{a}) and RepeatHMM (\textbf{b}) on x-axis. Only data points shown which could be evaluated with all three methods (n=15, 49, 45, 48, 47; Pearson correlation).}
+    \caption[Correlation and strand bias in STR analysis methods]{Manual counted set of plasmid reads on y-axis correlating with guppy basecalling and decoy alignment approach (\textbf{a}) and RepeatHMM (\textbf{b}) on x-axis. Only data points shown which could be evaluated with all three methods (n=15, 49, 45, 48, 47; Pearson correlation).}
     \label{fig:strique:count_seq_manual}
 \end{figure}
 
@@ -63,7 +69,7 @@ To first benchmark existing repeat expansion counting methods we constructed, ve
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_sequence_corr.pdf}
 	\captionsetup{format=plain}
-	\caption[Correlation of sequence based STR detection methods]{\textbf{a}, Correlation of manual counted repeat lengths with sequence base methods. Decoy alignment against reference with 3-100 repeats with Albacore (window 10k and 16k), Guppy (fast and hac mode, 1k and 16k window size) and Flappie base-calling (n=204 reads). \textbf{b}, Correlation of manual count with RepeatHMM and STRique results (n=204 reads).}
+	\caption[Correlation of sequence based STR detection methods]{\textbf{a}, Correlation of manual counted repeat lengths with sequence base methods. Decoy alignment against reference with 3-100 repeats with Albacore (window 10k and 16k), Guppy (fast and hac mode, 1k and 16k window size) and Flappie basecalling (n=204 reads). \textbf{b}, Correlation of manual count with RepeatHMM and \textit{STRique} results (n=204 reads).}
 	\label{fig:strique:count_sequence_corr}
 \end{figure}
 
@@ -82,13 +88,13 @@ The analysis’ results revealed that the current generation of general-purpose 
 	\item evaluation on plasmid + BAC
 \end{itemize}
 
-For overcoming these issues with our STRique signal analysis software (see Online Methods for details), first reads spanning a STR location are identified by aligning the conventionally base-called sequences to a reference.21 Next, STRique maps the upstream and downstream boundaries of each repeat more precisely with a signal alignment algorithm and, as a third step, quantifies the number of any given STR sequence with a Hidden Markov Model (HMM, Supplementary Fig. 3).22 Aggregated STRique repeat counts matched closely gel electrophoresis profiles (Bioanalyzer) from our synthetic repeat constructs and could be confirmed on the single molecule level by manually counting repeat patterns in raw signal traces (Fig. 1b,c, Supplementary Fig. 6,4).
+For overcoming these issues with our \textit{STRique} signal analysis software (see Online Methods for details), first reads spanning a STR location are identified by aligning the conventionally base-called sequences to a reference.21 Next, \textit{STRique} maps the upstream and downstream boundaries of each repeat more precisely with a signal alignment algorithm and, as a third step, quantifies the number of any given STR sequence with a Hidden Markov Model (HMM, Supplementary Fig. 3).22 Aggregated \textit{STRique} repeat counts matched closely gel electrophoresis profiles (Bioanalyzer) from our synthetic repeat constructs and could be confirmed on the single molecule level by manually counting repeat patterns in raw signal traces (Fig. 1b,c, Supplementary Fig. 6,4).
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_structure_plasmid.pdf}
 	\captionsetup{format=plain}
-	\caption[STRique: generic repeat detection pipeline on raw nanopore signals.]{Repeat quantification enabled by raw signal alignment of flanking prefix and suffix regions and HMM-based count on the signal of interest.}
+	\caption[\textit{STRique}: generic repeat detection pipeline on raw nanopore signals.]{Repeat quantification enabled by raw signal alignment of flanking prefix and suffix regions and HMM-based count on the signal of interest.}
 	\label{fig:strique:count_structure_plasmid}
 \end{figure}
 
@@ -96,7 +102,7 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_signal_corr.pdf}
 	\captionsetup{format=plain}
-	\caption[Correlation and strand bias in STR analysis methods]{\textbf{a}, Bioanalyzer electropherogram, decoy alignment, RepeatHMM and STRique counts of synthetic $ (G_{4}C_{2})_{n} $ repeats. \textbf{b}, Manual counted set of plasmid reads on y-axis correlating with STRique raw signal pipeline on x-axis. Only data points shown which could be evaluated with both methods (n=15, 49, 45, 48, 47; Pearson correlation).}
+	\caption[Correlation and strand bias in STR analysis methods]{\textbf{a}, Bioanalyzer electropherogram, decoy alignment, \textit{RepeatHMM} and \textit{STRique} counts of synthetic $ (G_{4}C_{2})_{n} $ repeats. \textbf{b}, Manual counted set of plasmid reads on y-axis correlating with \textit{STRique} raw signal pipeline on x-axis. Only data points shown which could be evaluated with both methods (n=15, 49, 45, 48, 47; Pearson correlation).}
 	\label{fig:strique:count_signal_corr}
 \end{figure}
 
@@ -104,7 +110,7 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_bac.pdf}
     \captionsetup{format=plain}
-    \caption[Strand bias in sequence based repeat counts]{Comparison of repeat counts from STRique, decoy alignment based on guppy (high accuracy model, 16k window size) and repeatHMM based on guppy (high accuracy model, 16k window size) for BAC data. One dot (n=5004) per read passing all three approaches and colored by strand.}
+    \caption[Strand bias in sequence based repeat counts]{Comparison of repeat counts from \textit{STRique}, decoy alignment based on guppy (high accuracy model, 16k window size) and repeatHMM based on guppy (high accuracy model, 16k window size) for BAC data. One dot (n=5004) per read passing all three approaches and colored by strand.}
     \label{fig:strique:count_bac}
 \end{figure}
 
@@ -118,7 +124,7 @@ For overcoming these issues with our STRique signal analysis software (see Onlin
 	\item C9orf72 and FMR1 repeat counts
 \end{itemize}
 
-Previously, repeat instability had been noted in Bacterial Artificial Chromosomes (BAC) containing expanded C9orf72 $ [(G_{4}C_{2})_{n}] $-repeats (Online Methods).17 Analysing BAC clone 239 from a c9FTD/ALS patient (G4C2)~800 (Ref. 17) with STRique, we observed STR contractions in many reads and a secondary peak at 800 repeats (Fig 1d, Online Methods), while all evaluated sequence space based methods failed to mirror previously published Southern blot results (Fig.1d, Supplementary Fig. 5). 17
+Previously, repeat instability had been noted in Bacterial Artificial Chromosomes (BAC) containing expanded C9orf72 $ [(G_{4}C_{2})_{n}] $-repeats (Online Methods).17 Analysing BAC clone 239 from a c9FTD/ALS patient (G4C2)~800 (Ref. 17) with \textit{STRique}, we observed STR contractions in many reads and a secondary peak at 800 repeats (Fig 1d, Online Methods), while all evaluated sequence space based methods failed to mirror previously published Southern blot results (Fig.1d, Supplementary Fig. 5). 17
 
 
 Next, to establish a baseline reference data set, we performed nanopore sequencing of a whole genome library from c9FTD/ALS patient-derived DNA yielding a total of 29 Gbp from a single MinION flow cell. Consistent with approximately 10-fold genome-wide coverage, 10 reads covered the C9orf72 target region. To improve the coverage of any predetermined STR, but particularly the (G4C2)n-region in our proof of concept study, we took advantage of the programmable CRISPR-Cas12a-ribonucleoprotein (Cas12a-RNP), which cleaves DNA via staggered double-strand breaks.23 The Cas12a-RNP was first applied to selectively target DNA sequences from a patient-derived induced pluripotent stem cell line (24/5\#2) adjacent to the (G4C2)n-repeat resulting in unique 4 bp overhangs as molecular tags amenable to ligation of a linker oligo and subsequent attachment of the nanopore sequencing adapter (Fig. 2a: Workflow I, Online Methods). To further improve enrichment results we replaced the oligo adapter ligation step by adding Klenow fragment to fill in the Cas12a overhangs. The resulting dA-tailed DNA ends enabled even more efficient ligation of the sequencing adapters. In this enrichment protocol variant, the phosphorylated 5’-ends generated by Cas-nuclease mediated cleavage provide the molecular tag for selectively ligating the nanopore sequencing adaptors to the targeted DNA fragment (Fig. 2a, Workflow II).
@@ -163,10 +169,10 @@ Since other CRISPR/Cas-nucleases also generate phosphorylated 5’-ends after DN
 	\item verification in MSssI methylated plasmid
 \end{itemize}
 
-The epigenetic modification of C9orf72 and FMR1 loci have been correlated with STR expansion status and patient characteristics in both disorders, however without quantification at the single molecule level so far.10,26 Therefore we integrated single read CpG methylation analysis of regions adjacent to both STRs using nanopolish14 with our STRique results (Fig. 3a). We found that in the 24/5\#2 line all reads with STR expansions > 750 repeats showed a significantly increased methylation level at the promoter CpG island. In contrast all wild type reads and those with ~450 repeats were not or only partially methylated (Two sided Wilcoxon rank sum test p < 0.001, Fig. 3b, Supplementary Fig. 9, Supplementary Note).
+The epigenetic modification of C9orf72 and FMR1 loci have been correlated with STR expansion status and patient characteristics in both disorders, however without quantification at the single molecule level so far.10,26 Therefore we integrated single read CpG methylation analysis of regions adjacent to both STRs using nanopolish14 with our \textit{STRique} results (Fig. 3a). We found that in the 24/5\#2 line all reads with STR expansions > 750 repeats showed a significantly increased methylation level at the promoter CpG island. In contrast all wild type reads and those with ~450 repeats were not or only partially methylated (Two sided Wilcoxon rank sum test p < 0.001, Fig. 3b, Supplementary Fig. 9, Supplementary Note).
 Additionally, in c9FTD/ALS patients pervasive CpG methylation of the (G4C2)n-repeat itself has been reported.27 Assessed with a strictly qualitative assay, the expanded STR itself was reported to be methylated in the majority of cases examined.27 A similar observation has been directly implicated in the pathogenesis of FXS, where a CGG repeat expansion at the FMR1-locus beyond a threshold of > 200 repeats leads in most cases to the silencing of the entire FMR1-gene through CpG-methylation.28
-Due to the intrinsic heterogeneity in STR length, especially reference genome based methods such as nanopolish14 cannot be used to determine CpG methylation on the repeat expansion itself. To detect 5mC modifications on STRs, we extended STRique by employing a parallel HMM with unmodified- and 5mC-paths. This single read analysis returns a methylation state for each tandem repeat, which then can be summarized into the mean repeat methylation level over the whole repetitive sequence.
-When applying the methylation-aware STRique, all expanded FMR1-STRs in nanopore reads from patient SC105 are found to be highly methylated (Supplementary Fig. 10a), consistent with previous analyses29 and our Southern blot results (Supplementary Fig. 8). We next evaluated this approach on plasmids containing n=76 synthetic (G4C2)n and n=99 CGG-repeats (Addgene, \#63089), which were covalently modified with the methyltransferase M.SssI (Supplementary Fig. 10).14 In addition we tested the algorithm on (G4C2)n-containing reads (online methods) from patient-derived DNA, which had been modified with M.SssI in vitro. In summary, we found that STRique can determine the repeat CpG methylation state correctly in all positive and negative controls evaluated.
+Due to the intrinsic heterogeneity in STR length, especially reference genome based methods such as nanopolish14 cannot be used to determine CpG methylation on the repeat expansion itself. To detect 5mC modifications on STRs, we extended \textit{STRique} by employing a parallel HMM with unmodified- and 5mC-paths. This single read analysis returns a methylation state for each tandem repeat, which then can be summarized into the mean repeat methylation level over the whole repetitive sequence.
+When applying the methylation-aware \textit{STRique}, all expanded FMR1-STRs in nanopore reads from patient SC105 are found to be highly methylated (Supplementary Fig. 10a), consistent with previous analyses29 and our Southern blot results (Supplementary Fig. 8). We next evaluated this approach on plasmids containing n=76 synthetic (G4C2)n and n=99 CGG-repeats (Addgene, \#63089), which were covalently modified with the methyltransferase M.SssI (Supplementary Fig. 10).14 In addition we tested the algorithm on (G4C2)n-containing reads (online methods) from patient-derived DNA, which had been modified with M.SssI in vitro. In summary, we found that \textit{STRique} can determine the repeat CpG methylation state correctly in all positive and negative controls evaluated.
 Surprisingly though, all reads covering the C9orf72-STR from our patient-derived samples showed little to no CpG-methylation, independently of the repeat expansion length or methylation status of the promoter CGI (Fig. 3b).
 
 
@@ -190,7 +196,7 @@ Surprisingly though, all reads covering the C9orf72-STR from our patient-derived
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/methylation_repeat.pdf}
     \captionsetup{format=plain}
-    \caption[Region and repeat methylation detection]{\textbf{a}, FMR1 region methylation in SC105iPS6/iPS7 compared to Hues64 WGBS and patient sample 24/5\#2. \textbf{b}, CGG mean repeat methylation status detected by STRique for SC105 (n=197) and synthetic plasmid control with 99 repeats treated with $ M.SssI^{+/-} $ (5mC level on minus strand, n=1232 $ M.SssI^{+} $; n=11991 $ M.SssI^{-} $). \textbf{c}, GGGGCC repeat methylation status for plasmid control with 76 repeats treated with $ M.SssI^{+/-} $ (n=2939 $ M.SssI^{+} $; n=31280 $ M.SssI^{-} $) and patient sample 24/5\#2 treated with $ M.SssI^{+} $ (5mC level on minus strand, n=52 WT and n=6 Cluster1). Data in (b-c) presented as violin plots with overlayed boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range; outliers not shown).}
+    \caption[Region and repeat methylation detection]{\textbf{a}, FMR1 region methylation in SC105iPS6/iPS7 compared to Hues64 WGBS and patient sample 24/5\#2. \textbf{b}, CGG mean repeat methylation status detected by \textit{STRique} for SC105 (n=197) and synthetic plasmid control with 99 repeats treated with $ M.SssI^{+/-} $ (5mC level on minus strand, n=1232 $ M.SssI^{+} $; n=11991 $ M.SssI^{-} $). \textbf{c}, GGGGCC repeat methylation status for plasmid control with 76 repeats treated with $ M.SssI^{+/-} $ (n=2939 $ M.SssI^{+} $; n=31280 $ M.SssI^{-} $) and patient sample 24/5\#2 treated with $ M.SssI^{+} $ (5mC level on minus strand, n=52 WT and n=6 Cluster1). Data in (b-c) presented as violin plots with overlayed boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range; outliers not shown).}
     \label{fig:strique:methylation_repeat}
 \end{figure}
 
@@ -200,6 +206,6 @@ Surprisingly though, all reads covering the C9orf72-STR from our patient-derived
 \section{Summary}
 \label{sec:strique:summary}
 
-Our results demonstrate the precise and multi-layered molecular characterization of pathological short tandem repeat expansions. We have increased the enrichment for regions of interest on the background of the human genome approximately two orders of magnitude without any target amplification by using selective, multiplexed CRISPR/Cas-nuclease-based chemical tagging of DNA fragments. Importantly, our method does not require any additional instruments in contrast to other previously reported30 enrichment strategies and enables reporting the DNA methylation status of the same alleles. The CRISPR/Cas-nuclease-target enrichment and STRique can be rapidly adapted to any other genomic region of interest, ensuring broad applicability to overcome challenges associated with the single molecule analysis. This allows for immediate integration of genetic and epigenetic signals associated with unstable repeat expansions or any other as of yet unsequenceable genomic regions in human health and disease. This type of analysis improves diagnostic workflows in regard to accuracy and resolution of unstable repeat expansion while enabling efforts to gain mechanistic insights into effects on differentiation, aging and future therapeutic agents that modify DNA methylation.
+Our results demonstrate the precise and multi-layered molecular characterization of pathological short tandem repeat expansions. We have increased the enrichment for regions of interest on the background of the human genome approximately two orders of magnitude without any target amplification by using selective, multiplexed CRISPR/Cas-nuclease-based chemical tagging of DNA fragments. Importantly, our method does not require any additional instruments in contrast to other previously reported30 enrichment strategies and enables reporting the DNA methylation status of the same alleles. The CRISPR/Cas-nuclease-target enrichment and \textit{STRique} can be rapidly adapted to any other genomic region of interest, ensuring broad applicability to overcome challenges associated with the single molecule analysis. This allows for immediate integration of genetic and epigenetic signals associated with unstable repeat expansions or any other as of yet unsequenceable genomic regions in human health and disease. This type of analysis improves diagnostic workflows in regard to accuracy and resolution of unstable repeat expansion while enabling efforts to gain mechanistic insights into effects on differentiation, aging and future therapeutic agents that modify DNA methylation.
 
 
