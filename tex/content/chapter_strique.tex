@@ -1,7 +1,7 @@
 \chapter{STRique Repeat Detection}
 \label{cha:strique}
 
-Expansions of short tandem repeats are genetic variants that have been implicated in several neuropsychiatric and other disorders, but their assessment remains challenging with current polymerase-based methods. Here we combine a CRISPR-Cas-based enrichment strategy for nanopore sequencing with an algorithm for raw signal analysis. Our method, termed \textit{STRique} for short tandem repeat identification, quantification and evaluation, integrates conventional sequence mapping of nanopore reads with raw signal alignment for the localization of repeat boundaries and a hidden Markov model-based repeat counting mechanism. We demonstrate the precise quantification of repeat numbers in conjunction with the determination of CpG methylation states in the repeat expansion and in adjacent regions at the single-molecule level without amplification. Our method enables the study of previously inaccessible genomic regions and their epigenetic marks. \textit{STRique} is available at \textit{https://github.com/giesselmann/STRique}.
+Expansions of short tandem repeats are genetic variants that have been implicated in several neuropsychiatric and other disorders, but their assessment remains challenging with current polymerase-based methods. Here we combine a CRISPR-Cas-based enrichment strategy for nanopore sequencing with an algorithm for raw signal analysis. Our method, termed \textit{STRique} for short tandem repeat identification, quantification and evaluation, integrates conventional sequence mapping of nanopore reads with raw signal alignment for the localization of repeat boundaries and a hidden Markov model based repeat counting mechanism. We demonstrate the precise quantification of repeat numbers in conjunction with the determination of CpG methylation states in the repeat expansion and in adjacent regions at the single-molecule level without amplification. Our method enables the study of previously inaccessible genomic regions and their epigenetic marks. \textit{STRique} is available at \textit{https://github.com/giesselmann/STRique}.
 
 \begin{figure}[h]
     \centering
@@ -11,7 +11,7 @@ Expansions of short tandem repeats are genetic variants that have been implicate
 
 \textbf{Note:} This chapter is based on the publication P. Giesselmann et al. \textit{Analysis of short tandem repeat expansions and their methylation state with nanopore sequencing}, Nature Biotechnology, 2019 and contains text and figures from the original paper.
 
-The chapter starts with a brief \textbf{background} in \ref{sec:strique:background}
+The chapter starts with a brief \textbf{background} in \ref{sec:strique:background}, followed by the evaluation of \textbf{sequenced based} repeat analysis in \ref{subsec:strique:seq_repeat_counts}. The development of an accurate \textbf{signal based} method is described in \ref{subsec:strique:sig_repeat_counts} and applied to patient samples with \textbf{c9orf72} and \textbf{FMR1} repeat expansions in \ref{subsec:strique:c9orf72}. Finally the DNA methylation detection on repeat and surrounding sequence is shown in \ref{sec:strique:modifications}.
 
 
 
@@ -19,11 +19,11 @@ The chapter starts with a brief \textbf{background} in \ref{sec:strique:backgrou
 \section{Background}
 \label{sec:strique:background}
 
-The expansion of unstable genomic Short Tandem Repeats (STRs) causes more than 30 Mendelian human disorders \cite{Gatchel2005}. An extended GGGGCC-repeat $ [(G_{4}C_{2})_{n}] $ within the C9orf72 gene is the most frequent monogenic cause of Frontotemporal Dementia and Amyotrophic Lateral Sclerosis c9FTD/ALS \cite{Paulson2018}. Similarly, accumulation of a CGG motif in the FMR1 gene underlies the Fragile X Syndrome, currently one of the most common identifiable genetic causes of mental retardation and autism \cite{Verkerk1991}. In both prototypical repeat expansion disorders, recent evidence has suggested pronounced inter- and intraindividual repeat variability as well as focal changes in DNA methylation to modulate the disease phenotype \cite{Blitterswijk2013, Xi2013, Russ2015}.
+The expansion of unstable genomic Short Tandem Repeats (STRs) causes more than 30 Mendelian human disorders \cite{Gatchel2005}. An extended GGGGCC-repeat $ [(G_{4}C_{2})_{n}] $ within the C9orf72 gene is the most frequent monogenic cause of Frontotemporal Dementia and Amyotrophic Lateral Sclerosis c9FTD/ALS \cite{Paulson2018}. Similarly, accumulation of a CGG motif in the FMR1 gene underlies the Fragile X Syndrome, currently one of the most common identifiable genetic causes of mental retardation and autism \cite{Verkerk1991}. In both repeat expansion disorders, recent evidence has suggested pronounced inter- and intraindividual repeat variability as well as focal changes in DNA methylation to modulate the disease phenotype \cite{Blitterswijk2013, Xi2013, Russ2015}.
 
 Put STRs into context of other repeat classes.
 
-Difficulties in quantifying repeat lengths.
+Difficulties in quantifying repeat lengths. 
 
 Observation of repetitive signal in NA12878 on c9orf72 locus in cell line.
 
@@ -31,7 +31,7 @@ Observation of repetitive signal in NA12878 on c9orf72 locus in cell line.
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/signal.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore raw signal of the C9orf72 STR in NA12878 cells]{Compound multi signal HMM alignment of publicly available raw traces from two template and eight complement reads from the NA12878 cell line shows matching signal pattern in all reads \cite{Jain2018}. Displayed are the current measurements as dots and the model signal as black line. Blue dots indicate current measurements identified as prefix or suffix sequence. Red dots indicate raw current measurements identified by \textit{STRique} as belonging to the C9orf72-$ (G_{4}C_{2})_{n} $-STR. \textit{STRique} detects in this case a $ (G_{4}C_{2})_{5} $-repeat.}
+	\caption[Nanopore raw signal of the C9orf72 STR in NA12878 cells]{Multi signal HMM alignment of publicly available raw traces from two forward and eight reverse strand reads from the NA12878 cell line shows matching signal pattern in all reads \cite{Jain2018}. Displayed are the current measurements as dots and the model signal as black line. Blue dots indicate current measurements identified as prefix or suffix sequence. Red dots indicate raw current measurements identified by \textit{STRique} as belonging to the C9orf72-$ (G_{4}C_{2})_{n} $-STR. \textit{STRique} detects in this case a $ (G_{4}C_{2})_{5} $-repeat.}
 	\label{fig:strique:signal}
 \end{figure}
 
@@ -45,17 +45,17 @@ To enable a robust repeat analysis, we developed \textit{STRique}, a general-pur
 \section{Repeat quantification}
 \label{sec:strique:quantification}
 
+Accurate counting of repeat lengths is a first step during investigation of short tandem repeats. While generally a sequence based approach appears desirable due to a lower implementation complexity, the following sections illustrate the need for a signal based algorithm to exactly quantify the length of a short tandem repeat based on nanopore sequencing.
+
 \subsection{Sequence based repeat detection}
 \label{subsec:strique:seq_repeat_counts}
 
-\begin{itemize}
-	\item generation of test/dev dataset from plasmids and BAC
-	\item evaluation of sequence based methods (split fig1)
-	\item decoy alignment
-	\item RepeatHMM
-\end{itemize}
+To first benchmark existing repeat expansion counting methods we constructed, verified and nanopore sequenced plasmids with several synthetic $ [(G_{4}C_{2})_{n}] $-repeat lengths \cite{Mizielinska2014}. Current (May 2019) production grade (Guppy v3.0.3) software developed by Oxford Nanopore Technologies (ONT) was used to translate the nanopore raw signal into base-space representations. As a first baseline, we manually counted repeats for a subset of reads, exploiting the clear visibility of the repetitive signal pattern (Fig. \ref{fig:strique:signal}).
 
-To first benchmark existing repeat expansion counting methods we constructed, verified and nanopore sequenced plasmids with several synthetic $ [(G_{4}C_{2})_{n}] $-repeat lengths.16 Current (May 2019) production grade (Guppy v3.0.3) software developed by Oxford Nanopore Technologies (ONT) was used to translate the nanopore raw signal into base-space representations.
+
+
+The analysis revealed, that current generation sequence based methods fail to satisfactorily resolve expanded STRs (Fig. \ref{fig:strique:count_seq_manual}).
+
 
 \begin{figure}[h]
     \centering
@@ -76,7 +76,12 @@ To first benchmark existing repeat expansion counting methods we constructed, ve
 The analysis’ results revealed that the current generation of general-purpose basecalling algorithms cannot satisfactorily resolve expanded STR sequences (Supplementary Fig. 4). For our purpose we systematically combined outputs from three ONT basecaller generations (Albacore, Flappie, Guppy) and different parameter sets with two current sequence based STR quantification approaches (Decoy Alignment18 and RepeatHMM19, Fig. 1b). Albacore performed best with increased window size for the decoy alignment strategy while the high-accuracy model of Guppy provided the best sequence-derived results in combination with the RepeatHMM algorithm (Supplementary Fig. 4,5). Notably, we observed a systematic sequence strand bias resulting in more accurate counts for the GGGGCC sequence compared to the complementary strand (GGCCCC, Supplementary Fig. 5). We conclude, that the mentioned neural network basecallers, while enabling improved single read base quality on the genomic level,20 become unreliable for more than 32 (G4C2)n-repeats.
 
 
-
+\begin{itemize}
+    \item generation of test/dev dataset from plasmids and BAC
+    \item evaluation of sequence based methods (split fig1)
+    \item decoy alignment
+    \item RepeatHMM
+\end{itemize}
 
 
 
@@ -102,7 +107,7 @@ For overcoming these issues with our \textit{STRique} signal analysis software (
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/strique/count_signal_corr.pdf}
 	\captionsetup{format=plain}
-	\caption[Correlation and strand bias in STR analysis methods]{\textbf{a}, Bioanalyzer electropherogram, decoy alignment, \textit{RepeatHMM} and \textit{STRique} counts of synthetic $ (G_{4}C_{2})_{n} $ repeats. \textbf{b}, Manual counted set of plasmid reads on y-axis correlating with \textit{STRique} raw signal pipeline on x-axis. Only data points shown which could be evaluated with both methods (n=15, 49, 45, 48, 47; Pearson correlation).}
+	\caption[Correlation and strand bias in STR analysis methods]{\textbf{a}, Bioanalyzer electropherogram, decoy alignment, \textit{RepeatHMM} and \textit{STRique} counts of synthetic $ (G_{4}C_{2})_{n} $ repeats. \textbf{b}, Manual counted set of plasmid reads on y-axis correlating with \textit{STRique} raw signal pipeline on x-axis. Only data points shown which could also be evaluated with methods in Fig. \ref{fig:strique:count_seq_manual} (n=15, 49, 45, 48, 47; Pearson correlation).}
 	\label{fig:strique:count_signal_corr}
 \end{figure}
 
