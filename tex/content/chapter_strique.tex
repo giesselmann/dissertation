@@ -19,9 +19,7 @@ The chapter starts with a brief \textbf{background} in \ref{sec:strique:backgrou
 \section{Background}
 \label{sec:strique:background}
 
-Short tandem repeats (STRs), alternatively described as microsatellite repeats, form the shortest class of repetitive elements in the genome. They consist of short nucleotide sequences (2 to 6 bp) chained without other sequence fragments in between. The next larger class, termed variable nucleotide tandem repeat (VNTR) or minisatellite repeat follows the same repeat pattern but of larger fragments (>6 bp). VNTRs are for instance used as genetic fingerprints in forensic crime investigations due to their highly variable lengths within populations \cite{Marwal2014}. Lastly alpha satellite repeats are a class of large {\textasciitilde171 bp} repeat elements structuring the centromeric regions of the human genome \cite{McNulty2018}.
-
-The expansion of unstable genomic STRs is of particular interest as it causes more than 30 Mendelian human disorders \cite{Gatchel2005}. An extended GGGGCC-repeat $ [(G_{4}C_{2})_{n}] $ within the C9orf72 gene is the most frequent monogenic cause of Frontotemporal Dementia and Amyotrophic Lateral Sclerosis c9FTD/ALS \cite{Paulson2018}. Similarly, accumulation of a CGG motif in the FMR1 gene underlies the Fragile X Syndrome, currently one of the most common identifiable genetic causes of mental retardation and autism \cite{Verkerk1991}. In both repeat expansion disorders, recent evidence has suggested pronounced inter- and intraindividual repeat variability as well as focal changes in DNA methylation to modulate the disease phenotype \cite{Blitterswijk2013, Xi2013, Russ2015}.
+Short tandem repeats (STRs), alternatively described as microsatellite repeats, form the shortest class of repetitive elements in the genome. They consist of short nucleotide sequences (2 to 6 bp) chained without other sequence fragments in between. The next larger class, termed variable nucleotide tandem repeat (VNTR) or minisatellite repeat follows the same repeat pattern but of larger fragments (>6 bp). VNTRs are for instance used as genetic fingerprints in forensic crime investigations due to their highly variable lengths within populations \cite{Marwal2014}. Lastly alpha satellite repeats are a class of large {\textasciitilde171 bp} repeat elements structuring the centromeric regions of the human genome \cite{McNulty2018}. The expansion of unstable genomic STRs is of particular interest as it causes more than 30 Mendelian human disorders \cite{Gatchel2005}. An extended GGGGCC-repeat $ [(G_{4}C_{2})_{n}] $ within the C9orf72 gene is the most frequent monogenic cause of Frontotemporal Dementia and Amyotrophic Lateral Sclerosis c9FTD/ALS \cite{Paulson2018}. Similarly, accumulation of a CGG motif in the FMR1 gene underlies the Fragile X Syndrome, currently one of the most common identifiable genetic causes of mental retardation and autism \cite{Verkerk1991}. In both repeat expansion disorders, recent evidence has suggested pronounced inter- and intraindividual repeat variability as well as focal changes in DNA methylation to modulate the disease phenotype \cite{Blitterswijk2013, Xi2013, Russ2015}. While repeat expansions of up to 100-150 repeats can still be analyzed with conventional PCR or short read based approaches, especially in a clinical diagnostic environment, southern blot analysis are still state of the art to determine the repeat length. Requiring multiple days and suffering from decreased resolution for longer repeats, these workflows could benefit from a nanopore sequencing base approach. For applications in the research sector, the combination of a higher counting accuracy and the single molecule resolution provides unforeseen opportunities.
 
 A first inspection of the publicly available data from the human NA12878 cell line revealed a characteristic pattern in raw nanopore read signals spanning the c9orf72 STR locus (Fig. \ref{fig:strique:signal}).
 
@@ -34,7 +32,6 @@ A first inspection of the publicly available data from the human NA12878 cell li
 \end{figure}
 
 
-
 To overcome current difficulties in characterizing expanded STRs we focused on three areas: i) optimization of nanopore sequencing and signal processing to capture STRs ii) development and implementation of a target enrichment strategy to increase efficiency and iii) integration of expansion measurements with CpG methylation at the single molecule level.
 To enable a robust repeat analysis, we developed \textit{STRique}, a general-purpose signal processing algorithm for the exact quantification of STR numbers in raw nanopore signals.
 
@@ -45,12 +42,12 @@ To enable a robust repeat analysis, we developed \textit{STRique}, a general-pur
 \section{Repeat quantification}
 \label{sec:strique:quantification}
 
-Accurate counting of repeat lengths is a first step during investigation of short tandem repeats. While generally a sequence based approach appears desirable due to a lower implementation complexity, the following sections illustrate the need for a signal based algorithm to exactly quantify the length of a short tandem repeat based on nanopore sequencing.
+Accurate counting of repeat lengths serves as a first step during investigation of short tandem repeats. While generally a sequence based approach appears desirable due to a lower implementation complexity, the following sections illustrate the need for a signal based algorithm to exactly quantify the length of a short tandem repeat based on nanopore sequencing.
 
 \subsection{Sequence based repeat detection}
 \label{subsec:strique:seq_repeat_counts}
 
-To first benchmark existing repeat expansion counting methods we constructed, verified and nanopore sequenced plasmids with several synthetic $ [(G_{4}C_{2})_{n}] $-repeat lengths \cite{Mizielinska2014}. Current (May 2019) production grade (Guppy v3.0.3) software developed by Oxford Nanopore Technologies (ONT) was used to translate the nanopore raw signal into base-space representations. As a first baseline, we manually counted repeats for a subset of reads, exploiting the clear visibility of the repetitive signal pattern (Fig. \ref{fig:strique:signal}).
+To first benchmark existing repeat expansion counting methods we constructed, verified and nanopore sequenced plasmids with several synthetic $ [(G_{4}C_{2})_{n}] $-repeat lengths \cite{Mizielinska2014}. Current (May 2019) production grade (Guppy v3.0.3) software developed by Oxford Nanopore Technologies (ONT) was used to translate the nanopore raw signal into base-space representations. As a baseline, we manually counted repeats for a subset of reads, exploiting the clear visibility of the repetitive signal pattern (Fig. \ref{fig:strique:signal}).
 
 
 
