@@ -125,22 +125,23 @@ Aggregated \textit{STRique} repeat counts matched closely gel electrophoresis pr
 \subsection{Repeat expansion in C9orf72 and FMR1}
 \label{subsec:strique:c9orf72}
 
-The nanopore sequencing of repeats integrated into plasmid or BAC backbones typically yields thousands of reads containing the expanded repeat. For the application in disease contexts, the sequencing of DNA from e.g. patient-derived induced pluripotent stem cell lines is favored, as it for instance preserves the epigenetic landscape around the repeat. However, a straightforward whole genome sequencing would only yield few reads covering the repeat of interest. From e.g. 30 Gbp throughput, equivalent to 10 fold genome wide coverage, on average only 10 reads would be expected to cover any target repeat. For the monoallelic expansions in the c9orf72 and FMR1 gene, only half of those would be informative to infer the repeat length.
+The nanopore sequencing of repeats integrated into plasmid or BAC backbones typically yields thousands of reads containing the expanded repeat. For the application in disease contexts, the sequencing of DNA from e.g. patient-derived induced pluripotent stem cell lines is favored, as it for instance preserves the epigenetic landscape around the repeat. However, a straightforward whole genome sequencing would only yield few reads covering the repeat of interest. From e.g. 30 Gbp throughput, equivalent to 10 fold genome wide coverage, on average only 10 reads would be expected to cover any target repeat. For the monoallelic expansions in the C9orf72 and FMR1 genes, only half of those would be informative to infer the repeat length.
 
-To increase the amount of reads covering any repeat expansion of interest, we therefore set up a CRISPR-Cas9 target enrichment strategy. Briefly, during library preparation, the method cuts the DNA on defined guide sequences next to the target locus. Additionally, fragment ends are dephosphorylated after initial fragmentation, resulting in only the Cas9 cleaved (phosphorylated) ends being capable to ligate the ONT sequencing adapter. Hence only fragments starting on definable guide sequences are sequenced on the nanopore flow cell.
-
-We next applied enrichment and quantification to one c9orf72 repeat expansion patient derived stem cell line (24/5\#2) and two patient derived cell lines (SC105-iPS6/iPS7) from another single patient with a FMR1 repeat expansion (Fig. \ref{fig:strique:count_patients}).
+To increase the amount of reads covering any repeat expansion of interest, we therefore set up a CRISPR-Cas9 target enrichment strategy. Briefly, during library preparation, the method cuts the DNA on defined guide sequences next to the target locus. Following on a dephosphorylation step during fragmentation, only the Cas9 cleaved and therefore phosphorylated ends are capable to ligate the ONT sequencing adapter. Hence only fragments starting on definable guide sequences are sequenced on the nanopore flow cell.
+We applied enrichment and quantification to one C9orf72 repeat expansion patient derived stem cell line (24/5\#2) and two patient derived cell lines (SC105-iPS6/iPS7) from another patient with a FMR1 repeat expansion (Fig. \ref{fig:strique:count_patients}).
 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_patient_samples.pdf}
     \captionsetup{format=plain}
-    \caption[Repeat quantification in c9orf72 and FMR1 patients]{\textbf{a}, Repeat quantification of sample 24/5\#2 at the C9orf72 locus, revealing two distinct repeat bands of \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats (n = 1,810, 738 and 363 evaluated reads with a difference in repeat length of 392 (95\% confidence interval (CI): 383 to 400), $ P < 2.2 \cdot 10^{-16} $). Colored points indicate reads used in Fig. \ref{fig:strique:methylation_c9orf72_region}b. WT, wild type. \textbf{b}, Repeat quantification of the SC105iPS6 and SC105iPS7 samples at the FMR1 locus (n = 174 and 168 evaluated reads with a difference in repeat length of -343 (95\% CI: -361 to -325), $ P < 2.2 \cdot 10^{-16} $). P values in a and b were obtained by a two-sided Wilcoxon rank-sum test; $ ***P < 0.001 $. Data are presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range).}
+    \caption[Repeat quantification in C9orf72 and FMR1 patients]{\textbf{a}, Repeat quantification of sample 24/5\#2 at the C9orf72 locus, revealing two distinct repeat bands of \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats (n = 1,810, 738 and 363 evaluated reads with a difference in repeat length of 392 (95\% confidence interval (CI): 383 to 400), $ P < 2.2 \cdot 10^{-16} $). Colored points indicate reads used in Fig. \ref{fig:strique:methylation_c9orf72_region}b. WT, wild type. \textbf{b}, Repeat quantification of the SC105iPS6 and SC105iPS7 samples at the FMR1 locus (n = 174 and 168 evaluated reads with a difference in repeat length of -343 (95\% CI: -361 to -325), $ P < 2.2 \cdot 10^{-16} $). P values in a and b were obtained by a two-sided Wilcoxon rank-sum test; $ ***P < 0.001 $. Data are presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range).}
     \label{fig:strique:count_patients}
 \end{figure}
 
-In the c9orf72 case, the analysis revealed two distinct repeat expansion bands next to the wild type allele with \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats respectively. Even though derived from the same male patient, the two FMR1 samples showed different repeat lengths with a difference of 343 CGG repeats. During development and improvement of the enrichment protocol, both samples were sequenced multiple times on the MinION and PromethION platform. Nonetheless, the two repeat expansion cluster are already detectable from the output of a single MinION sequencing run with up to thousand reads on target (Fig. \ref{fig:strique:count_experiments}, FAK67994)
+
+In the C9orf72 case, the analysis revealed two distinct repeat expansion bands next to the wild type allele with \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats respectively. Even though derived from the same male patient, the two FMR1 samples showed different repeat lengths with a difference of 343 CGG repeats. During development and improvement of the enrichment protocol, both samples were sequenced multiple times on the MinION and PromethION platform. Nonetheless, the two repeat expansion cluster are already detectable from the output of a single MinION sequencing run with up to thousand reads on target (Fig. \ref{fig:strique:count_experiments}, FAK67994)
+
 
 \begin{figure}[h]
     \centering
@@ -150,36 +151,21 @@ In the c9orf72 case, the analysis revealed two distinct repeat expansion bands n
     \label{fig:strique:count_experiments}
 \end{figure}
 
+In summary we show, that even heterogeneous expansion distributions of any short tandem repeat can be sequenced and quantified from a single MinION flow cell. In comparison to established southern blotting, our approach increases the accuracy and adds the resolution of single molecule counts. With the target enrichment, the workflow could be deployed to provide same-day analysis in a clinical environment.
+
 
 
 
 \section{Methylation detection}
 \label{sec:strique:modifications}
 
+The epigenetic modification of C9orf72 and FMR1 loci have been correlated with STR expansion status and patient characteristics in both disorders, however without quantification at the single molecule level so far \cite{Russ2015, Hornstra1993}. Additionally, in c9FTD/ALS patients pervasive CpG methylation of the $ G_{4}C_{2} $-repeat itself has been reported \cite{Xi2015}. Assessed with a strictly qualitative assay, the expanded STR itself was reported to be methylated in the majority of cases examined. A similar observation has been directly implicated in the pathogenesis of FXS, where a CGG repeat expansion at the FMR1-locus beyond a threshold of > 200 repeats leads in most cases to the silencing of the entire FMR1-gene through CpG-methylation \cite{Lyons2015}. Exploiting the visibility of 5-methylcytosine in nanopore sequencing, we extend \textit{STRique} in the following sections to integrate repeat length and DNA methylation status on the same molecule.
+
 
 \subsection{Region methylation detection}
 \label{subsec:strique:modifications_region}
 
-\begin{itemize}
-	\item region methylation detection in masked reads with nanopolish
-	\item verification in BAC boundaries
-\end{itemize}
-
-\subsection{Repeat methylation detection}
-\label{subsec:strique:modifications_repeat}
-
-\begin{itemize}
-	\item extension of signal algorithm by twin-HMM for multiple pore models
-	\item repeat methylation detection by STRique
-	\item verification in MSssI methylated plasmid
-\end{itemize}
-
-The epigenetic modification of C9orf72 and FMR1 loci have been correlated with STR expansion status and patient characteristics in both disorders, however without quantification at the single molecule level so far.10,26 Therefore we integrated single read CpG methylation analysis of regions adjacent to both STRs using nanopolish14 with our \textit{STRique} results (Fig. 3a). We found that in the 24/5\#2 line all reads with STR expansions > 750 repeats showed a significantly increased methylation level at the promoter CpG island. In contrast all wild type reads and those with ~450 repeats were not or only partially methylated (Two sided Wilcoxon rank sum test p < 0.001, Fig. 3b, Supplementary Fig. 9, Supplementary Note).
-Additionally, in c9FTD/ALS patients pervasive CpG methylation of the (G4C2)n-repeat itself has been reported.27 Assessed with a strictly qualitative assay, the expanded STR itself was reported to be methylated in the majority of cases examined.27 A similar observation has been directly implicated in the pathogenesis of FXS, where a CGG repeat expansion at the FMR1-locus beyond a threshold of > 200 repeats leads in most cases to the silencing of the entire FMR1-gene through CpG-methylation.28
-Due to the intrinsic heterogeneity in STR length, especially reference genome based methods such as nanopolish14 cannot be used to determine CpG methylation on the repeat expansion itself. To detect 5mC modifications on STRs, we extended \textit{STRique} by employing a parallel HMM with unmodified- and 5mC-paths. This single read analysis returns a methylation state for each tandem repeat, which then can be summarized into the mean repeat methylation level over the whole repetitive sequence.
-When applying the methylation-aware \textit{STRique}, all expanded FMR1-STRs in nanopore reads from patient SC105 are found to be highly methylated (Supplementary Fig. 10a), consistent with previous analyses29 and our Southern blot results (Supplementary Fig. 8). We next evaluated this approach on plasmids containing n=76 synthetic (G4C2)n and n=99 CGG-repeats (Addgene, \#63089), which were covalently modified with the methyltransferase M.SssI (Supplementary Fig. 10).14 In addition we tested the algorithm on (G4C2)n-containing reads (online methods) from patient-derived DNA, which had been modified with M.SssI in vitro. In summary, we found that \textit{STRique} can determine the repeat CpG methylation state correctly in all positive and negative controls evaluated.
-Surprisingly though, all reads covering the C9orf72-STR from our patient-derived samples showed little to no CpG-methylation, independently of the repeat expansion length or methylation status of the promoter CGI (Fig. 3b).
-
+Therefore we integrated single read CpG methylation analysis of regions adjacent to both STRs using nanopolish \cite{Simpson2017} with our \textit{STRique} results (Fig. \ref{fig:strique:methylation_c9orf72_region}a). We found that in the 24/5\#2 line all reads with STR expansions > 750 repeats showed a significantly increased methylation level at the promoter CpG island. In contrast all wild type reads and those with \textasciitilde450 repeats were not or only partially methylated (Two sided Wilcoxon rank sum test p < 0.001, Fig. \ref{fig:strique:methylation_c9orf72_region}b).
 
 \begin{figure}[h]
     \centering
@@ -196,6 +182,25 @@ Surprisingly though, all reads covering the C9orf72-STR from our patient-derived
     \caption[Nanopore single read methylation in BAC data]{\textbf{a}, Methylation status of c9orf72 region in BAC data for repeats < 200 (WT), 200-750 (Cluster1,orange) and > 750 (Cluster2,red) and control (Hues64, WGBS) \textbf{b}, Single read methylation on a sample of 500 BAC minus strand reads sorted by repeat count (row split 200 and 750 repeats, n=423,63,14). \textbf{c}, Difference in mean CGI methylation of intron and promoter per read on minus strand. Reads binned by detected repeat length for BAC (n=2066 WT; 315 Cluster1; 72 Cluster2) and patient 24/5\#2 (n=925 WT; 362 Cluster1; 153 Cluster2). Two sided Wilcoxon rank sum test, corrected for multiple testing (Holm), q-vals: * 0.05 - 0.01; ** 0.01 - 0.001; *** < 0.001. Median methylation differences between promoter CGI [95\%CI] for WT $-2.3e^{-5} [CI: -5.6e^{-6}:-1.5e^{-5}, q=7.4e^{-3}] $ and Cluster1 $ -0.01 [CI: -7.1e^{-5}:-3.4e^{-2}, q=1.4e^{-17}] $ and Cluster2 $ -0.46 [CI: -0.58:-0.37, q=1.0e^{-26}] $.}
     \label{fig:strique:methylation_bac_region}
 \end{figure}
+
+
+
+
+\subsection{Repeat methylation detection}
+\label{subsec:strique:modifications_repeat}
+
+\begin{itemize}
+	\item extension of signal algorithm by twin-HMM for multiple pore models
+	\item repeat methylation detection by STRique
+	\item verification in MSssI methylated plasmid
+\end{itemize}
+
+Due to the intrinsic heterogeneity in STR length, especially reference genome based methods such as nanopolish14 cannot be used to determine CpG methylation on the repeat expansion itself. To detect 5mC modifications on STRs, we extended \textit{STRique} by employing a parallel HMM with unmodified- and 5mC-paths. This single read analysis returns a methylation state for each tandem repeat, which then can be summarized into the mean repeat methylation level over the whole repetitive sequence.
+When applying the methylation-aware \textit{STRique}, all expanded FMR1-STRs in nanopore reads from patient SC105 are found to be highly methylated (Supplementary Fig. 10a), consistent with previous analyses29 and our Southern blot results (Supplementary Fig. 8). We next evaluated this approach on plasmids containing n=76 synthetic (G4C2)n and n=99 CGG-repeats (Addgene, \#63089), which were covalently modified with the methyltransferase M.SssI (Supplementary Fig. 10).14 In addition we tested the algorithm on (G4C2)n-containing reads (online methods) from patient-derived DNA, which had been modified with M.SssI in vitro. In summary, we found that \textit{STRique} can determine the repeat CpG methylation state correctly in all positive and negative controls evaluated.
+Surprisingly though, all reads covering the C9orf72-STR from our patient-derived samples showed little to no CpG-methylation, independently of the repeat expansion length or methylation status of the promoter CGI (Fig. 3b).
+
+
+
 
 \begin{figure}[h]
     \centering
