@@ -9,6 +9,10 @@
 	\item fast5 format, hdfviewer, BulkVis as basic tools to work with fast5 files
 \end{itemize}
 
+\section{Simulation}
+\label{sec:signal:simulation}
+
+
 \section{Normalization}
 \label{sec:signal:normalization}
 
@@ -21,6 +25,13 @@
 
 \section{Alignment and Segmentation}
 \label{sec:signal:alignment}
+
+\begin{equation}
+    s_{i,j} = max \left\lbrace \frac{c - \left| x_{i} - y_{j} \right| }{-c} \right.
+\end{equation}
+
+
+
 
 \begin{itemize}
 	\item raw signal alignment with seqan based scoring and semi-global dp

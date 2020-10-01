@@ -82,7 +82,7 @@ To further assess the characteristics of existing workflows applied to larger re
     \label{fig:strique:count_bac}
 \end{figure}
 
-In conclusion, we find that nanopore sequencing in general is capable of reading through expanded short tandem repeats. However, existing sequenced based methods fail to accurately quantify repeat lengths beyond \textasciitilde32 hexanucleotide repeats. We further describe a strand and therefore sequence specific bias in the case of the c9orf72 $ G_{4}C_{2} $ repeat, requiring re-evaluation of methods per target and worst case per software and model version.
+In conclusion, we find that nanopore sequencing in general is capable of reading through expanded short tandem repeats. However, existing sequenced based methods fail to accurately quantify repeat lengths beyond \textasciitilde32 hexanucleotide repeats. We further detect a strand and therefore sequence specific bias in the case of the c9orf72 $ G_{4}C_{2} $ repeat, requiring re-evaluation of methods per target and worst case per software and model version.
 
 
 
@@ -100,10 +100,12 @@ For overcoming inaccuracies of sequence based methods our \textit{STRique} signa
 	\label{fig:strique:count_structure_plasmid}
 \end{figure}
 
-Raw signal normalization is a crucial step in the quantification process. Due to the reduced complexity of the repetitive signal segment, the overall distribution of measurements is skewed compared to reads from regular genomic sequences. Both, mean and median centered normalization fail to project a signal containing a STR expansion and being affected by offset, scaling and drift over time into a uniform range. 
-We therefore applied a min-max normalization by computing the medians of the 0.05 and 0.95 quantiles and scaling those to the respective values of the pore model.
+Raw signal normalization is a crucial first step prior to the quantification process. Due to the reduced complexity of the repetitive signal segment, the overall distribution of measurements is skewed compared to reads from regular genomic contexts. Both, mean and median centered normalization fail to project a signal containing a STR expansion and being affected by offset, scaling and drift over time into a uniform range. 
+We therefore applied a min-max normalization by computing the medians of the 0.05 and 0.95 quantiles of the raw signal and scaling those to the respective values of the pore model.
 
+With the normalized read and simulated signal fragments of the genomic sequence context around the STR, a signal alignment is used in order to locate prefix and suffix and to extract a region of interest. Within \textit{STRique}, we use the distance based semi-global alignment described in section \ref{sec:signal:alignment}. Depending on the sequence complexity of prefix and suffix, a 100 to 150 bp frame around the repeat appeared to be robust. Reads with overlapping or reversed order of prefix and suffix alignments are flagged and dropped in this step. Furthermore the alignment scores, equivalent to the sum of absolute differences between simulated and raw signal are part of the \textit{STRique} output and can be utilized to filter repeat counts in a post processing step.
 
+Finally the actual repeat count is determined by a compound profile HMM composed of linear prefix and suffix modules, surrounding a single repeat instance with a feedback loop around (Fig. \ref{fig:strique:count_structure_plasmid}, section \ref{sec:signal:alignment}). The transition from repeat end to repeat begin enables the HMM to stay in the repeat associated states to model arbitrary long repeat expansions. The Viterbi algorithm assigns the most likely state from prefix, repeat and suffix to each observation of the normalized signal given the models states and transitions. The number of passes through the feedback transition is reported as the detected repeat count, the precise positions of prefix end and suffix begin are provided to enable masking of the repetitive signal fragment for downstream processing (cf. section \ref{subsec:strique:modifications_region}).
 
 Aggregated \textit{STRique} repeat counts matched closely gel electrophoresis profiles (Bioanalyzer) from our synthetic repeat constructs and could be confirmed on the single molecule level by manually counting repeat patterns in raw signal traces (Fig. \ref{fig:strique:count_signal_corr}).
 
@@ -115,7 +117,7 @@ Aggregated \textit{STRique} repeat counts matched closely gel electrophoresis pr
 	\label{fig:strique:count_signal_corr}
 \end{figure}
 
-\textit{STRique} is written in python3 with a C++ extension for signal alignment, supports multiprocessing and is automatically build and tested using Travis-CI. \textit{STRique} is deployed either as a python3 virtual environment or as a standalone Docker container.
+\textit{STRique} is written in python3 with a C++ extension for the signal alignment, supports multiprocessing and is automatically build and tested using Travis-CI. \textit{STRique} is deployed either as a python3 virtual environment or as a standalone Docker container.
 
 
 
@@ -123,30 +125,28 @@ Aggregated \textit{STRique} repeat counts matched closely gel electrophoresis pr
 \subsection{Repeat expansion in C9orf72 and FMR1}
 \label{subsec:strique:c9orf72}
 
-\begin{itemize}
-	\item application to patient data
-	\item Cas9 enrichment to increase on-target coverage
-	\item C9orf72 and FMR1 repeat counts
-\end{itemize}
+The nanopore sequencing of repeats integrated into plasmid or BAC backbones typically yields thousands of reads containing the expanded repeat. For the application in disease contexts, the sequencing of DNA from e.g. patient-derived induced pluripotent stem cell lines is favored, as it for instance preserves the epigenetic landscape around the repeat. However, a straightforward whole genome sequencing would only yield few reads covering the repeat of interest. From e.g. 30 Gbp throughput, equivalent to 10 fold genome wide coverage, on average only 10 reads would be expected to cover any target repeat. For the monoallelic expansions in the c9orf72 and FMR1 gene, only half of those would be informative to infer the repeat length.
 
+To increase the amount of reads covering any repeat expansion of interest, we therefore set up a CRISPR-Cas9 target enrichment strategy. Briefly, during library preparation, the method cuts the DNA on defined guide sequences next to the target locus. Additionally, fragment ends are dephosphorylated after initial fragmentation, resulting in only the Cas9 cleaved (phosphorylated) ends being capable to ligate the ONT sequencing adapter. Hence only fragments starting on definable guide sequences are sequenced on the nanopore flow cell.
 
-Next, to establish a baseline reference data set, we performed nanopore sequencing of a whole genome library from c9FTD/ALS patient-derived DNA yielding a total of 29 Gbp from a single MinION flow cell. Consistent with approximately 10-fold genome-wide coverage, 10 reads covered the C9orf72 target region. To improve the coverage of any predetermined STR, but particularly the (G4C2)n-region in our proof of concept study, we took advantage of the programmable CRISPR-Cas12a-ribonucleoprotein (Cas12a-RNP), which cleaves DNA via staggered double-strand breaks.23 The Cas12a-RNP was first applied to selectively target DNA sequences from a patient-derived induced pluripotent stem cell line (24/5\#2) adjacent to the (G4C2)n-repeat resulting in unique 4 bp overhangs as molecular tags amenable to ligation of a linker oligo and subsequent attachment of the nanopore sequencing adapter (Fig. 2a: Workflow I, Online Methods). To further improve enrichment results we replaced the oligo adapter ligation step by adding Klenow fragment to fill in the Cas12a overhangs. The resulting dA-tailed DNA ends enabled even more efficient ligation of the sequencing adapters. In this enrichment protocol variant, the phosphorylated 5’-ends generated by Cas-nuclease mediated cleavage provide the molecular tag for selectively ligating the nanopore sequencing adaptors to the targeted DNA fragment (Fig. 2a, Workflow II).
-Additional dephosphorylation of all 5’-ends before Cas12a-RNP-digestion chemically protects DNA ‘background’ fragments from being ligated to sequencing adapters. Consequently, only those fragments cut by Cas12a-RNPs are capable of being sequenced by this procedure (Fig. 2a). As a result, we were able to obtain up to 82 reads covering the (G4C2)n-repeat including 40 reads from the expanded allele from a single MinION flow cell (Supplementary Fig. 7, Supplementary Table 3, Supplementary Note). Strikingly, consistent with Southern blot results from the same cell line (Supplementary Fig. 8 a,b), we found two distinct repeat expansion distributions (Fig. 2b). To further explore the general applicability of our enrichment, sequencing and signal processing protocol to other repeat expansion disorders, we tested two isogenic, patient-derived cell lines (SC105iPS6, SC105iPS7) carrying distinct FMR1-repeat expansions.24 Employing an new set of FMR1-targeting Cas12a-RNPs (Supplementary Table 1) we found two different repeat expansion distributions as predicted by Southern blot analysis (Fig. 2c, Supplementary Fig. 8 c,d).
-Since other CRISPR/Cas-nucleases also generate phosphorylated 5’-ends after DNA cleavage,25 we explored, if nucleases such as Cas9 might enable additional improvements of the enrichment results. Therefore, we prepared libraries in parallel with Cas12a- and Cas9-RNPs targeting both FMR1 and C9orf72 regions. Remarkably Cas9-targeting results in an additional increase in sequencing depth in the order of a magnitude for both targeted regions concomitant with a notable reduction in off-target reads (Fig. 2d, Supplementary Fig. 7c). To understand, if the number of reads on target can be further improved by exposing the same Cas12a- or Cas9- enrichment library to an increased number of pores, we subjected equimolar aliquots from the same pooled library preparations from Fig. 2b to nanopore sequencing on PromethION flow cells, which contain on average six times as many nanopores. However, we did not observe a gain in reads on target with the larger flow cells (Supplementary Fig. 7c).
+We next applied enrichment and quantification to one c9orf72 repeat expansion patient derived stem cell line (24/5\#2) and two patient derived cell lines (SC105-iPS6/iPS7) from another single patient with a FMR1 repeat expansion (Fig. \ref{fig:strique:count_patients}).
+
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_patient_samples.pdf}
     \captionsetup{format=plain}
-    \caption[Repeat quantification in c9orf72 and FMR1 patients]{\textbf{a}, Repeat quantification of sample 24/5\#2 at the C9orf72 locus, revealing two distinct repeat bands of ~450 and ~750 $ (G_{4}C_{2})_{n} $ repeats (n = 1,810, 738 and 363 evaluated reads with a difference in repeat length of 392 (95\% confidence interval (CI): 383 to 400), $ P < 2.2 \cdot 10^{-16} $). Colored points indicate reads used in Fig. \ref{fig:strique:methylation_c9orf72_region}b. WT, wild type. \textbf{b}, Repeat quantification of the SC105iPS6 and SC105iPS7 samples at the FMR1 locus (n = 174 and 168 evaluated reads with a difference in repeat length of -343 (95\% CI: -361 to -325), $ P < 2.2 \cdot 10^{-16} $). P values in a and b were obtained by a two-sided Wilcoxon rank-sum test; $ ***P < 0.001 $. Data are presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range).}
+    \caption[Repeat quantification in c9orf72 and FMR1 patients]{\textbf{a}, Repeat quantification of sample 24/5\#2 at the C9orf72 locus, revealing two distinct repeat bands of \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats (n = 1,810, 738 and 363 evaluated reads with a difference in repeat length of 392 (95\% confidence interval (CI): 383 to 400), $ P < 2.2 \cdot 10^{-16} $). Colored points indicate reads used in Fig. \ref{fig:strique:methylation_c9orf72_region}b. WT, wild type. \textbf{b}, Repeat quantification of the SC105iPS6 and SC105iPS7 samples at the FMR1 locus (n = 174 and 168 evaluated reads with a difference in repeat length of -343 (95\% CI: -361 to -325), $ P < 2.2 \cdot 10^{-16} $). P values in a and b were obtained by a two-sided Wilcoxon rank-sum test; $ ***P < 0.001 $. Data are presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range).}
     \label{fig:strique:count_patients}
 \end{figure}
+
+In the c9orf72 case, the analysis revealed two distinct repeat expansion bands next to the wild type allele with \textasciitilde450 and \textasciitilde750 $ G_{4}C_{2} $ repeats respectively. Even though derived from the same male patient, the two FMR1 samples showed different repeat lengths with a difference of 343 CGG repeats. During development and improvement of the enrichment protocol, both samples were sequenced multiple times on the MinION and PromethION platform. Nonetheless, the two repeat expansion cluster are already detectable from the output of a single MinION sequencing run with up to thousand reads on target (Fig. \ref{fig:strique:count_experiments}, FAK67994)
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/strique/count_experiments.pdf}
     \captionsetup{format=plain}
-    \caption[Repeat count cluster stability over experiments]{\textbf{a}, C9orf72 target enrichment flow cells for patient 24/5\#2 \textbf{b}, FMR1 enrichment flow cells of SC105iPS6/iPS7. (FA*: MinION, PAD*: PromethION, number of reads per boxplot are in Supplementary Tables 5-6 column wt and exp). Data presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range; outliers not shown)}
+    \caption[Repeat count cluster stability over experiments]{\textbf{a}, C9orf72 target enrichment flow cells for patient 24/5\#2 \textbf{b}, FMR1 enrichment flow cells of SC105iPS6/iPS7. (FA*: MinION, PAD*: PromethION, number of reads per boxplot are in Supplementary Tables \ref{tab:strique:Cas12} and \ref{tab:strique:Cas9}). Data presented as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range; outliers not shown)}
     \label{fig:strique:count_experiments}
 \end{figure}
 
@@ -158,6 +158,7 @@ Since other CRISPR/Cas-nucleases also generate phosphorylated 5’-ends after DN
 
 
 \subsection{Region methylation detection}
+\label{subsec:strique:modifications_region}
 
 \begin{itemize}
 	\item region methylation detection in masked reads with nanopolish
@@ -165,6 +166,7 @@ Since other CRISPR/Cas-nucleases also generate phosphorylated 5’-ends after DN
 \end{itemize}
 
 \subsection{Repeat methylation detection}
+\label{subsec:strique:modifications_repeat}
 
 \begin{itemize}
 	\item extension of signal algorithm by twin-HMM for multiple pore models
