@@ -56,17 +56,17 @@
 \end{itemize}
 
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/signal/normalization.pdf}
+	\captionsetup{format=plain}
+	\caption[Signal normalization and histogram equalization]{Raw signal normalization and histogram equalization.}
+	\label{fig:signal:normalization}
+\end{figure}
 
 
 \section{Alignment and Segmentation}
 \label{sec:signal:alignment}
-
-\begin{equation}
-    s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
-\end{equation}
-
-
-
 
 \begin{itemize}
 	\item raw signal alignment with seqan based scoring and semi-global dp
@@ -74,6 +74,37 @@
 	\item event alignment with edlib to be more robust against time-warping
 	\item profile HMM for most precise mapping
 \end{itemize}
+
+\begin{equation}
+s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
+\end{equation}
+
+\begin{table}[ht]
+	\centering
+	\caption[Event detection and annotation]{Event summary of raw nanopore signal with reference sequence annotation.}
+	\label{tab:signal:events}
+	\begin{tabular}{l|r|r|r|l}
+		 & mean & event length & seq. offset & kmer \\
+		\hline 
+		& \multicolumn{3}{c|}{...} &  \\
+		\hline
+		$ E_{n} $ &  1.332  & 15 & 3205 & AGTCCA \\
+		\rowcolor{LightOrange}
+		$ E_{n+1} $ &  0.981  & 22 & 3206 & GTCCAG \\
+		$ E_{n+2} $ & -1.058  &  6 & 3208 & CCAGTC \\
+		$ E_{n+3} $ & -1.662  & 17 & 3209 & CAGTCC \\
+		$ E_{n+4} $ &  1.360  &  7 & 3210 & AGTCCT \\
+		$ E_{n+5} $ &  0.664  & 33 & 3211 & GTCCTG \\
+		$ E_{n+6} $ &  0.107  & 11 & 3212 & TCCTGT \\
+		\rowcolor{LightGreen}
+		$ E_{n+7} $ &  0.844  &  4 & 3213 & CCTGTG \\
+		\rowcolor{LightGreen}
+		$ E_{n+8} $ &  1.362  & 38 & 3213 & CCTGTG \\
+		\hline
+		& \multicolumn{3}{c|}{...} &  \\
+	\end{tabular} 
+\end{table}
+
 
 \cite{Schreiber2015}
 
@@ -84,3 +115,6 @@
 	\caption[Nanopore signal processing with STRique]{\textbf{a}, A compound profile HMM of prefix, a single repeat and the suffix sequence assigns either prefix, repeat or suffix label to each signal value. Repeat counts are obtained through dummy states between repeat and suffix. \textbf{b}, Nanopore signal profile HMM with normal distributed match state and uniform distributed insertion state emission probabilities.}
 	\label{fig:strique:count_hmm}
 \end{figure}
+
+
+
