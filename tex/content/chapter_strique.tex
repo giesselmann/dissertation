@@ -101,7 +101,7 @@ For overcoming inaccuracies of sequence based methods our \textit{STRique} signa
 \end{figure}
 
 Raw signal normalization is a crucial first step prior to the quantification process. Due to the reduced complexity of the repetitive signal segment, the overall distribution of measurements is skewed compared to reads from regular genomic contexts. Both, mean and median centered normalization fail to project a signal containing a STR expansion and being affected by offset, scaling and drift over time into a uniform range. 
-We therefore applied a min-max normalization by computing the medians of the 0.05 and 0.95 quantiles of the raw signal and scaling those to the respective values of the pore model.
+We therefore applied a min-max normalization by scaling the 0.025 and 0.975 quantiles of the raw signal to the respective values of the pore model.
 
 With the normalized read and simulated signal fragments of the genomic sequence context around the STR, a signal alignment is used in order to locate prefix and suffix and to extract a region of interest. Within \textit{STRique}, we use the distance based semi-global alignment described in section \ref{sec:signal:alignment}. Depending on the sequence complexity of prefix and suffix, a 100 to 150 bp frame around the repeat appeared to be robust. Reads with overlapping or reversed order of prefix and suffix alignments are flagged and dropped in this step. Furthermore the alignment scores, equivalent to the sum of absolute differences between simulated and raw signal are part of the \textit{STRique} output and can be utilized to filter repeat counts in a post processing step.
 

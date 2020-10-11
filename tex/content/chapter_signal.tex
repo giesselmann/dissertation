@@ -1,11 +1,28 @@
 \chapter{Nanopore Signal Analysis}
 \label{cha:signal}
 
+The primary output of third generation nanopore sequencing devices is the measured raw ionic current as a proxy signal for a DNA or RNA strand passing through the pore. 
+An initial processing step of particular importance is the basecalling, translating the raw signal into the respective genomic sequence.
+Common workflows such as genome assembly, structural variant or isoform detection typically rely on sequence inputs only.
+However, the error rate and run time of state of the art basecalling algorithms motivate ongoing research on the processing of the raw signal itself. Furthermore, the sequencing without amplification preserves signatures of modified bases in the signal of DNA and RNA samples.
+Prominent applications based on raw nanopore signals include methylation detection, barcode demultiplexing and real-time alignment for selective sequencing.
+Challenges in the raw signal analysis arise from noise induced by measuring currents in pico ampere ranges and time-warping, the uncertainty of how long the molecule resides stationary in the pore before being advanced by the motor protein.
+
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/signal/GA.pdf}
     \label{fig:signal:ga}
 \end{figure}
+
+
+The following chapter serves as a transition from basic data handling and processing using \textit{Nanopype} in chapter \ref{cha:nanopype} and introduces the underlying algorithms for the signal driven repeat detection \textit{STRique} in chapter \ref{cha:strique}.
+After a brief \textbf{background} in section \ref{sec:signal:background}, this chapter aims to contrast the raw signal \textbf{simulation} from known sequences in section \ref{sec:signal:simulation} with the \textbf{normalization} and \textbf{annotation} of raw nanopore reads with reference sequences in sections \ref{sec:signal:normalization} and \ref{sec:signal:alignment}.
+
+\section{Background}
+\label{sec:signal:background}
+
+
 
 \begin{itemize}
 	\item basic framework for development set with pipeline
@@ -14,6 +31,9 @@
 	\item need for custom, easy to configure, python for fast prototyping
 	\item fast5 format, hdfviewer, BulkVis as basic tools to work with fast5 files
 \end{itemize}
+
+
+
 
 \section{Simulation}
 \label{sec:signal:simulation}
@@ -24,7 +44,6 @@
     \item trace with constant, time warping and noise
     \item more sophisticated simulation with simulatION, deepSimulator, scrappie, etc.
 \end{itemize}
-
 
 \begin{figure}[h]
 	\centering
@@ -65,6 +84,8 @@
 \end{figure}
 
 
+
+
 \section{Alignment and Segmentation}
 \label{sec:signal:alignment}
 
@@ -81,7 +102,7 @@ s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
 
 \begin{table}[ht]
 	\centering
-	\caption[Event detection and annotation]{Event summary of raw nanopore signal with reference sequence annotation.}
+	\caption[Event detection and annotation]{Event table of raw nanopore signal with reference sequence annotation.}
 	\label{tab:signal:events}
 	\begin{tabular}{l|r|r|r|l}
 		 & mean & event length & seq. offset & kmer \\
@@ -115,6 +136,12 @@ s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
 	\caption[Nanopore signal processing with STRique]{\textbf{a}, A compound profile HMM of prefix, a single repeat and the suffix sequence assigns either prefix, repeat or suffix label to each signal value. Repeat counts are obtained through dummy states between repeat and suffix. \textbf{b}, Nanopore signal profile HMM with normal distributed match state and uniform distributed insertion state emission probabilities.}
 	\label{fig:strique:count_hmm}
 \end{figure}
+
+
+
+
+\section{Summary}
+\label{sec:signal:summary}
 
 
 
