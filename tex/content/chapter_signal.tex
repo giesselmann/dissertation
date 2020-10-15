@@ -24,9 +24,9 @@ After a brief \textbf{background} in section \ref{sec:signal:background}, this c
 
 In contrast to second generation sequencing, the main output of nanopore sequencing is the ionic current measured on the device while a molecule is passing through any of its pores. The characteristics of this signal are determined by pore and chemistry version, currently R9.4.1, as released by ONT in October 2016. In March 2020 ONT released the R10.3 with a dual reader head, promising better consensus accuracy, in particular for homopolymer stretches. In terms of throughput per flow-cell, the R10 is slightly lacking behind R9 \cite{ONT2020}. Independent of the pore version, the storage of the raw signal is valuable, as constant development by ONT and researchers in the community provides enhanced readouts from existing sequencing data.
 
-From a technical perspective, the ionic current is sampled at 4kHz and saved as a 16-Bit unsigned integer array to FAST5 files. In combination with the sequencing speed of \texttildelow450Bp/s, determined by the chemistry, this results in a square wave like signal with a median of 9 samples per base pair. Being a specification of the HDF5 file format, FAST5 files can be inspected with GUI and command line tools like \textit{HDFView} and \textit{h5dump}. File access from custom software is available for C/C++ programs by linking against the HDF5 library\footnote{https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse} and from python using the \textit{h5py} package. Additionally, in order to work with most recent data sets, the VBZ compression plugin\footnote{https://github.com/nanoporetech/vbz\_compression} is required.
+From a technical perspective, the ionic current is sampled at 4kHz and saved as a 16-Bit unsigned integer array to FAST5 files. In combination with the sequencing speed of \texttildelow450nt/s, determined by the chemistry, this results in a square wave like signal with a median of 9 samples per nucleotide. Being a specification of the HDF5 file format, FAST5 files can be inspected with GUI and command line tools like \textit{HDFView} and \textit{h5dump}. File access from custom software is available for C/C++ programs by linking against the HDF5 library\footnote{https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse} and from python using the \textit{h5py} package. Additionally, in order to work with most recent data sets, the VBZ compression plugin\footnote{https://github.com/nanoporetech/vbz\_compression} is required.
 
-While the raw nanopore signal is utilized in a number of bioinformatic applications \cite{Loose2016, Simpson2017, Wick2018}, the set of methods providing frameworks is currently limited to \textit{Tombo}\footnote{https://github.com/nanoporetech/tombo}, the successor of \textit{Nanoraw} \cite{Stoiber2017} and recently \textit{SquiggleKit} \cite{Ferguson2019}. The motivation to develop and use custom code for the raw signal analysis is driven by \textit{Tombo} being hard-coded to \textit{minimap2} alignments and writing its output in form of event tables into the FAST5 files. While technically supported by the FAST5 format, writing of analysis results into the sequencing data is generally undesirable in a multi-user environment and causes in the case of FAST5 files excessive disk usage since new, but also overwritten data sets are appended to the end of the file. \textit{SquiggleKit} so far only provides basic data indexing and signal alignment, mostly to identify barcodes in raw reads.
+While the raw nanopore signal is utilized in a number of bioinformatic applications \cite{Simpson2017, Wick2018, Loose2016}, the set of methods providing frameworks is currently limited to \textit{Tombo}\footnote{https://github.com/nanoporetech/tombo}, the successor of \textit{Nanoraw} \cite{Stoiber2017} and the recently published \textit{SquiggleKit} \cite{Ferguson2019}. The motivation to develop and use custom code for the raw signal analysis is driven by \textit{Tombo} being hard-coded to \textit{minimap2} alignments and writing its output in form of event tables into the FAST5 files. While technically supported by the FAST5 format, writing of analysis results into the sequencing data is generally undesirable in a multi-user environment and causes in the case of FAST5 files excessive disk usage since new, but also overwritten data sets are appended to the end of the file. \textit{SquiggleKit} so far only provides basic data indexing and signal alignment, mostly to identify barcodes in raw reads.
 
 Publicly available, highly customizable methods in form of a generic API are still lacking, demanding the development of an in-house framework to handle raw nanopore reads. Future work aims to include advanced normalization methods as described in \cite{Boza2017} and hardware acceleration comparable to \textit{f5c} \cite{Gamaarachchi2020}.
 
@@ -51,7 +51,7 @@ A pore model describes the mapping from sequence context to expected signal leve
 In general, the nanopore is sensitive for several base modifications, which are preserved when sequencing without prior amplification. A secondary pore model can be derived from sequencing e.g. 5-methylcytosine modified DNA, enabling the discrimination of native and 5mC on signal level. The model difference between native and 5mC for single-CG containing 6mers is illustrated in Fig. \ref{fig:signal:pm} b (Native and methylated model taken from \textit{nanopolish}).
 
 In addition to the signal level, the event length or dwell time of the molecule in the pore needs to be modeled. It is not fully understood, to which extend the behavior of the motor protein controlling the sequencing speed is a random or sequence context dependent process. Aimed solely towards the development of signal alignment methods, event lengths are randomly sampled from a generalized gamma distribution in this work. 
-The distribution is derived from in-house sequencing data using the event detection described in section \ref{sec:signal:alignment} and shown in Fig. \ref{fig:signal:pm} c. The measured event median of 9 samples per 6mer matches the expected value for a sequencing speed of 450Bp/s sampled at 4kHz.
+The distribution is derived from in-house sequencing data using the event detection described in section \ref{sec:signal:alignment} and shown in Fig. \ref{fig:signal:pm} c. The measured event median of 9 samples per 6mer matches the expected value for a sequencing speed of 450nt/s sampled at 4kHz.
 
 With both, pore model and event length distribution, simulated raw nanopore signals can be generated from any given target sequence. The mean event level, a simulated and the corresponding stretch from a real nanopore read are depicted in Fig. \ref{fig:signal:simulation}.
 
@@ -63,7 +63,7 @@ With both, pore model and event length distribution, simulated raw nanopore sign
 	\label{fig:signal:simulation}
 \end{figure}
 
-Published and simplified simulation as in this work do not mirror every detail of actual sequencing data and can therefore only serve as a first approximation. Examples of missing technical artifacts are rare spikes of single values and temporarily stalled reads with hundreds of samples from the same kmer. Lastly, motor protein and analog digital converter are not synchronized, frequently resulting in measurements on the rising or falling edges between events.
+Published and the proposed simplified simulation do not mirror every detail of actual sequencing data and can therefore only serve as a first approximation. Examples of missing technical artifacts are rare spikes of single values and temporarily stalled reads with hundreds of samples from the same kmer. Lastly, motor protein and analog digital converter are not synchronized, frequently resulting in measurements on the rising or falling edges between events.
 
 
 
@@ -71,29 +71,58 @@ Published and simplified simulation as in this work do not mirror every detail o
 \section{Normalization}
 \label{sec:signal:normalization}
 
-
+A robust normalization is a substantial first step during nanopore signal processing, impacting any downstream method and readout. Prior to any processing in this work we employ a median filter with a sliding window of length three to remove signal spikes and reduce the overall noise. Baseline for the following normalization is the raw ionic current measurement, saved by the sequencing software \textit{MinKNOW} as unmodified unsigned integer with a typical numeric range from 300 to 700 (cf. Fig. \ref{fig:signal:normalization} top track). Factors affecting the signal levels are:
 
 \begin{itemize}
-	\item mean/std vs median/MAD (cite tombo)
-	\item min-max normalization with repeat signals in mind
-	\item smoothing with grayscale morphological operations
-	\item histogram equalization to deal with bimodal distribution of raw signal
+	\item Individual offset and scale induced by the electronic circuit per pore
+	\item Uneven sequence composition depending on the genomic context resulting in biased sampling from the multi modal pore model
 \end{itemize}
 
+Offset and scale for normal distributed signals can be compensated by using a straightforward z-score normalization:
+
+\begin{equation}
+	X_{norm,zscore} = \frac{X_{i} - \mu}{\sigma}
+\end{equation}
+
+Suggested by \textit{Nanoraw} \cite{Stoiber2017} and more robust against the underlying distribution is a median normalization defined as:
+
+\begin{equation}
+	X_{norm,median} = \frac{X_{i} - median(X)}{median(\left|X_{i}-median(X)\right|)}
+\end{equation}
+
+With regard to the signal driven repeat quantification in chapter \ref{cha:strique}, we propose a novel strategy combining min-max and quantile normalization. Subtraction of the signals 0.025 quantile and scaling by its interquantile range appears to be more robust against outlier and biased signal distributions:
+
+\begin{equation}
+	X_{norm} = \frac{2 \cdot (X_{i} - Q_{0.025})}{Q_{0.975} - Q_{0.025}} - 1
+\end{equation}
+
+The min-max normalized signal with most values in the range $ [-1:1] $ maintains the characteristics of the nanopore, is comparable to simulated reads using a pore model and in this form used for the repeat quantification in chapter \ref{cha:strique}.
+
+For the purpose of signal alignment and event segmentation we propose two additional steps of  histogram equalization and morphological smoothing \cite{Gonzalez2006}. Commonly used to enhance the contrast of digital images, a histogram equalization can be used to project the multi-modal distribution of mean event levels (Fig. \ref{fig:signal:pm} a) to a more uniform distribution (Fig. \ref{fig:signal:normalization} bottom track). 
+
+To further reconstruct the expected square wave like signal, we apply a morphological noise removal, specifically an opening followed by a closing with a structuring element of length three.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/signal/normalization.pdf}
 	\captionsetup{format=plain}
-	\caption[Signal normalization and histogram equalization]{Raw signal normalization and histogram equalization.}
+	\caption[Signal normalization and histogram equalization]{Signal normalization and histogram equalization followed by morphological noise reduction on raw nanopore signal traces. The figure shows signal segments over a 50nt window in combination with density plots of raw and normalized values over the entire read.}
 	\label{fig:signal:normalization}
 \end{figure}
 
+The final result of normalized and filtered signal with a near uniform distribution of values across the full signal range is the baseline for the alignment and event detection described in the following section.
 
 
 
-\section{Alignment and Segmentation}
+
+\section{Segmentation and Alignment}
 \label{sec:signal:alignment}
+
+Apart from basecalling error and base modifications, sequence and raw signal share the same information content. Yet the association of individual signal values to sequence stretches is not preserved in state of the art basecalling software. Primarily to extract regions of interest from long nanopore reads, a re-alignment of sequence and signal is needed.
+
+\textit{SeqAn2} \cite{Reinert2017}
+
+symbolization paper \cite{Lin2003}
 
 \begin{itemize}
 	\item raw signal alignment with seqan based scoring and semi-global dp
