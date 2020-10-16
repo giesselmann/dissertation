@@ -17,7 +17,7 @@ Challenges in the raw signal analysis arise from noise induced by measuring curr
 
 
 The following chapter serves as a transition from basic data handling and processing using \textit{Nanopype} in chapter \ref{cha:nanopype} and introduces the underlying algorithms for the signal driven repeat detection \textit{STRique} in chapter \ref{cha:strique}.
-After a brief \textbf{background} in section \ref{sec:signal:background}, this chapter aims to contrast the raw signal \textbf{simulation} from known sequences in section \ref{sec:signal:simulation} with the \textbf{normalization} and \textbf{annotation} of raw nanopore reads with reference sequences in sections \ref{sec:signal:normalization} and \ref{sec:signal:alignment}.
+After a brief \textbf{background} in section \ref{sec:signal:background}, this chapter covers the raw signal \textbf{simulation} from known sequences in section \ref{sec:signal:simulation} and the \textbf{normalization} and \textbf{annotation} of raw nanopore reads with reference sequences in sections \ref{sec:signal:normalization} and \ref{sec:signal:alignment}.
 
 \section{Background}
 \label{sec:signal:background}
@@ -36,7 +36,7 @@ Publicly available, highly customizable methods in form of a generic API are sti
 \section{Simulation}
 \label{sec:signal:simulation}
 
-Third generation sequencing data can be simulated on different levels, by generating sequences with realistic read length and error rate distributions or by generating raw signal traces, ideally indistinguishable from measured ones. Simulated reads of both types are helpful to develop or test applications under controlled conditions. Two state of the art simulators are \textit{simulatION} \cite{Rohrandt2018} and \textit{deepSimulator} \cite{Li2020}, following different concepts to generate FAST5 files of simulated reads, which can be processed with common workflows. While the former utilizes exiting models of level and noise, the latter employs a LSTM neural network to generate the signal from reference sequences. Nonetheless, generation of realistic signal traces in memory can already be achieved with a pore model and an event length distribution.
+Third generation sequencing data can be simulated on different levels, by generating sequences with realistic read length and error rate distributions or by generating raw signal traces, ideally indistinguishable from measured ones. Simulated reads of both types are helpful to develop or test applications under controlled conditions. Two state of the art simulators are \textit{simulatION} \cite{Rohrandt2018} and \textit{deepSimulator} \cite{Li2020}, following different concepts to generate FAST5 files of simulated reads, which can be processed with common workflows. While the former utilizes exiting models of level and noise, the latter uses a LSTM neural network to generate the signal from reference sequences. Nonetheless, generation of realistic signal traces in memory can already be achieved with a pore model and an event length distribution.
 
 A pore model describes the mapping from sequence context to expected signal level. The ionic current in the nanopore is determined by the local sequence context termed kmer. Current models utilized by e.g. \textit{nanopolish} contain mean and standard deviation of signal levels per 6mer. The distribution of all, in this case 4096 levels is shown in Fig. \ref{fig:signal:pm} a, emphasizing the multi-modal characteristic of the R9.4 pore.
 
@@ -71,7 +71,7 @@ Published and the proposed simplified simulation do not mirror every detail of a
 \section{Normalization}
 \label{sec:signal:normalization}
 
-A robust normalization is a substantial first step during nanopore signal processing, impacting any downstream method and readout. Prior to any processing in this work we employ a median filter with a sliding window of length three to remove signal spikes and reduce the overall noise. Baseline for the following normalization is the raw ionic current measurement, saved by the sequencing software \textit{MinKNOW} as unmodified unsigned integer with a typical numeric range from 300 to 700 (cf. Fig. \ref{fig:signal:normalization} top track). Factors affecting the signal levels are:
+A robust normalization is a substantial first step during nanopore signal processing, impacting any downstream method and readout. Baseline for the following normalization is the raw ionic current measurement, saved by the sequencing software \textit{MinKNOW} as unmodified unsigned integer with a typical numeric range from 300 to 700 (cf. Fig. \ref{fig:signal:normalization} top track). Prior to any processing in this work we apply a median filter with a sliding window of length three to remove signal spikes and reduce the overall noise. Factors affecting the signal levels are:
 
 \begin{itemize}
 	\item Individual offset and scale induced by the electronic circuit per pore
@@ -90,7 +90,7 @@ Suggested by \textit{Nanoraw} \cite{Stoiber2017} and more robust against the und
 	X_{norm,median} = \frac{X_{i} - median(X)}{median(\left|X_{i}-median(X)\right|)}
 \end{equation}
 
-With regard to the signal driven repeat quantification in chapter \ref{cha:strique}, we propose a novel strategy combining min-max and quantile normalization. Subtraction of the signals 0.025 quantile and scaling by its interquantile range appears to be more robust against outlier and biased signal distributions:
+With regard to the signal driven repeat quantification in chapter \ref{cha:strique}, we propose a novel strategy combining a min-max and quantile normalization. Subtraction of the signals 0.025 quantile and scaling by its interquantile range appears to be more robust against outlier and biased signal distributions:
 
 \begin{equation}
 	X_{norm} = \frac{2 \cdot (X_{i} - Q_{0.025})}{Q_{0.975} - Q_{0.025}} - 1
@@ -118,22 +118,22 @@ The final result of normalized and filtered signal with a near uniform distribut
 \section{Segmentation and Alignment}
 \label{sec:signal:alignment}
 
-Apart from basecalling error and base modifications, sequence and raw signal share the same information content. Yet the association of individual signal values to sequence stretches is not preserved in state of the art basecalling software. Primarily to extract regions of interest from long nanopore reads, a re-alignment of sequence and signal is needed.
+For applications, where neither signal nor sequence alone enable the intended readout, the annotation of raw signals with the respective reference sequence is required. Affected by the basecalling error of around 5-10\% (cf. Fig. \ref{fig:state_of_art:throughput} b), the reference sequence after read alignment is preferable over the read sequence.
 
-\textit{SeqAn2} \cite{Reinert2017}
-
-symbolization paper \cite{Lin2003}
-
-\begin{itemize}
-	\item raw signal alignment with seqan based scoring and semi-global dp
-	\item segmentation with basic image processing tools, edge filter + threshold
-	\item event alignment with edlib to be more robust against time-warping
-	\item profile HMM for most precise mapping
-\end{itemize}
+Primarily to extract larger regions of interest from a raw signal, we specify a template function of the \textit{SeqAn2} \cite{Reinert2017} library to perform a distance based semi-global signal alignment. Specifically, we utilize the \textit{globalAlignment} function with a float32 data type, an affine gap penalty and the following score function:
 
 \begin{equation}
-s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
+s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop 0 \right.
 \end{equation}
+
+The absolute signal difference per position is translated into a score by subtracting it from a constant \textit{c}. The score is capped at zero as lower boundary, resulting in a fixed minimum mismatch score independent of the actual signal difference.
+
+We configure different gap costs for the normalized raw signal as first (horizontal in DP matrix) and a simulated reference signal with constant event length as second (vertical in DP matrix) input to the alignment.
+
+h : -1 (signal)
+v : -16 (segment)
+
+symbolization paper \cite{Lin2003}
 
 \begin{table}[ht]
 	\centering
@@ -173,7 +173,12 @@ s_{i,j} = max \left\lbrace c - \left| x_{i} - y_{j} \right| \atop -c \right.
 \end{figure}
 
 
-
+\begin{itemize}
+	\item raw signal alignment with seqan based scoring and semi-global dp
+	\item segmentation with basic image processing tools, edge filter + threshold
+	\item event alignment with edlib to be more robust against time-warping
+	\item profile HMM for most precise mapping
+\end{itemize}
 
 \section{Summary}
 \label{sec:signal:summary}
