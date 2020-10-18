@@ -122,7 +122,8 @@ For applications, where neither signal nor sequence alone enable the intended re
 
 
 
-\subsection{Segmentation}
+
+\subsection{Segmentation and Event Detection}
 \label{subsec:signal:segmentation}
 
 Primarily to extract larger regions of interest from a raw signal, we specify a template function of the \textit{SeqAn2} \cite{Reinert2017} library to perform a distance based semi-global signal alignment. Specifically, we utilize the \textit{globalAlignment} function with a float32 data type, an affine gap penalty and the following score function:
@@ -177,15 +178,21 @@ A small extract of the resulting event annotation is shown in Table \ref{tab:sig
 \subsection{Annotation}
 \label{subsec:signal:annotation}
 
-\cite{Schreiber2015}
+Already proposed for the analysis of nanopore signals from previous pore generations, Hidden Markov Models are a powerful resource to map signal onto sequence features \cite{Schreiber2015}. In contrast to the discrete emission distributions for e.g. sequence motive detection, the hidden states model in this case the sequence context depending signal observed in the pore, overlayed by Gaussian distributed noise.
+
+The first generation of basecalling algorithms provided by ONT used HMMs with hidden states derived from kmer signal levels and all possible transitions between consecutive overlapping kmers. The Viterbi path through such a model is the most likely state- and thus genomic-sequence given the observed signal. Whereas outperformed by recurrent neural networks for basecalling, HMMs still provide state of the art performance for base modification detection such as in \textit{Nanopolish}. For the repeat analysis in chapter \ref{cha:strique} we use profile Hidden Markov Models closely following the concept of modular blocks described in \cite{Schreiber2015}.
+
+Starting of with a target sequence, a series of match states from overlapping kmers and with normal distributed signal values forms the expected path through the model. Additional insertion states with uniform distributions over the whole signal range compensate observations outside of the match state distributions. Lastly, silent deletion states allow the model to skip parts of the sequence without corresponding observations in the signal (Fig. \ref{fig:strique:count_hmm} a, b).
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/signal/count_hmm.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore signal alignment with HMMs]{\textbf{a}, A compound profile HMM of prefix, a single repeat and the suffix sequence assigns either prefix, repeat or suffix label to each signal value. Repeat counts are obtained through dummy states between repeat and suffix. \textbf{b}, Nanopore signal profile HMM with normal distributed match state and uniform distributed insertion state emission probabilities.}
+	\caption[Nanopore signal alignment with HMMs]{Nanopore signal alignment with HMMs: \textbf{a}, Consecutive overlapping kmers from profile sequence with corresponding pore model levels and expected emission distributions in the pore. \textbf{b}, Nanopore signal profile HMM with normal distributed match states and uniform distributed insertion states. \textbf{c}, A methylation detection HMM with emission distributions for native and 5mC modified DNA. A compound profile HMM of prefix, a single repeat and the suffix sequence with dummy states counting transitions through the repeat module.}
 	\label{fig:strique:count_hmm}
 \end{figure}
+
+
 
 
 \section{Summary}
