@@ -3,6 +3,7 @@
 % **************************************************
 \usepackage[utf8]{inputenc}		% defines file's character encoding
 \usepackage[english]{babel} % babel system, adjust the language of the content
+
 \usepackage[					% clean thesis style
 figuresep=colon,%
 sansserif=false,%
@@ -12,10 +13,12 @@ hangsubsection=true,%
 colorize=full,%
 colortheme=bluemagenta,%
 bibsys=bibtex,%
-bibfile=zotero_refs,%
+%bibfile={zotero_refs,online_refs}%
 %bibstyle=alphabetic,%
 bibstyle=numeric,
 ]{cleanthesis}
+
+\bibliography{zotero_refs,online_refs}
 
 \hypersetup{					% setup the hyperref-package options
 	pdftitle={\thesisTitle},	% 	- title (PDF meta)
@@ -26,7 +29,7 @@ bibstyle=numeric,
 	pdfborder={0 0 0},			% 	-
 	breaklinks=true,			% 	- allow line break inside links
 	bookmarksnumbered=true,		%
-	bookmarksopen=true			%
+	bookmarksopen=false			%
 }
 
 \usepackage{xcolor}
