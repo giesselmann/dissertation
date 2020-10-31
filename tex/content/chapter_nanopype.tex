@@ -83,7 +83,7 @@ While greatly simplifying the installation process, containerized software comes
 
 Common file formats in bioinformatics such as FASTQ or BigWig do not support the direct documentation of the applied workflow. An exception is the BAM alignment format, which can preserve the executed command in the @PG header line. Nonetheless, the source of the sequences remains obscure. Extensive and continuously updated documentation is required, especially when multiple parallel projects and workflows are involved.
 
-Nanopype follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories (Fig. \ref{fig:nanopype:dir_tree}).
+\textit{Nanopype} follows the Snakemake concept of output file driven computation: a single user command typically provokes transparent processing of any required intermediate result. Preexisting tools are integrated into consistent workflows and provide standard output formats to connect to workflows of established next-generation sequencing data analysis tools. The processing and subsequent output is intuitively organized in modules and underlying application directories (Fig. \ref{fig:nanopype:dir_tree}).
 
 \begin{figure}[h]
 	\centering
@@ -120,40 +120,40 @@ Lastly, any analysis using \textit{Nanopype} as a pre-processing step can rely o
 
 \section{Modules}
 \label{sec:nanopype:modules}
-Nanopype’s backbone consists of modules that resolve a specific task, like basecalling, alignment or further downstream analyses. If available, alternative applications are provided for the same task and grouped into a module with a coherent output format. Integrating first and foremost low-level nanopore data processing applications provided by ONT, established community developed software packages have been included in the first Nanopype release as well.
+\textit{Nanopype’s} backbone consists of modules that resolve a specific task, like basecalling, alignment or further downstream analyses. If available, alternative applications are provided for the same task and grouped into a module with a coherent output format. Integrating first and foremost low-level nanopore data processing applications provided by ONT, established community developed software packages have been included in the first Nanopype release as well.
 
 
 \subsection{Basecalling}
 \label{subsec:nanopype:basecalling}
-The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages Guppy, Albacore, and Flappie, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released Guppy. Albacore is supported for backward compatibility but deprecated by ONT. The experimental Flappie is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is the standardized FASTQ and supplemented by us with a basic quality control summary.
+The basecalling module translates raw nanopore signals into nucleotide sequences and is utilized by most subsequent pipeline layers. With the initial release, we include the established packages \textit{Guppy}, \textit{Albacore}, and \textit{Flappie}, all provided by ONT \cite{Wick2019}. The default basecaller package is set to the recently released \textit{Guppy}. \textit{Albacore} is supported for backward compatibility but deprecated by ONT. The experimental \textit{Flappie} is ONT’s first DNA methylation-aware basecaller. It extends the usual four-letter nucleotide alphabet by a fifth letter for methylated cytosine in CpG contexts. For all basecallers, the output is the standardized FASTQ and supplemented by us with a basic quality control summary.
 
 
 \subsection{Alignment}
 \label{subsec:nanopype:alignment}
-The core functionality of the pipeline is the alignment of reads against a reference genome or draft assembly. Here, we provide three different aligners with distinct advantages, which make them favorable for different applications downstream. While Minimap2 \cite{Li2018} is a fast, low memory footprint solution suitable for both DNA and RNA alignments, GraphMap \cite{Sovic2016} is a sensitive aligner but with comparably high memory requirements. NGMLR \cite{Sedlazeck2018} is the recommended tool for the structural variation module. Any combination of basecalling, alignment, and reference genome is supported and reports BAM format files.
+The core functionality of the pipeline is the alignment of reads against a reference genome or draft assembly. Here, we provide three different aligners with distinct advantages, which make them favorable for different applications downstream. While \textit{Minimap2} \cite{Li2018} is a fast, low memory footprint solution suitable for both DNA and RNA alignments, \textit{GraphMap} \cite{Sovic2016} is a sensitive aligner but with comparably high memory requirements. \textit{NGMLR} \cite{Sedlazeck2018} is the recommended tool for the structural variation module. Any combination of basecalling, alignment, and reference genome is supported and reports BAM format files.
 
 
 \subsection{DNA methylation}
 \label{subsec:nanopype:methylation}
-Sequencing without prior DNA amplification enables the direct readout of DNA base modifications. The current state of the art approach, Nanopolish \cite{Simpson2017} and the more experimental flip-flop basecaller Flappie, are incorporated into Nanopype. Subsequently, Nanopype splits Flappie’s atypical sequence output into standard FASTQ and methylation status. DNA methylation at CpG dinucleotides of both tools is reported in a table format for single reads. Furthermore, we provide standard bedGraph and BigWig files for genome-wide methylation tracks and thus enable downstream processing and visualization using established workflows, e.g., calling of differential methylated regions and comparison to bisulfite-sequencing.
+Sequencing without prior DNA amplification enables the direct readout of DNA base modifications. The current state of the art approach, \textit{Nanopolish} \cite{Simpson2017} and the more experimental flip-flop basecaller \textit{Flappie}, are incorporated into \textit{Nanopype}. Subsequently, \textit{Nanopype} splits \textit{Flappie’s} atypical sequence output into standard FASTQ and methylation status. DNA methylation at CpG dinucleotides of both tools is reported in a table format for single reads. Furthermore, we provide standard bedGraph and BigWig files for genome-wide methylation tracks and thus enable downstream processing and visualization using established workflows, e.g., calling of differential methylated regions and comparison to bisulfite-sequencing.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/nanopype/sr_methylation.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopype single read methylation track]{Nanopype single-read methylation track of nanopore sequenced HUES8. Mean methylation track of CpGs with >=10\textit{x} coverage. Single-read methylation computed from original alignment by substituting unmethylated Cs to Ts (imitated bisulfite conversion, blue). Unclassified sites (abs. nanopolish log-likelihood-ratio < 2.0) are substituted with As and appear as mismatches (orange). All remaining mismatches in the nanopore reads are replaced with the genomic sequence. Shown are reads overlapping DIRAS3, an imprinted gene on genome build hg38, grouped by allele and shaded by strand.}
+	\caption[Nanopype single read methylation track]{\textit{Nanopype} single-read methylation track of nanopore sequenced HUES8. Mean methylation track of CpGs with >=10\textit{x} coverage. Single-read methylation computed from original alignment by substituting unmethylated Cs to Ts (imitated bisulfite conversion, blue). Unclassified sites (abs. \textit{nanopolish} log-likelihood-ratio < 2.0) are substituted with As and appear as mismatches (orange). All remaining mismatches in the nanopore reads are replaced with the genomic sequence. Shown are reads overlapping DIRAS3, an imprinted gene on genome build hg38, grouped by allele and shaded by strand.}
 	\label{fig:nanopype:sr_methylation}
 \end{figure}
 
 
 \subsection{Structural variation}
 \label{subsec:nanopype:sv}
-Detection and characterization of structural variation play a central role in cancer research and population genetics. Long read sequencing particularly facilitates investigation of variants with unprecedented accuracy and resolution. Therefore, Nanopype encompasses the variant caller Sniffles \cite{Sedlazeck2018} and provides output in the standard variant calling format (VCF).
+Detection and characterization of structural variation play a central role in cancer research and population genetics. Long read sequencing particularly facilitates investigation of variants with unprecedented accuracy and resolution. Therefore, Nanopype encompasses the variant callers \textit{Sniffles} \cite{Sedlazeck2018} and \textit{SVIM} \cite{Heller2019} and provides output in the standard variant calling format (VCF).
 
 
 \subsection{Transcriptome}
 \label{subsec:nanopype:transcriptom}
-Another application of the long read nanopore technology is sequencing of cDNA and RNA molecules directly. For instance, recovery of full-length transcripts enables, the detection of alternatively spliced isoforms and is implemented in Nanopype using the Pinfish package. The output of polished transcripts is provided in the GFF format.
+Another application of the long read nanopore technology is sequencing of cDNA and RNA molecules directly. For instance, recovery of full-length transcripts enables, the detection of alternatively spliced isoforms and is implemented in Nanopype using the \textit{Pinfish} package. The output of polished transcripts is provided in the GFF format.
 
 \begin{figure}[h]
 	\centering
@@ -167,9 +167,9 @@ Another application of the long read nanopore technology is sequencing of cDNA a
 \subsection{Genome Assembly}
 \label{subsec:nanopype:assembly}
 
-\textit{De novo} assembly of genomes requires only the long read sequences and benefits barely from the integration into a pipeline. Due to its own cluster back end, the still widely used Canu \cite{Koren2017} has not been included. The recently published Flye \cite{Kolmogorov2019} and wtdbg2 \cite{Ruan2020} assemblers provide comparable continuity of the output genome while reducing the required compute time. Both are part of Nanopype, enabling basic assemblies already from 20-30x coverage.
+\textit{De novo} assembly of genomes requires only the long read sequences and benefits barely from the integration into a pipeline. Due to its own cluster back end, the still widely used \textit{Canu} \cite{Koren2017} has not been included. The recently published \textit{Flye} \cite{Kolmogorov2019} and \textit{wtdbg2} \cite{Ruan2020} assemblers provide comparable continuity of the output genome while reducing the required compute time. Both are part of Nanopype, enabling basic assemblies already from 20-30x coverage.
 
-Complemented by SAMtools \cite{Li2009}, BEDtools \cite{Quinlan2010} and UCSCtools \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
+Complemented by \textit{SAMtools} \cite{Li2009}, \textit{BEDtools} \cite{Quinlan2010} and \textit{UCSCtools} \cite{Kent2010} our pipeline establishes a comprehensive framework for ONT sequencing data processing.
 
 
 
@@ -182,13 +182,13 @@ The installation process of dependencies is a crucial, though sometimes neglecte
 
 \subsection{Source}
 
-We utilize the workflow engine Snakemake to automate cloning and building of open source software. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments. The snakefile \textit{rules/install.smk} in the \textit{Nanopype} repository contains installation wrappers for all included tools, except proprietary software like the basecaller albacore. For example, the following command would clone and build the minimap2 binary required by the currently installed pipeline version. A more detailed description of the Snakemake command line is given in section \ref{sec:nanopype:usage}.
+We utilize the workflow engine Snakemake to automate cloning and building of open source software. The build from source is the most customizable setup option and moreover allows the integration into complex, preexisting environments. The snakefile \textit{rules/install.smk} in the \textit{Nanopype} repository contains installation wrappers for all included tools, except proprietary software like the basecaller \textit{albacore}. For example, the following command would clone and build the \textit{minimap2} binary required by the currently installed pipeline version. A more detailed description of the Snakemake command line is given in section \ref{sec:nanopype:usage}.
 
 \begin{lstlisting}[language=sh, caption=Snakemake tool installation example]
 snakemake --snakefile ~/src/nanopype/rules/install.smk --directory ~/ minimap2
 \end{lstlisting}
 
-After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable $\sim$\textit{/bin/minimap2}. As an example, the source of the minimap2 build rule is given in listing \ref{lst:nanopype:build}.
+After completion, the home directory will contain the common \textit{src}, \textit{lib} and \textit{bin} folders and the executable $\sim$\textit{/bin/minimap2}. As an example, the source of the \textit{minimap2} build rule is given in listing \ref{lst:nanopype:build}.
 
 A special case when building from source is formed by heterogeneous server cluster environments in combination with vector instructions such as MMX, SSE and AVX. Depending on the software, the support of these parallel instructions is determined at build- and not at run time. Compiling the toolset of \textit{Nanopype} on a modern CPU with e.g. AVX2 can cause program crashes (Signal 4, illegal instruction) on other older nodes. A simple solution can be building the pipeline on a node with the largest common subset of advanced CPU instructions.
 
@@ -223,7 +223,7 @@ Nanopype makes extensive use of the Snakemake shadow directory mechanism. Per de
 
 \section{Usage}
 \label{sec:nanopype:usage}
-Due to the functional range of Nanopype, dependent on the operating system and selected installation method the setup can require advanced system administrative knowledge. However, after deployment, the subsequent usage is straightforward, given basic command line understanding. Complete Nanopype workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following call:
+Due to the functional range of \textit{Nanopype}, dependent on the operating system and selected installation method the setup can require advanced system administrative knowledge. However, after deployment, the subsequent usage is straightforward, given basic command line understanding. Complete \textit{Nanopype} workflows can be executed with a single concise command line call. For instance, local processing of multiple flow cells into a collective genome-wide methylation track of at least 5x coverage on reference hg38 requires only the following call:
 
 \begin{lstlisting}[language=sh, caption=Snakemake example]
 snakemake --snakefile ~/nanopype/Snakefile methylation/nanopolish/ngmlr/guppy/Hues8.5x.hg38.bw
@@ -238,15 +238,16 @@ Tags are global, changing only the alignment settings and re-running a workflow 
 
 \subsection{Batch processing}
 \label{subsec:nanopype:batchprocessing}
-Nanopype exploits the storage of raw nanopore data into batches of single reads. The automatic distribution of workflows into independent compute portions enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and, most importantly in case of terminated or failed jobs. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command, which enhances the overall error robustness. 
-Nanopype keeps the dataset separated as long as possible: For instance does the methylation detection of a single read only require its sequence and alignment, while the structural variant detection requires all alignments to be merged into a single sorted file.
+
+\textit{Nanopype} exploits the storage of raw nanopore data into batches of single reads. The automatic distribution of workflows into independent compute portions enables efficient handling of high-throughput experiments. This feature becomes particularly relevant for scaling in cluster environments and, most importantly in case of terminated or failed jobs. As a result, only failed batches require reprocessing by resuming the workflow from where it left off, using the same command, which enhances the overall error robustness. 
+\textit{Nanopype} keeps the dataset separated as long as possible: For instance does the methylation detection of a single read only require its sequence and alignment, while the structural variant detection requires all alignments to be merged into a single sorted file.
 
 When working with batches of nanopore reads, two limitations of the underlying operating system require special handling: The maximum command line length and the limit of parallel opened files. Taking the example of sequence alignment and sorting, a naive merge of all batches into a single BAM file would call \textit{samtools merge} followed by the list of independently computed alignment batches. For high throughput experiments, this is likely to break either the maximum command argument length (getconf ARG\_MAX, on ubuntu e.g. 2097152) or the maximum allowed open files per process (ulimit -Sn, on ubuntu e.g. 1024). The former is solved by reading from files of filenames (.fofn) and piping data through stdin, the latter by first merging multiple times with the maximum opened files and a final merge of these intermediate results.
 
 
 \subsection{Barcoding}
 \label{subsec:nanopype:barcoding}
-Barcoded sequencing allows pooling of multiple samples on a single flow-cell. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally. The corresponding demultiplexing is a special transparent module in Nanopype. Using Deepbinner \cite{Wick2018} on signal or guppy on sequence level, it assigns a barcode label to each individual read.  The following example illustrates the command to only process reads of barcode NB01 from the ONT native barcoding kit:
+Barcoded sequencing allows pooling of multiple samples on a single flow-cell. Thus, sequencing of comparable small bacterial genomes can be efficiently parallelized to use the available sequencing depth optimally. The corresponding demultiplexing is a special transparent module in \textit{Nanopype}. Using \textit{Deepbinner} \cite{Wick2018} on signal or \textit{Guppy} on sequence level, it assigns a barcode label to each individual read.  The following example illustrates the command to only process reads of barcode NB01 from the ONT native barcoding kit:
 
 \begin{lstlisting}[language=sh, caption=Nanopype demultiplexing]
 snakemake --snakefile ~/nanopype/Snakefile sequences/guppy/Ecoli.NB01.fastq.gz
@@ -272,8 +273,9 @@ An example report is attached in supplement \ref{sec:supplement:nanopype:report}
 
 \section{Summary}
 \label{sec:nanopype:summary}
-Nanopype is a modular and easy-to-use data processing pipeline with a detailed online documentation, specifically designed to handle nanopore sequenced long read data.
-Nanopype provides end-to-end processing of the raw sequencer signal into standard data formats and consequently closes the gap to downstream next-generation sequencing algorithms. Single command invocations of entire workflows reduce the hands-on-time for users to receive the desired output. Implicitly, this also lowers the potential of user mistakes and deviations in processing of multiple data sets. Consequently, workflows are easier to reproduce with fixed versions among datasets or repeated with improved tool releases on existing ones.
-Nanopype is implemented as a Python package and additionally provides pre-built and versioned Singularity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms and laboratories.
+\textit{Nanopype} is a modular and easy-to-use data processing pipeline with a detailed online documentation, specifically designed to handle nanopore sequenced long read data.
+\textit{Nanopype} provides end-to-end processing of the raw sequencer signal into standard data formats and consequently closes the gap to downstream next-generation sequencing algorithms. Single command invocations of entire workflows reduce the hands-on-time for users to receive the desired output. 
+Implicitly, this also lowers the potential of user mistakes and deviations in processing of multiple data sets. Consequently, workflows are easier to reproduce with fixed versions among datasets or repeated with improved tool releases on existing ones.
+\textit{Nanopype} is implemented as a Python package and additionally provides pre-built and versioned Singularity and Docker images, making it favorable for effective usage in cluster and single computer environments. The pipeline design ensures portability and version controlled usage of the implemented tools, to enable consistent results across platforms and laboratories.
 
 
