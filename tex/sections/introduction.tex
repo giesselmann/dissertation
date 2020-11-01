@@ -6,7 +6,8 @@ Beginning with a single cell, a temporal, spatial and functional coordination de
 Depending on the cell state, only a fraction of genes is actively transcribed, while others remain repressed.
 Acting as an additional regulatory layer, the epigenome describes a set of chemical modifications made to the DNA, controlling, inter alia, the activation and transcription of genes into RNA and ultimately proteins.
 Present sequencing technologies and connected bioinformatics provide researchers with the tools to study sequence and epigenetic state down to single cell and single molecule resolution.
-Starting 1990 and taking over a decade until completion, the human genome project incorporated an international team of researchers with the aim of deciphering for the first time the genetic blueprint to build a human being. Based on elementary sequencing technology, the outcome was already a nearly complete reference sequence including gene annotations.
+Starting 1990 and taking over a decade until completion, the human genome project incorporated an international team of researchers with the aim of deciphering for the first time the genetic blueprint to build a human being. 
+Based on elementary sequencing technology, the outcome was already a nearly complete reference sequence including gene annotations.
 Since then, the development of high-throughput sequencing technologies enabled studies of countless organisms, cell types and disease conditions. 
 While being very reliable in terms of throughput and accuracy, sequenced fragments of at most few hundreds nucleotides in length still limit the readout from repetitive regions or resolution of long distance dependencies on a single molecule.
 
@@ -27,15 +28,23 @@ New data types, formats and error characteristics demand here the adaptation of 
 \section{Genome Regulation}
 \label{sec:intro:bio}
 
+Most cell types of an eukaryotic organism contain a copy of the genetic code in form of folded DNA in the nucleus.
+Virtually all mammals have diploid cells with homologous maternal and paternal copies, organized into chromosome pairs with the same genes at the same locations.
+While the entire human genome comprises about three billion nucleotides in total, the longest continuous stretch of DNA is the first of 23 chromosome pairs with 247 million base pairs. 
+To maintain its integrity and supporting the chromatin structure formation, the DNA is wrapped around histones with each group of eight forming a nucleosome (Fig. \ref{fig:intro:chromatin}).
 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/chromatin.pdf}
 	\captionsetup{format=plain}
-	\caption[Structure]{Chromosome to nucleotide structure (Adapted from \cite{zymo2020})}
+	\caption[Chromosome to nucleotide structure]{The DNA of each chromosome is wrapped around histones, forming nucleosomes and the chromatin structure. Chemical modifications to histone tails and individual base pairs impact properties and function (Adapted from \cite{zymo2020}).}
 	\label{fig:intro:chromatin}
 \end{figure}
+
+Chromatin accessibility \cite{Li2007, Klemm2019}
+
+
 
 \begin{figure}[h]
 	\centering

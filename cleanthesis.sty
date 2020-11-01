@@ -236,6 +236,7 @@
 \RequirePackage{enumitem}			% for simple list modifications
 \RequirePackage{blindtext}		% package for blind text
 \RequirePackage{textcomp}			% different symbols
+%\RequirePackage{url}
 \RequirePackage{hyperref} 			% interactive link inside the document
 
 %
@@ -278,10 +279,11 @@
 \RequirePackage[					% use biblatex for bibliography
 	backend=\cthesis@bibsys,		% 	- use biber backend (bibtex replacement) or bibtex
 	bibencoding=utf8,				% 	- use auto file encode
-	style=\cthesis@bibstyle,		% 	- use alphabetic (or numeric) bib style
+	%style=\cthesis@bibstyle,		% 	- use alphabetic (or numeric) bib style
+	style=nature,
 	natbib=true,					% 	- allow natbib commands
 	hyperref=true,					% 	- activate hyperref support
-	backref=true,					% 	- activate backrefs
+	backref=false,					% 	- activate backrefs
 	isbn=false,						% 	- don't show isbn tags
 	url=false,						% 	- don't show url tags
 	doi=false,						% 	- don't show doi tags
@@ -295,10 +297,18 @@
 	mincitenames=1%
 ]{biblatex}
 %\bibliography{\cthesis@bibfile}
+
+\bibliography{zotero_refs,online_refs}
+
 \DefineBibliographyStrings{ngerman}{%
 	andothers = {{et\,al\adddot}}, % 'et al.' instead of 'u.a.'
 	backrefpage = {{zitiert auf Seite}},%
 	backrefpages = {{zitiert auf den Seiten}},%
+}
+
+\AtEveryBibitem{%
+	\clearlist{language}%
+	\clearlist{company}%
 }
 
 % **************************************************
