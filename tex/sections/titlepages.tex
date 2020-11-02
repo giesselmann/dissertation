@@ -3,67 +3,87 @@
 	\pdfbookmark[0]{Titlepage}{Titlepage}
 	\tgherosfont
 	\centering
-
-	{\Large \thesisUniversity} \\[4mm]
-	%\includegraphics[width=6cm]{figures/pdf/logo} \\[2mm]
-	\textsf{\thesisUniversityDepartment} \\
-	\textsf{\thesisUniversityInstitute} \\
-	%\textsf{\thesisUniversityGroup} \\
+	
+	\vspace*{25pt}
+	\begin{spacing}{2.0}
+	{\LARGE \color{ctcolortitle}\textbf{\thesisTitle}}
+	\end{spacing}
+	\vspace*{100pt}
+	
+	{\large \textbf\thesisSubject} \\[5mm]
+	{\large zur Erlangung des Grades eines\\
+		Doktors der Naturwissenschaften} \\[5mm]
+	
+	\vfill
+	
+	\textsf{\thesisUniversityDepartment} \\[2mm]
+	\textsf{\thesisUniversityInstitute} \\[4mm]
+	{\Large Freie Universität Berlin}
 
 	\vfill
-	{\large \thesisSubject} \\[5mm]
-	{\LARGE \color{ctcolortitle}\textbf{\thesisTitle} \\[10mm]}
-	{\large submitted by} \\[5mm]
-	{\Large \thesisName} \\
+
+	{\large vorgelegt von} \\[5mm]
+	{\Large \thesisName} \\[5mm]
 
 	\vfill
-	%\begin{minipage}[t]{.27\textwidth}
-	%	\raggedleft
-	%	\textit{1. Reviewer}
-	%\end{minipage}
-	%\hspace*{25pt}
-	%\begin{minipage}[t]{.40\textwidth}
-	%	{\Large \thesisFirstReviewer} \\
-	%  	{\small \thesisFirstReviewerUniversity} \\[-1mm]
-	%	{\small \thesisFirstReviewerCity}
-	%\end{minipage} \\[5mm]
-	%\begin{minipage}[t]{.27\textwidth}
-	%	\raggedleft
-	%	\textit{2. Reviewer}
-	%\end{minipage}
-	%\hspace*{25pt}
-	%\begin{minipage}[t]{.40\textwidth}
-	%	{\Large \thesisSecondReviewer} \\
-	%  	{\small \thesisSecondReviewerUniversity} \\[-1mm]
-	%	{\small \thesisSecondReviewerCity}
-	%\end{minipage} \\[10mm]
-	\begin{minipage}[t]{.27\textwidth}
-		\raggedleft
-		\textit{Supervisors}
-	\end{minipage}
-	\hspace*{25pt}
-	\begin{minipage}[t]{.40\textwidth}
-		\thesisFirstSupervisor\ \\ \thesisSecondSupervisor\ \\ \thesisThirdSupervisor
-	\end{minipage} \\[10mm]
 
-	\thesisDate \\
+	\thesisCity\ \thesisYear \\
 
 \end{titlepage}
+
+
 
 
 \newpage\null\thispagestyle{empty}\newpage
 
 
-% ------------------------------------  --> lower title
+
+
+% ------------------------------------  --> second title page
 \hfill
+\vspace*{50pt}
+
+
+% --- Gutachter
+\begin{minipage}[t]{.27\textwidth}
+	\raggedleft
+	\textbf{Erstgutachter:}
+\end{minipage}
+\hspace*{25pt}
+\begin{minipage}[t]{.40\textwidth}
+	{\Large \thesisFirstReviewer} \\
+	{\small \thesisFirstReviewerUniversity} \\[-1mm]
+	{\small \thesisFirstReviewerCity}
+\end{minipage} \\[5mm]
+\begin{minipage}[t]{.27\textwidth}
+	\raggedleft
+	\textbf{Zweitgutachter:}
+\end{minipage}
+\hspace*{25pt}
+\begin{minipage}[t]{.40\textwidth}
+	{\Large \thesisSecondReviewer} \\
+	{\small \thesisSecondReviewerUniversity} \\[-1mm]
+	{\small \thesisSecondReviewerCity}
+\end{minipage} \\[10mm]
+\begin{minipage}[t]{.27\textwidth}
+	\raggedleft
+	\textbf{Disputation:}
+\end{minipage}
+\hspace*{25pt}
+\begin{minipage}[t]{.40\textwidth}
+	\thesisDefense \\
+\end{minipage} \\[10mm]
+
+
+% --- Affiliation
 \vfill
 {
 	\small
 	\textbf{\thesisDegree\ \thesisName} \\
 	\textit{\thesisTitle} \\
-	\thesisSubject, \thesisDate \\
-	Reviewers: \thesisFirstReviewer\ and \thesisSecondReviewer \\
-	Supervisors: \thesisFirstSupervisor\ and \thesisSecondSupervisor\ and \thesisThirdSupervisor \\[1.0em]
+	\thesisSubject, \thesisDate \\[1.0em]
+	%Reviewers: \thesisFirstReviewer\ and \thesisSecondReviewer \\
+	%Supervisors: \thesisFirstSupervisor\ and \thesisSecondSupervisor\ and \thesisThirdSupervisor \\[1.0em]
 	% --- Max-Planck-Institute
 	\textbf{\thesisOrganization} \\
 	\thesisOrganizationDepartment \\
@@ -77,4 +97,5 @@
 	\textit{\thesisUniversityGroup} \\
 	\thesisUniversityStreetAddress \\
 	\thesisUniversityPostalCode\ \thesisUniversityCity
+
 }
