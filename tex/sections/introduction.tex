@@ -8,7 +8,7 @@ Acting as an additional regulatory layer, the epigenome describes a set of chemi
 Present sequencing technologies and connected bioinformatics provide researchers with the tools to study sequence and epigenetic state down to single cell and single molecule resolution.
 Starting 1990 and taking over a decade until completion, the human genome project incorporated an international team of researchers with the aim of deciphering for the first time the genetic blueprint to build a human being. 
 Based on elementary sequencing technology, the outcome was already a nearly complete reference sequence including gene annotations.
-Since then, the development of high-throughput sequencing technologies enabled studies of countless organisms, cell types and disease conditions. 
+Since then, the development of high-throughput, next-generation sequencing (NGS) technologies enabled studies of countless organisms, cell types and disease conditions. 
 While being very reliable in terms of throughput and accuracy, sequenced fragments of at most few hundreds nucleotides in length still limit the readout from repetitive regions or resolution of long distance dependencies on a single molecule.
 
 
@@ -18,7 +18,8 @@ While being very reliable in terms of throughput and accuracy, sequenced fragmen
 \label{sec:intro:motivation}
 
 Most recently, a third-generation of sequencing techniques is introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. 
-Still under active development and with frequent improvements, long-read nanopore sequencing provides new opportunities by, visually speaking, increasing the size of the puzzle pieces.
+Still under active development and with frequent improvements, long-read sequencing provides new opportunities by, visually speaking, increasing the size of the puzzle pieces.
+Moreover, direct sequencing of DNA and RNA molecules using the nanopore technology facilitates the detection of different types of base modifications.
 Modern nanopore sequencing devices, producing large data sets within few days, open therefore a new field of research at the intersection of genomics, computer science and engineering. 
 New data types, formats and error characteristics demand here the adaptation of existing and development of new algorithms for bioinformatic software.
 
@@ -31,19 +32,55 @@ New data types, formats and error characteristics demand here the adaptation of 
 Most cell types of an eukaryotic organism contain a copy of the genetic code in form of folded DNA in the nucleus.
 Virtually all mammals have diploid cells with homologous maternal and paternal copies, organized into chromosome pairs with the same genes at the same locations.
 While the entire human genome comprises about three billion nucleotides in total, the longest continuous stretch of DNA is the first of 23 chromosome pairs with 247 million base pairs. 
-To maintain its integrity and supporting the chromatin structure formation, the DNA is wrapped around histones with each group of eight forming a nucleosome (Fig. \ref{fig:intro:chromatin}).
+To maintain its integrity and supporting the chromatin structure formation, the DNA is wrapped around octamers of histone proteins called nucleosomes (Fig. \ref{fig:intro:chromatin}).
 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/chromatin.pdf}
 	\captionsetup{format=plain}
-	\caption[Chromosome to nucleotide structure]{The DNA of each chromosome is wrapped around histones, forming nucleosomes and the chromatin structure. Chemical modifications to histone tails and individual base pairs impact properties and function (Adapted from \cite{zymo2020}).}
+	\caption[Chromosome to nucleotide structure]{The DNA of each chromosome is wrapped around histones, forming nucleosomes and the chromatin structure. Chemical modifications to histone tails and individual base pairs impact properties and cellular function (Adapted from \cite{zymo2020}).}
 	\label{fig:intro:chromatin}
 \end{figure}
 
-Chromatin accessibility \cite{Li2007, Klemm2019}
+The \textasciitilde 147bp of DNA directly twisted around each nucleosome is protected against physical access from for instance transcription factors (TFs). 
+The dynamic positioning of nucleosomes is therefore part of the epigenetic regulation process during transcription and replication.
+Accordingly, nucleosomes are enriched at compacted heterochromatin in mostly inactive genomic regions, while being depleted at regulatory elements such as enhancers, insulators and transcribed genes \cite{Klemm2019}. 
+A growing number of chemical modifications to histone tails (H2A, H2B, H3 and H4) is reported to impact inter-nucleosomal interactions, but also leading to recruitment of proteins and complexes involved in transcription, replication or DNA repair \cite{Bannister2011}. 
+An example is the methylation of the lysine 79 of the H3 tail (H3K79me3) found at the transcription start sites (TSS) of active genes \cite{Lawrence2016}. 
+To be further mentioned in this context are H3K4me3 marking active euchromatin, while H3K9me3 is indicating repressive heterochromatin.
+Gene expression is further influenced by active enhancer sites with enrichment of H3K27ac (acetylation).
+Finally, repressed and bivalent promoters are modified with H3K27me3 and the combination of H3K4me4 and H3K27me3 respectively.
 
+
+
+Roles of DNA methylation \cite{Greenberg2019}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/intro/cancer.pdf}
+	\captionsetup{format=plain}
+	\caption[DNA methylation in cancer]{}
+	\label{fig:intro:cancer}
+\end{figure}
+
+repression of transposable elements LINE1 and IAP
+hemi-methylation on genomic imprinting, ICRs
+X-chromosome inactivation
+high in actively transcribed gene bodies
+
+mutagenic, 5mC to T transition, reduced CG content in these organisms
+29.4M (instead of 188M) in hg38
+21.8M (instead of 169M) in mm10
+
+DNMT3A/B de-novo methylation
+DNMT1 maintenance
+
+passive de-methylation during replication
+active de-methylation by TET1-3
+
+loss of methylation is lethal in early embryonic development
+de-regulation in cancer
 
 
 \begin{figure}[h]
@@ -54,15 +91,7 @@ Chromatin accessibility \cite{Li2007, Klemm2019}
 	\label{fig:intro:methylation}
 \end{figure}
 
-\begin{itemize}
-    \item Organism, cell, DNA
-    \item Epigenetics as additional layer
-    \begin{itemize}
-        \item Briefly histone modifications
-        \item DNA methylation, 5mC, hmC, 6mA
-    \end{itemize}
-    \item Without explicit statement: Focus of the Meissner lab
-\end{itemize}
+The road ahead \cite{McGuire2020}
 
 
 
@@ -77,6 +106,8 @@ Chromatin accessibility \cite{Li2007, Klemm2019}
 	\caption[Sequencing by synthesis]{Sequencing by synthesis}
 	\label{fig:intro:sbs}
 \end{figure}
+
+Third revolution review \cite{Dijk2018}
 
 \begin{figure}[h]
 	\centering
