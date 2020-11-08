@@ -46,36 +46,44 @@ To maintain its integrity and supporting the chromatin structure formation, the 
 The \textasciitilde 147bp of DNA directly twisted around each nucleosome is protected against physical access from for instance transcription factors (TFs). 
 The dynamic positioning of nucleosomes is therefore part of the epigenetic regulation process during transcription and replication.
 Accordingly, nucleosomes are enriched at compacted heterochromatin in mostly inactive genomic regions, while being depleted at regulatory elements such as enhancers, insulators and transcribed genes \cite{Klemm2019}. 
-A growing number of chemical modifications to histone tails (H2A, H2B, H3 and H4) is reported to impact inter-nucleosomal interactions, but also leading to recruitment of proteins and complexes involved in transcription, replication or DNA repair \cite{Bannister2011}. 
-An example is the methylation of lysine 79 on the H3 tail (H3K79me3) found at the transcription start sites (TSS) of active genes \cite{Lawrence2016}. 
+A growing number of chemical modifications to histone tails (H2A, H2B, H3 and H4) is reported to impact inter-nucleosomal interactions, but also leading to recruitment of proteins and complexes involved in transcription, replication and DNA repair \cite{Bannister2011}. 
+A well characterized example is the methylation of lysine 79 on the H3 tail (H3K79me3) found at the transcription start sites (TSS) of active genes \cite{Lawrence2016}. 
 To be further mentioned in this context are H3K4me3 marking active euchromatin, while H3K9me3 is indicating repressive heterochromatin.
-Gene expression is further influenced by active enhancer sites with enrichment of H3K27ac (acetylation).
+Gene expression may be influenced by nearby active enhancer sites with enrichment of H3K27ac (acetylation).
 Finally, repressed and bivalent promoters are modified with H3K27me3 and the combination of H3K4me4 and H3K27me3 respectively.
 
-For the embryonic development in mammals, the methylation of cytosine in the CG-context (5-methylcytosine, 5mC) is an important epigenetic modification. 
-The DNA-methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
+For embryonic development in mammals, the methylation of cytosine in the CpG-context (5-methylcytosine, 5mC) is a vital epigenetic modification. Prominent examples of its importance are the X-chromosome inactivation in females and genomic imprinting.
+Furthermore, the DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
+Throughout cellular reprogramming, \textit{de-novo} methylation of the DNA is primarily established by the DNMT3A and DNMT3B enzymes. 
+During cell division, the methylation state on the nascent strand in the symmetric CpG-context is restored by the DNMT1 enzyme.
+In absence of the maintenance methyltransferase, the 5mC modification is therefore passively lost during each round of replication, but can also be actively removed by oxidation through the TET methylcytosine dioxygenases.
+There is a downside of cythosine methylation in the form of potential spontaneous deamination of 5mC, resulting in inherited C to T transitions and ultimately a depletion of CpG sites in mammalian genomes \cite{Holliday1993}. 
+The human genome for example, contains only 29.4M CpGs instead of 188M as anticipated from the genome size. 
+Thus, the conservation under evolutionary pressure underlines the importance of DNA methylation for mammals, while its function is still not yet fully understood.
 
-loss of methylation is lethal in early embryonic development
 
-DNMT3A/B de-novo methylation
-DNMT1 maintenance
-passive de-methylation during replication
-active de-methylation by TET1-3
+On genome wide scale, methylation levels undergo two waves of reprogramming during embryonic development, of which the first one till stem cell state is illustrated in Fig. \ref{fig:intro:methylation}.
 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/methylation.pdf}
 	\captionsetup{format=plain}
-	\caption[DNA methylation dynamics]{Methylation dynamics during development (Adapted from \cite{Greenberg2019})}
+	\caption[DNA methylation reprogramming]{Reprogramming of CpG methylation during embryonic development: Following fertilization and zygotic genome activation (ZGA), mouse and human become actively demethylated by TET3. After blastocyst stage at mouse embryonic day E3.5, DNMT3A and DNMT3B establish \textit{de-novo} methylation under co-expression of DNMT3L. Extra embryonic tissues show a relative hypomethylation compared to the epiblast stem cells (Adapted from \cite{Greenberg2019}).}
 	\label{fig:intro:methylation}
 \end{figure}
+
+
+
+
 
 repression of transposable elements LINE1 and IAP
 hemi-methylation on genomic imprinting, ICRs
 X-chromosome inactivation
 high in actively transcribed gene bodies
+
 de-regulation in cancer
+tumor type identification based on methylation footprint
 
 \begin{figure}[h]
 	\centering
@@ -84,13 +92,6 @@ de-regulation in cancer
 	\caption[DNA methylation in cancer]{}
 	\label{fig:intro:cancer}
 \end{figure}
-
-mutagenic, 5mC to T transition, reduced CG content in these organisms
-29.4M (instead of 188M) in hg38
-21.8M (instead of 169M) in mm10
-
-
-
 
 
 The road ahead \cite{McGuire2020}
