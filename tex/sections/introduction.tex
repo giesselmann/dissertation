@@ -87,6 +87,7 @@ maintained directly after replication (ref) gain of transcribed elements in knoc
 LINE1 and IAP
 
 de-regulation in cancer
+conserved global methylome in heterogeneous disease
 tumor type identification based on methylation footprint \cite{Capper2018}
 
 \begin{figure}[h]
@@ -106,15 +107,29 @@ The road ahead \cite{McGuire2020}
 \section{Sequencing Technologies}
 \label{sec:intro:sequencing}
 
+\textit{"For their contributions concerning the determination of base sequences in nucleic acids"}, Walter Gilbert and Frederick Sanger received the 1980 Nobel Prize in Chemistry.
+Referred to as first generation or \textbf{Sanger sequencing}, their 'dideoxy method' allowed for the first time to determine the nucleotide sequence of an entire organism with high accuracy \cite{Sanger1977}.
+While superseded by second and third generation technologies on genome wide level, Sanger sequencing can still be the method of choice, for instance to verify plasmid sequences, check genotypes or confirm genome editing.
+
+Starting of in 2005 with the 454 Genome Sequencer, the development and commercialization of sequencing by synthesis approaches lead to increasing throughput and broad availability of the second, also termed \textbf{next generation sequencing} (NGS) technologies.
+Different platforms, all with typical read lengths of at most few hundred nucleotides include 454, Illumina, SOLiD and Ion torrent.
+As marked leader, and with the HiSeq X Ten platform the first company to break the milestone of US\$1000 for a human genome in 2014, Illumina sequencing serves as gold standard and second generation reference in this work \cite{Dijk2014}.
+
+
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/sbs.pdf}
 	\captionsetup{format=plain}
-	\caption[Sequencing by synthesis]{Sequencing by synthesis}
+	\caption[Sequencing by synthesis]{Next generation sequencing: Sequencing by synthesis}
 	\label{fig:intro:sbs}
 \end{figure}
 
-Third revolution review \cite{Dijk2018}
+Coverage filtering for whole genome bisulfite sequencing 5x - 10x \cite{Ziller2015}
+
+In contrast to the high-throughput short-read sequencing, \textbf{third generation} long-read technologies do not necessarily require amplification and yield read lengths in the range of tens of thousands nucleotides. 
+Single-molecule real-time (SMRT) sequencing introduced by Pacific Biosciences (PacBio) in 2011 is considered to be the first commercially available long-read technology \cite{Dijk2018}.
+While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
 \begin{figure}[h]
 	\centering
@@ -124,16 +139,6 @@ Third revolution review \cite{Dijk2018}
 	\label{fig:intro:longread}
 \end{figure}
 
-\begin{itemize}
-    \item Sequencing
-    \item Helene: "Easy to forget: but how to calculate a methylation rate from multiple reads and why minimum coverage. There is even a ref for 10X."
-    \item Breifly generations, 1st, 2nd, 3rd ...
-    \item Detail 3rd generation
-    \begin{itemize}
-        \item Briefly PacBio, Roche
-        \item Detail ONT
-    \end{itemize}
-\end{itemize}
 
 Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules, including base modifications, since no synthesis or amplification is required.
 
