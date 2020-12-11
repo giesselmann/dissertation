@@ -159,13 +159,13 @@ Depending on the application, a filtering for unique alignments can therefore be
 Enabled by high throughput second generation sequencing, a variety of protocols have been developed in order to extend the application beyond the readout of solely the genomic sequence.
 In relation to the already introduced epigenetic regulation, the methods to detect histone modifications and DNA methylation are briefly outlined below.
 
-Chromatin Immunoprecipitation Sequencing (ChIP-Seq) is a versatile genome-wide method to identify binding sites of DNA-associated proteins.
+Chromatin immunoprecipitation sequencing (ChIP-Seq) is a versatile genome-wide method to identify binding sites of DNA-associated proteins.
 Crosslinking of DNA-protein complexes fixes the current position of for instance histones. 
 A fragmentation step separates the DNA in protein-bound and unbound sections.
 A modification specific magnetic antibody is used, to immunoprecipitate the complex and pull down only sequence fragments directly adjacent to a histone carrying the epigenetic modification of interest.
 Sequencing and data analysis reveal histone modifications as peaks from local accumulations of reads.
 
-Whole genome bisulfite sequencing (WGBS) describes a method to detect methylation on individual molecules \cite{Frommer1992}.
+Whole genome bisulfite sequencing (WGBS) describes the state of the art method to detect methylation on individual molecules \cite{Frommer1992}.
 A reaction with sodium bisulfite converts any unmethylated cytosine to uracil, while 5-methylcytosine remains unchanged and consequently encodes the methylation state into the sequence. 
 Uracil and thymine are amplified and sequenced as thymine (T), while only methylated cytosine is read as C.
 At genomic CG positions, a read alignment containing a CG indicates therefore a previously methylated site, a mismatching T indicates an unmethylated site.
@@ -183,7 +183,6 @@ Single-molecule real-time (SMRT) sequencing introduced by Pacific Biosciences (P
 While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
 
-In contrast to the measurement of light impulses from fluorescent nucleotides, nanopore sequencing follows a fundamentally different principle.
 
 \begin{figure}[h]
 	\centering
@@ -193,6 +192,8 @@ In contrast to the measurement of light impulses from fluorescent nucleotides, n
 	\label{fig:intro:longread}
 \end{figure}
 
+
+In contrast to the measurement of light impulses from fluorescent nucleotides, nanopore sequencing follows a fundamentally different principle.
 
 Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules, including base modifications, since no synthesis or amplification is required.
 
