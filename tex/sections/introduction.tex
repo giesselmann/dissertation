@@ -165,7 +165,7 @@ A fragmentation step separates the DNA in protein-bound and unbound sections.
 A modification specific magnetic antibody is used, to immunoprecipitate the complex and pull down only sequence fragments directly adjacent to a histone carrying the epigenetic modification of interest.
 Sequencing and data analysis reveal histone modifications as peaks from local accumulations of reads.
 
-Whole genome bisulfite sequencing (WGBS) describes the state of the art method to detect methylation on individual molecules \cite{Frommer1992}.
+Whole genome bisulfite sequencing (WGBS) is the state of the art method to detect methylation on individual molecules \cite{Frommer1992}.
 A reaction with sodium bisulfite converts any unmethylated cytosine to uracil, while 5-methylcytosine remains unchanged and consequently encodes the methylation state into the sequence. 
 Uracil and thymine are amplified and sequenced as thymine (T), while only methylated cytosine is read as C.
 At genomic CG positions, a read alignment containing a CG indicates therefore a previously methylated site, a mismatching T indicates an unmethylated site.
@@ -182,7 +182,14 @@ In contrast to the high-throughput short-read sequencing, third generation long-
 Single-molecule real-time (SMRT) sequencing introduced by Pacific Biosciences (PacBio) in 2011 is considered to be the first commercially available long-read technology \cite{Dijk2018}.
 While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
-
+Single-molecule real-time sequencing is based on individual DNA fragments fixed into zero-mode waveguides (ZMW).
+For the library preparation, genomic input DNA is fragmented to typically 8-15kB and ligated to hairpin adapters.
+Termed SMRTbell, each molecule is denatured and as circular single stranded DNA fixed into wells on the flow cell.
+During the sequencing process, a polymerase located at the transparent bottom of each well synthesizes the complementary strand from nucleotides labeled with fluorescent dye.
+At a speed of 10nt/s, light impulses from laser-excited fluorescence are the primary measurement to determine the nucleotide sequence of each read (Fig. \ref{fig:intro:longread}, left box).
+According to the manufacturer, a Sequel IIe flow cell with 8M ZMWs can generate up to 4M reads during 30h of sequencing. \footnote{https://www.pacb.com/products-and-services/sequel-system/, accessed 12/2020}
+Most recently, PacBio advanced to high-fidelity (HiFi) reads, which are generated as consensus sequence from multiple passes of the polymerase around the template strand.
+HiFi reads increase the single read accuracy to >99\% at the cost of the overall read length.
 
 \begin{figure}[h]
 	\centering
@@ -194,6 +201,7 @@ While the idea of nanopore sequencing goes back to the 1980s, it took until 2014
 
 
 In contrast to the measurement of light impulses from fluorescent nucleotides, nanopore sequencing follows a fundamentally different principle.
+The sequencing is no longer based on the synthesis of a second strand and individual pores read multiple molecules instead of the previously parallel 
 
 Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules, including base modifications, since no synthesis or amplification is required.
 
