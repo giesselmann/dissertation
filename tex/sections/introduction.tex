@@ -191,7 +191,6 @@ According to the manufacturer, a Sequel IIe flow cell with 8M ZMWs can generate 
 More recently, PacBio advanced to high-fidelity (HiFi) reads, which are generated as consensus sequence from multiple passes of the polymerase around the template strand.
 HiFi reads increase the single read accuracy to >99\% at the cost of the overall read length.
 
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/long_read.pdf}
@@ -200,12 +199,24 @@ HiFi reads increase the single read accuracy to >99\% at the cost of the overall
 	\label{fig:intro:longread}
 \end{figure}
 
-Interestingly, both NGS and SMRT sequencing measure the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA strand.
+Interestingly, both NGS and SMRT sequencing measure the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
 Nanopore sequencing follows a fundamentally different principle.
-The sequencing is no longer based on the synthesis of a second strand as individual pores asynchronously read multiple molecules one after the other instead of the previous parallel approaches.
+The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, instead of the previous parallel approaches.
+Additionally, nanopore sequencing can not only process double stranded DNA, but also directly read single stranded RNA.
+The nanopore flow cell is build of pores embedded into a membrane separating two wells.
+After loading the flow cell with a run buffer, a voltage applied over the membrane causes a constant ionic current through each pore.
+While always in the range of pico ampere, any molecule passing through the pore impacts the level of the ionic current depending on its physical and chemical properties.
 
+Initial steps of the library preparation like fragmentation, end-repair and size selection are shared across long read technologies.
+For nanopore sequencing, a motor protein and a tethering adapter are ligated to both ends of the input DNA.
+The tethering adapter helps guiding the reads to pores on the flow-cell, where the motor protein is attaching to the pore and controlling the sequencing speed to \textasciitilde450nt/s for DNA or \textasciitilde70nt/s for RNA.
+During the sequencing process, the double strand is split in front of the pore and only one strand is read.
+The ionic current per pore serves as a proxy signal for the molecule passing through, is recorded and translated into a nucleotide sequence by the basecalling algorithm (Fig. \ref{fig:intro:longread}, right box).
+Without amplification of the input, the nanopore is sensitive to different base modifications including 5-methylcytosine, 6-methyladenine and even synthetic base analogues.
 
-Among other devices distributed by Oxford Nanopore Technologies (ONT), the MinION in particular is gaining prominence. In brief, the nanopore sequencing process is based on guiding a nucleotide polymer through a pore inserted in a membrane while measuring a change in ionic current as a proxy signal over time. This signal is then interpreted to determine the underlying DNA or RNA sequence. The nanopore technology enables direct readout of sequences from individual DNA or RNA molecules, including base modifications, since no synthesis or amplification is required.
+Among other devices distributed by Oxford Nanopore Technologies, the MinION in particular is gaining prominence. 
+The portability and very low acquisition costs open new perspectives of real time sequencing in the field or clinical settings.
+A more in depth description of throughput, characteristics and applications of nanopore sequencing is given in chapter \ref{cha:state_of_art}.
 
 
 
