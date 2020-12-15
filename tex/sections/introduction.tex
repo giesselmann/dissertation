@@ -136,8 +136,8 @@ Different colors per nucleotide are recognized by the basecalling algorithm and 
 After unblocking and removal of the fluorophore, the process is repeated until the terminal read length is reached.
 
 Amplification during library preparation and the synthesis during sequencing are virtually error-free.
-Nonetheless, the sequence quality, is affected by clusters running out of phase. 
-Sporadic dropouts of the polymerase result in missing nucleotide incorporation within single fragments, leading to an increasing number of fragments lacking behind the clusters synchronization.
+However, the sequence quality, is affected by clusters running out of phase. 
+Sporadic dropouts of the polymerase result in missing nucleotide incorporation within single fragments, leading to an increasing number of fragments lacking behind the cluster's synchronization.
 The resulting signal overlap is monitored by the basecaller and translated into a quality score per nucleotide and cluster.
 De-phsing of clusters is currently limiting the maximum sequencing length of NGS platforms to \textasciitilde250nt.
 
@@ -167,10 +167,10 @@ Sequencing and data analysis reveal histone modifications as peaks from local ac
 
 Whole genome bisulfite sequencing (WGBS) is the state of the art method to detect methylation on individual molecules \cite{Frommer1992}.
 A reaction with sodium bisulfite converts any unmethylated cytosine to uracil, while 5-methylcytosine remains unchanged and consequently encodes the methylation state into the sequence. 
-Uracil and thymine are amplified and sequenced as thymine (T), while only methylated cytosine is read as C.
-At genomic CG positions, a read alignment containing a CG indicates therefore a previously methylated site, a mismatching T indicates an unmethylated site.
+Uracil and thymine are both amplified and sequenced as thymine (T), while only methylated cytosine is read as C.
+At genomic CG positions, a read alignment containing a CG indicates therefore a previously methylated site, a mismatching TG indicates an unmethylated site.
 The methylation state of individual reads is then summarized to a methylation rate per genomic position.
-A minimum coverage of 5X to 10X was shown to be robust against inter-cell variability and allow the comparison across samples \cite{Ziller2015}.
+A minimum coverage of 5X to 10X has been shown to be robust against inter-cell variability and allow the comparison across samples \cite{Ziller2015}.
 
 
 
@@ -178,45 +178,48 @@ A minimum coverage of 5X to 10X was shown to be robust against inter-cell variab
 \subsection{Third Generation Sequencing}
 \label{subsec:intro:tgs}
 
-In contrast to the high-throughput short-read sequencing, third generation long-read technologies do not necessarily require amplification and yield read lengths in the range of tens of thousands nucleotides. 
-Single-molecule real-time (SMRT) sequencing, introduced by Pacific Biosciences (PacBio) in 2011, is considered to be the first commercially available long-read technology \cite{Dijk2018}.
+In contrast to high-throughput short-read sequencing, third generation long-read technologies do not necessarily require amplification and yield read lengths in the range of tens of thousands nucleotides. 
+Single-molecule real-time sequencing (SMRT), introduced by Pacific Biosciences (PacBio) in 2011, is considered to be the first commercially available long-read technology \cite{Dijk2018}.
 While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
 Single-molecule real-time sequencing is based on individual DNA fragments fixed into zero-mode waveguides (ZMW).
 For the library preparation, genomic input DNA is fragmented to typically 8-15kB and ligated to hairpin adapters.
-Termed SMRTbell, each molecule is denatured and as circular single stranded DNA fixed into wells on the flow cell.
+Termed SMRTbell, each molecule is denatured and as circular single stranded DNA fixed into the ZMWs on the flow cell.
 During the sequencing process, a polymerase located at the transparent bottom of each well synthesizes the complementary strand from nucleotides labeled with fluorescent dye.
 At a speed of 10nt/s, light impulses from laser-excited fluorescence are the primary measurement to determine the nucleotide sequence of each read (Fig. \ref{fig:intro:longread}, left box).
 According to the manufacturer, a Sequel IIe flow cell with 8M ZMWs can generate up to 4M reads during 30h of sequencing. \footnote{https://www.pacb.com/products-and-services/sequel-system, accessed 12/2020}
 More recently, PacBio advanced to high-fidelity (HiFi) reads, which are generated as consensus sequence from multiple passes of the polymerase around the template strand.
 HiFi reads increase the single read accuracy to >99\% at the cost of the overall read length.
+Without PCR amplification of the input material, epigenetic base modifications remain on the sample DNA and impact the output signal as extended pauses between light impulses.
+The most prominent example is the detection of bacterial 6-methyladenine (6mA). 
+However, the sensitivity to 5mC remains a proof of concept and studies reporting its successful application could not be identified.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/long_read.pdf}
 	\captionsetup{format=plain}
-	\caption[Long read sequencing]{PacBio SMRT and ONT nanopore sequencing.}
+	\caption[Long read sequencing]{PacBio SMRT and ONT nanopore sequencing: Single-molecule real-time sequencing by circular synthesis of secondary strands measured as laser-excited fluorescence pulses. Nanopore sequencing of DNA and RNA strands measured as changes in ionic currents while traversing through the pore. Base modifications can be directly detected as either extended pulse pauses or characteristic current level differences.}
 	\label{fig:intro:longread}
 \end{figure}
 
-Interestingly, both NGS and SMRT sequencing measure the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
+Interestingly, both NGS and SMRT sequencing technologies utilize the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
 Nanopore sequencing follows a fundamentally different principle.
-The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, instead of the previous parallel approaches.
+The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, in contrast to the previous parallel approaches.
 Additionally, nanopore sequencing can not only process double stranded DNA, but also directly read single stranded RNA.
 The nanopore flow cell is build of pores embedded into a membrane separating two wells.
 After loading the flow cell with a run buffer, a voltage applied over the membrane causes a constant ionic current through each pore.
-While always in the range of pico ampere, any molecule passing through the pore impacts the level of the ionic current depending on its physical and chemical properties.
+While always in the range of pico ampere, any molecule passing through the pore reduces the level of the ionic current depending on its physical and chemical properties.
 
 Initial steps of the library preparation like fragmentation, end-repair and size selection are shared across long read technologies.
 For nanopore sequencing, a motor protein and a tethering adapter are ligated to both ends of the input DNA.
 The tethering adapter helps guiding the reads to pores on the flow-cell, where the motor protein is attaching to the pore and controlling the sequencing speed to \textasciitilde450nt/s for DNA or \textasciitilde70nt/s for RNA.
 During the sequencing process, the double strand is split in front of the pore and only one strand is read.
-The ionic current per pore serves as a proxy signal for the molecule passing through, is recorded and translated into a nucleotide sequence by the basecalling algorithm (Fig. \ref{fig:intro:longread}, right box).
+The ionic current per pore serves as a proxy signal for the molecule passing through, is recorded and finally translated into a nucleotide sequence by the basecalling algorithm (Fig. \ref{fig:intro:longread}, right box).
 Without amplification of the input, the nanopore is sensitive to different base modifications including 5-methylcytosine, 6-methyladenine and even synthetic base analogues.
 
 Among other devices distributed by Oxford Nanopore Technologies, the MinION in particular is gaining prominence. 
-The portability and very low acquisition costs open new perspectives of real time sequencing in the field or clinical settings.
-A more in depth description of throughput, characteristics and applications of nanopore sequencing is given in chapter \ref{cha:state_of_art}.
+The portability and very low acquisition costs open new perspectives of real time sequencing in the field or in clinical settings.
+Operational directly in the lab and sensitive to base modifications relevant in mouse and human, the nanopore platform is deemed to be the preferable third generation technology for an epigenetics lab.
 
 
 
@@ -224,8 +227,27 @@ A more in depth description of throughput, characteristics and applications of n
 \section{Structure}
 \label{sec:intro:structure}
 
-Briefly describe the overall structure of the thesis, from literature to pipeline, signal processing and finally repeat detection.
+The submitted work is structured into four major parts, moving from a zoomed out view into the literature over the development of a universal nanopore data processing pipeline into the signal processing and application development for human genetics.
 
-%\textbf{Chapter \ref{sec:nanopype}} \\[0.2em]
-%\blindtext
+\textbf{Chapter \ref{cha:state_of_art} - State of the Art} %\\[0.2em]
+
+Entitled as \textit{the third revolution in sequencing technology}, Van Dijk et al. \cite{Dijk2018} outline the potentials within an innovative and rapidly developing field of research using third generation sequencing.
+It is indispensable to keep track of latest developments in the nanopore field, highlighted by the single read accuracy improvements from 87\% to 95\% modal, solely by enhanced basecalling algorithms applicable to existing data.
+This chapter aims to provide a comprehensive overview of use cases for nanopore sequencing, backed by the computational analysis of millions of publications forming a literature graph of keywords and citations.
+Based on in-house data, throughput and accuracy summaries for sequence and methylation detection complete the assessment of the current status of the technology.
+
+
+\textbf{Chapter \ref{cha:nanopype} - Nanopype} \\[0.2em]
+
+\textbf{Chapter \ref{cha:signal} - Signal Processing} \\[0.2em]
+
+\textbf{Chapter \ref{cha:strique} - STRique} \\[0.2em]
+
+This thesis is closed with a summary and discussion of the results.
+
+
+
+
+
+
 
