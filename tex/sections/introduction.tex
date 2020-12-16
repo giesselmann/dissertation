@@ -53,7 +53,7 @@ Gene expression may be influenced by nearby active enhancer sites with enrichmen
 Finally, repressed and bivalent promoters are modified with H3K27me3 and the combination of H3K4me4 and H3K27me3 respectively.
 
 For embryonic development in mammals, the methylation of cytosine in the CpG-context (5-methylcytosine, 5mC) is a vital epigenetic modification. Prominent examples of its importance are the X-chromosome inactivation in females and genomic imprinting.
-Furthermore, the DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
+Furthermore, DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
 Throughout cellular reprogramming, \textit{de-novo} methylation of the DNA is primarily established by the DNMT3A and DNMT3B enzymes. 
 During cell division, the methylation state on the nascent strand in the symmetric CpG-context is restored by the DNMT1 enzyme.
 In absence of the maintenance methyltransferase, the 5mC modification is therefore passively lost during each round of replication, but can also be actively removed by oxidation through the TET methylcytosine dioxygenases.
@@ -75,31 +75,19 @@ On genome wide scale, methylation levels undergo two waves of reprogramming duri
 
 Characteristic for human somatic cells is a genome wide mean methylation of approximately 70\%-80\% \cite{Bird2002}. Averaging the binary 5mC state of individual cells yields mean methylation levels per genomic position. What is striking is the underlying bimodal distribution, with CpG dense regions, also referred to as CpG islands (CGIs), being mostly unmethylated, while the genomic background of more isolated CpGs is mostly methylated \cite{Bird2002}.
 A large number of the CGIs in mammals act as promoters, nonetheless the majority remains unmethylated during differentiation and gene silencing is driven by H3K27 methylation \cite{Larsen1992, Greenberg2019}.
+A well studied example where DNA methylation is sufficient to repress transcription are imprinted genes, where either the maternal or paternal allele is transcribed, while the other one remains silenced.
 
-repression of one allele, random in case of Xi, targeted on maternal or paternal allele for imprinting
-gene cluster of maternal or paternal allele repressed/activated? by methylation
-number of ICRs in human, hemi methylation
-random x chromosome inactivation in females deactivated (term for clumb) to compensate dosage
-
-DNA methylation is involved in the repression of transposable elements
-Stat from paper or repeat masker annotation, percentage of genome 
-maintained directly after replication (ref) gain of transcribed elements in knock out embryos (ref)
-LINE1 and IAP
-
-de-regulation in cancer
-conserved global methylome in heterogeneous disease
-tumor type identification based on methylation footprint \cite{Capper2018}
+Lastly, the DNA-methylation landscape is heavily deregulated in cancer. While sharing a trend towards global hypomethylation and CGI hypermethylation compared to normal tissues (Fig. \ref{fig:intro:cancer}), different tumor types can be identified only based on their methylation footprint \cite{Capper2018}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/cancer.pdf}
 	\captionsetup{format=plain}
-	\caption[DNA methylation in cancer]{}
+	\caption[DNA methylation in cancer]{Deregulation of DNA methylation patterns in cancer tissues. A global loss across genes and transposable elements (TE) and local gain of methylation levels across CGIs is characteristic for cancer tissue types.}
 	\label{fig:intro:cancer}
 \end{figure}
 
-
-The road ahead \cite{McGuire2020}
+While most epigenetic regulators have been discovered and sequencing data for transcriptomes, histone modifications and methylation are available in abundance, the unknown function of high gene body methylation or similarities between extraembryonic tissue and altered methylation in cancer are only two examples of epigenetic regulated processes under active investigation \cite{McGuire2020}.
 
 
 
@@ -232,18 +220,42 @@ The submitted work is structured into four major parts, moving from a zoomed out
 \textbf{Chapter \ref{cha:state_of_art} - State of the Art} %\\[0.2em]
 
 Entitled as \textit{the third revolution in sequencing technology}, Van Dijk et al. \cite{Dijk2018} outline the potentials within an innovative and rapidly developing field of research using third generation sequencing.
-It is indispensable to keep track of latest developments in the nanopore field, highlighted by the single read accuracy improvements from 87\% to 95\% modal, solely by enhanced basecalling algorithms applicable to existing data.
+It is indispensable to keep track of latest developments in the nanopore field, highlighted for instance by the single read accuracy improvements from 87\% to 95\% modal, solely by enhanced basecalling algorithms applicable to existing data.
 This chapter aims to provide a comprehensive overview of use cases for nanopore sequencing, backed by the computational analysis of millions of publications forming a literature graph of keywords and citations.
 Based on in-house data, throughput and accuracy summaries for sequence and methylation detection complete the assessment of the current status of the technology.
 
 
-\textbf{Chapter \ref{cha:nanopype} - Nanopype} \\[0.2em]
+\textbf{Chapter \ref{cha:nanopype} - Nanopype}
 
-\textbf{Chapter \ref{cha:signal} - Signal Processing} \\[0.2em]
+The widespread availability of the nanopore sequencing platform is sparking the development of novel bioinformatic software.
+Nonetheless, the streamlined raw data handling and processing of more complex workflows was lacking consistent pipelines, impeding the reproducibility across projects and labs.
+This chapter covers the development of the modular Snakemake pipeline \textit{Nanopype}.
+As a set of nanopore specific workflows, it covers the most common use cases such as basecalling, alignment, methylation and structural variant detection.
+Deployed as python module with automatically build and tested software containers, the pipeline maintains all of it's internal dependencies including the version control of integrated tools.
+\textit{Nanopype} is the baseline for subsequent projects and facilitates the rapid development of own and integration of third party software.
 
-\textbf{Chapter \ref{cha:strique} - STRique} \\[0.2em]
 
-This thesis is closed with a summary and discussion of the results.
+\textbf{Chapter \ref{cha:signal} - Signal Processing}
+
+The interplay of a protein nanopore and molecules passing through it causes a characteristic ionic current signal.
+In the past, advancing algorithms led to improved single read accuracy, detection of epigenetic base modifications and efficient barcode de-multiplexing based on raw nanopore reads.
+For the development of novel applications, the raw signal may be the input of choice, allowing to bypass basecaller induced errors.
+This chapter covers basic raw signal processing methods including simulation, normalization and signal alignment.
+A flexible raw signal framework enables the seamless integration of signal and sequence space information.
+ 
+
+\textbf{Chapter \ref{cha:strique} - STRique}
+
+Sequencing of genomic regions previously inaccessible for short read technologies is a key advantage of long reads.
+Stretches of repetitive DNA with low sequence complexity are difficult to investigate once they become longer than the read length.
+Short tandem repeats (STR) are an example of repeat elements being expanded to multiple thousand nucleotides in length in disease cases.
+Enabled by our processing framework and signal analysis methods, \textit{STRique} facilitates the precise analysis of STRs in synthetic and patient samples.
+Our method allows for the first time to exactly quantify the length of STRs and integrate repeat count and methylation state on single molecule level.
+
+
+This thesis concludes with a summary and discussion of the results.
+An outlook includes the assessment, where third generation sequencing technologies in general and nanopore sequencing in particular are presumably replacing short reads, where they are appropriate to supplement and where short reads are likely to stay state of the art.
+Taken together, this work aims to provide the reader with an overview of the nanopore field in general, propose streamlined processing and novel signal analysis methods and contrast opportunities against challenges within a technology driven research branch.
 
 
 
