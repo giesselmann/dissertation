@@ -75,7 +75,7 @@ On genome wide scale, methylation levels undergo two waves of reprogramming duri
 
 Characteristic for human somatic cells is a genome wide mean methylation of approximately 70\%-80\% \cite{Bird2002}. Averaging the binary 5mC state of individual cells yields mean methylation levels per genomic position. What is striking is the underlying bimodal distribution, with CpG dense regions, also referred to as CpG islands (CGIs), being mostly unmethylated, while the genomic background of more isolated CpGs is mostly methylated \cite{Bird2002}.
 A large number of the CGIs in mammals act as promoters, nonetheless the majority remains unmethylated during differentiation and gene silencing is driven by H3K27 methylation \cite{Larsen1992, Greenberg2019}.
-A well studied example where DNA methylation is sufficient to repress transcription are imprinted genes, where either the maternal or paternal allele is transcribed, while the other one remains silenced.
+A well studied example where DNA methylation is sufficient to repress transcription are imprinted genes, of which either the maternal or paternal allele is transcribed, while the other one remains silenced.
 
 Lastly, the DNA-methylation landscape is heavily deregulated in cancer. While sharing a trend towards global hypomethylation and CGI hypermethylation compared to normal tissues (Fig. \ref{fig:intro:cancer}), different tumor types can be identified only based on their methylation footprint \cite{Capper2018}.
 
@@ -83,7 +83,7 @@ Lastly, the DNA-methylation landscape is heavily deregulated in cancer. While sh
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/cancer.pdf}
 	\captionsetup{format=plain}
-	\caption[DNA methylation in cancer]{Deregulation of DNA methylation patterns in cancer tissues. A global loss across genes and transposable elements (TE) and local gain of methylation levels across CGIs is characteristic for cancer tissue types.}
+	\caption[DNA methylation in cancer]{Deregulation of DNA methylation patterns in cancer tissues. A global loss across genes and transposable elements (TE) and local gain of methylation levels across CGIs is characteristic across cancer tissue types.}
 	\label{fig:intro:cancer}
 \end{figure}
 
@@ -109,6 +109,14 @@ As marked leader, and with the HiSeq X Ten platform the first company to break t
 Illumina dye sequencing is a high throughput technology, reading millions of short DNA fragments in parallel and with high accuracy (>99.9\%).
 As Illustrated in Fig. \ref{fig:intro:sbs}, the process can be divided into library preparation, cluster amplification and the sequencing itself.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/intro/sbs.pdf}
+	\captionsetup{format=plain}
+	\caption[Sequencing by synthesis]{Next generation sequencing: The input DNA is fragmented and amplified into clusters of identical reads on a flow cell. Sequencing by synthesis determines the nucleotide sequence of all clusters simultaneously by measuring fluorescence of incorporated bases.}
+	\label{fig:intro:sbs}
+\end{figure}
+
 Genomic input DNA is first randomly fragmented and ligated to distinct 5' and 3' end adapters.
 A polymerase chain reaction (PCR) amplification purifies the library for fragments with sequencing adapters on both ends.
 Subsequently, the double stranded DNA is denatured and washed over a flow cell coated with short oligonucleotides, complementary to the sequencing adapters.
@@ -123,26 +131,22 @@ A blocking group on every nucleotide forces the polymerase to stop after each in
 Different colors per nucleotide are recognized by the basecalling algorithm and concatenated into a sequence per cluster also referred to as a read.
 After unblocking and removal of the fluorophore, the process is repeated until the terminal read length is reached.
 
+\textbf{Limitations}
+
 Amplification during library preparation and the synthesis during sequencing are virtually error-free.
 However, the sequence quality, is affected by clusters running out of phase. 
 Sporadic dropouts of the polymerase result in missing nucleotide incorporation within single fragments, leading to an increasing number of fragments lacking behind the cluster's synchronization.
 The resulting signal overlap is monitored by the basecaller and translated into a quality score per nucleotide and cluster.
 De-phsing of clusters is currently limiting the maximum sequencing length of NGS platforms to \textasciitilde250nt.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{figures/intro/sbs.pdf}
-	\captionsetup{format=plain}
-	\caption[Sequencing by synthesis]{Next generation sequencing: The input DNA is fragmented and amplified into clusters of identical reads on a flow cell. Sequencing by synthesis determines the nucleotide sequence of all clusters simultaneously by measuring fluorescence of incorporated bases.}
-	\label{fig:intro:sbs}
-\end{figure}
-
 Except for de-novo assemblies, a shared first processing step after genome wide sequencing is the alignment.
 After fragmentation and sequencing, the genomic origin of each read is initially unknown.
 An alignment algorithm determines all possible mappings of a read, commonly allowing for a certain degree of mismatches, insertions and deletions.
 Dissimilar read and reference sequence stem from either sequencing errors or differences between reference and the individual genome.
-With respect to repetitive elements within mammalian genomes in combination with fragmented sequences, reads may align to multiple genomic positions with the same edit distance.
+With respect to repetitive elements within mammalian genomes in combination with fragmented sequences, short reads may align to multiple genomic positions with the same edit distance.
 Depending on the application, a filtering for unique alignments can therefore be necessary.
+
+\textbf{Sequencing the Epigenome}
 
 Enabled by high throughput second generation sequencing, a variety of protocols have been developed in order to extend the application beyond the readout of solely the genomic sequence.
 In relation to the already introduced epigenetic regulation, the methods to detect histone modifications and DNA methylation are briefly outlined below.
@@ -194,9 +198,9 @@ Interestingly, both NGS and SMRT sequencing technologies utilize the fluorescenc
 Nanopore sequencing follows a fundamentally different principle.
 The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, in contrast to the previous parallel approaches.
 Additionally, nanopore sequencing can not only process double stranded DNA, but also directly read single stranded RNA.
-The nanopore flow cell is build of pores embedded into a membrane separating two wells.
+The nanopore flow cell is build of pores embedded into a membrane separating two chambers.
 After loading the flow cell with a run buffer, a voltage applied over the membrane causes a constant ionic current through each pore.
-While always in the range of pico ampere, any molecule passing through the pore reduces the level of the ionic current depending on its physical and chemical properties.
+With impact in the range of pico ampere, any molecule passing through the pore reduces the level of the ionic current depending on its physical and chemical properties.
 
 Initial steps of the library preparation like fragmentation, end-repair and size selection are shared across long read technologies.
 For nanopore sequencing, a motor protein and a tethering adapter are ligated to both ends of the input DNA.
@@ -229,10 +233,10 @@ Based on in-house data, throughput and accuracy summaries for sequence and methy
 
 The widespread availability of the nanopore sequencing platform is sparking the development of novel bioinformatic software.
 Nonetheless, the streamlined raw data handling and processing of more complex workflows was lacking consistent pipelines, impeding the reproducibility across projects and labs.
-This chapter covers the development of the modular Snakemake pipeline \textit{Nanopype}.
+This chapter covers the development of the modular \textit{Snakemake} pipeline \textit{Nanopype}.
 As a set of nanopore specific workflows, it covers the most common use cases such as basecalling, alignment, methylation and structural variant detection.
 Deployed as python module with automatically build and tested software containers, the pipeline maintains all of it's internal dependencies including the version control of integrated tools.
-\textit{Nanopype} is the baseline for subsequent projects and facilitates the rapid development of own and integration of third party software.
+\textit{Nanopype} is the baseline for subsequent projects and facilitates the rapid development of custom and integration of third party software.
 
 
 \textbf{Chapter \ref{cha:signal} - Signal Processing}
