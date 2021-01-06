@@ -1,30 +1,36 @@
 \pdfbookmark[0]{Abstract}{Abstract}
 
-\chapter*{Abstract}
+\vspace*{10mm}
+\section*{Abstract}
 \label{sec:abstract}
-\vspace*{-10mm}
 
-Third-generation long-read technologies denote the latest development in high throughput DNA and RNA sequence analysis.
-Complementing the widespread second-generation short-read systems, long-read sequencing add unique application opportunities by generating previously unattainable read lengths.
-Commercially available platforms include single-molecule real-time (SMRT) sequencing provided by Pacific Biosciences (PacBio) and nanopore sequencing provided by Oxford Nanopore Technologies (ONT).
-Today these are state-of-the-art for de novo genome assemblies and identification of structural variants.
-Long RNA reads spanning entire transcripts greatly simplify the isoform detection.
 
-data processing and archiving strategies
-sparked the development of novel bioinformatic software
-
-the enabling step for the successful application
-
-methylation in repetitive regions
-emerging in epigenetics
-
+Third-generation long-read technologies denote the latest progression in high throughput DNA and RNA sequence analysis.
+Complementing the widespread second-generation short-read platforms, long-read sequencing adds unique application opportunities by generating previously unattainable read lengths.
+Commercially available systems include single-molecule real-time sequencing (SMRT), distributed by Pacific Biosciences (PacBio), and nanopore sequencing, provided by Oxford Nanopore Technologies (ONT).
+Despite the remaining higher error rate compared to short reads, these are already today state-of-the-art for de novo genome assemblies and identification of structural variants.
+Direct readout of chemical base modifications, in particular 5-methylcytosine, enables the investigation of previously difficult to access genomic regions or resolution of long distance relations, promoting the usage of nanopore sequencing in the epigenetic field.
+Increasing throughput and novel raw data types demand for efficient data processing and archiving strategies.
+Even though sparking the development of countless bioinformatics software, the streamlined nanopore data processing into standardized formats is still lacking.
+As an enabling step for its successful application, we developed \textit{Nanopype}, a modular and scalable pipeline. 
+Our approach facilitates the basic steps of basecalling, alignment, methylation- and structural variant detection with exchangeable tools in each module.
+Optimized for the usage on high performance compute clusters, we propose a raw data management, capable of handling multiple sequencing devices placed locally and remotely.
+Strict version control of integrated tools, and deployment as containerized software, ensure reproducibility across projects and laboratories.
+Enhancing the accessibility of repetitive genomic regions is a particular advantage of long-read sequencing.
+The expansion of unstable genomic short tandem repeats (STRs) is of particular interest as it causes more than 30 Mendelian human disorders.
+Long stretches of repetitive sequence render these regions inaccessible for short-read sequencing by synthesis.
+Furthermore, finding current nanopore basecalling algorithms insufficient to resolve the repeat length, we developed \textit{STRique}, a raw nanopore signal based repeat detection and quantification software.
+On patient derived samples containing C9orf72 and FMR1 repeat expansions, we demonstrate the precise analysis of repeat lengths.
+The additional integration of repeat- and nearby promoter-methylation levels reveal a repeat length depending gain, suggesting an epigenetic response to the expansion.
+Taken together, this work contributes to further increase the usability and provides novel insights based on third-generation nanopore sequencing.
 
 
 
 
 \cleardoublepage
-\chapter*{Zusammenfassung}
+\vspace*{10mm}
+\section*{Zusammenfassung}
 \label{sec:zusammenfassung}
-\vspace*{-10mm}
+
 
 
