@@ -32,5 +32,23 @@ Taken together, this work contributes to further increase the usability and prov
 \section*{Zusammenfassung}
 \label{sec:zusammenfassung}
 
+Long-Read-Technologien der dritten Generation stellen den neuesten Fortschritt in der DNA- und RNA-Sequenzanalyse mit hohem Durchsatz dar.
+Als Ergänzung zu den weit verbreiteten Short-Read-Plattformen der zweiten Generation bietet die Long-Read-Sequenzierung einzigartige Anwendungsmöglichkeiten, da sie bisher unerreichte Leselängen generiert.
+Zu den kommerziell verfügbaren Systemen gehören die Einzelmolekül-Echtzeitsequenzierung (SMRT), die von Pacific Biosciences (PacBio) vertrieben wird, und die Nanopore-Sequenzierung, die von Oxford Nanopore Technologies (ONT) angeboten wird.
+Trotz der verbleibenden höheren Fehlerrate im Vergleich zu Short Reads sind diese bereits heute Stand der Technik für de novo Genomassemblies und die Identifizierung von Strukturvarianten.
+Das direkte Auslesen chemischer Basenmodifikationen, insbesondere von 5-Methylcytosin, ermöglicht die Untersuchung von bisher schwer zugänglichen Genomregionen oder die Auflösung von Fernbeziehungen, was den Einsatz der Nanopore-Sequenzierung im epigenetischen Bereich fördert.
+Steigender Durchsatz und neuartige Rohdatentypen verlangen nach effizienten Datenverarbeitungs- und Archivierungsstrategien.
+Obwohl die Entwicklung zahlreicher Bioinformatiksoftware vorangetrieben wurde, fehlt es immer noch an einer effizienten Verarbeitung von Nanopore-Daten in standardisierten Formaten.
+Als Voraussetzung für eine erfolgreiche Anwendung haben wir \textit{Nanopype} entwickelt, eine modulare und skalierbare Pipeline. 
+Unser Ansatz ermöglicht die grundlegenden Schritte Basecalling, Alignment, Methylierungs- und Strukturvariantenerkennung mit austauschbaren Tools in jedem Modul.
+Optimiert für den Einsatz auf Hochleistungs-Rechenclustern, schlagen wir ein Rohdatenmanagement vor, das in der Lage ist, mehrere lokal und remote platzierte Sequenziergeräte zu verwalten.
+Eine strenge Versionskontrolle der integrierten Tools und die Bereitstellung als containerisierte Software gewährleisten die Reproduzierbarkeit über Projekte und Labore hinweg.
+Ein besonderer Vorteil der Long-Read-Sequenzierung ist die bessere Zugänglichkeit von repetitiven genomischen Regionen.
+Die Ausbreitung instabiler genomischer Short Tandem Repeats (STRs) ist von besonderem Interesse, da sie mehr als 30 mendelsche menschliche Erkrankungen verursacht.
+Lange Abschnitte der repetitiven Sequenz machen diese Regionen für die Short-Read-Sequenzierung durch Synthese unzugänglich.
+Da die derzeitigen Nanopore-Basecalling-Algorithmen nicht ausreichen, um die Länge der Wiederholungen aufzulösen, haben wir \textit{STRique} entwickelt, eine auf dem Nanopore-Rohsignal basierende Software zur Erkennung und Quantifizierung von Wiederholungen.
+An Patientenproben, die C9orf72- und FMR1-Wiederholungsexpansionen enthalten, demonstrieren wir die präzise Analyse der Wiederholungslängen.
+Die zusätzliche Integration von Repeat- und nahegelegenen Promotor-Methylierungsleveln offenbart einen von der Repeatlänge abhängigen Zuwachs, was auf eine epigenetische Reaktion auf die Expansion hindeutet.
+Insgesamt trägt diese Arbeit dazu bei, die Nutzbarkeit weiter zu erhöhen und liefert neue Erkenntnisse auf Basis der Nanopore-Sequenzierung der dritten Generation.
 
 

@@ -1,47 +1,167 @@
 \chapter{State of the Art}
 \label{cha:state_of_art}
 
-\begin{itemize}
-    \item Zoom out history \cite{Deamer2016}
-\end{itemize}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/GA.pdf}
+	\label{fig:state_of_art:ga}
+\end{figure}
 
 
 
 
-PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 012021}
+\section{Background}
+\label{sec:state_of_art:background}
 
+Zoom out history \cite{Deamer2016}, fast growing field, too many papers to track big picture perspective
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/paper_count.pdf}
+	\captionsetup{format=plain}
+	\caption[Journals and publications per year]{Active journals and new publications per year:}
+	\label{fig:state_of_art:paper_count}
+\end{figure}
+
+
+Open Syllabus Galaxy (https://galaxy.opensyllabus.org/)
+co-assignment graph for books appearing in the same course
+160k nodes (at least 20 assignments), 20M edges
+
+
+
+
+\section{Literature Database}
+\label{sec:state_of_art:database}
+
+Allen Institute for AI S2ORC database, complement with CrossRef REST API\footnote{\url{https://github.com/CrossRef/rest-api-doc}, accessed 01/2021}
+and COCI CrossRef OpenCitations Index
+
+
+\begin{table}[ht]
+	\centering
+	\caption[Literature Graph Metrics]{Literature graph metrics}
+	\label{tab:state_of_art:graph}
+	\begin{tabular}{l|r}
+		\hline
+		edges (citations)           & 901 M 	\\
+		nodes (paper)               & 116 M 	\\ \hline
+		with title					& 115 M		\\
+		with title \& abstract		&  57 M		\\ \hline
+		connected nodes             &  68.4 M 	\\
+		> 0 citations				&  56.6 M	\\
+		> 5 citations				&  27.5 M	\\
+		largest connected component &  67.9 M 	\\ \hline
+	\end{tabular}
+\end{table}
+
+Some publications annotated with field from Microsoft Academic (MA), count in- and outgoing citations per field and cluster in heatmap:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/field_interactions.pdf}
+	\captionsetup{format=plain}
+	\caption[Scientific field interactions]{Citation edges summarized by field of research:}
+	\label{fig:state_of_art:field_interactions}
+\end{figure}
+
+Embed literature graph using node2vec is infeasible. GraphVite has fast GPU implementation of DeepWalk.
+Large Scale illustration of interplay.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_global.pdf}
+	\captionsetup{format=plain}
+	\caption[Scientific literature graph]{Scientific publication graph embedding: UMAP visualization of DeepWalk graph embedding colored by field of research. Publications from 1980 onward with at least 20 citations. (n=9M embedded, n=50k random sample plotted)}
+	\label{fig:state_of_art:umap_global}
+\end{figure}
+
+
+
+
+\section{Third Generation Sequencing in the Literature}
+\label{sec:state_of_art:third_generation}
+
+PacBio seed 2900, nanopore seed 2852.
+While the PacBio and Nanopore cluster grow to similar sizes of 6159 and 6085 publications respectively, the number of nodes reached by both extensions is only 492.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/cluster_convergence.pdf}
+	\captionsetup{format=plain}
+	\caption[Keyword Seed and Extend Convergence]{Cluster size convergence for keyword seed and extend strategy.}
+	\label{fig:state_of_art:cluster_convergence}
+\end{figure}
+
+Intersection with core network 1980/20 citations is 0.10 for PacBio and 0.17 for nanopore.
+Not all seed nodes have citations, long read cluster of pacbio and nanopore contains 10k nodes from 142 connected components, however the largest cc is 9492.
+21 connected components have at least one overlap into 20 citations backbone graph.
+
+After backbone expansion, 43051 nodes with largest cc 42638
+Same embedding as above, complemented with random walks from core\_20 backbone citations. Mostly separated, disconnected nanopore cluster, some interleaved areas.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_lr.pdf}
+	\captionsetup{format=plain}
+	\caption[Third generation sequencing cluster]{Third generation sequencing cluster}
+	\label{fig:state_of_art:umap_lr}
+\end{figure}
+
+Hierarchical clustering of cluster centers, publication year distribution and seed to extension composition of clusters.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/cluster_sizes.pdf}
+	\captionsetup{format=plain}
+	\caption[Long-Read Application Cluster]{Cluster of long-read applications:}
+	\label{fig:state_of_art:cluster_sizes}
+\end{figure}
+
+Extract most variant keyword tokens by TF-IDF embedding and generate word clouds of tokens with high inter-cluster variance.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/wcs_minion.pdf}
+	\captionsetup{format=plain}
+	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 10, 24 and 19.}
+	\label{fig:state_of_art:wcs_minion}
+\end{figure}
+
+PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
 25X for 6mA but 250X for 5mC and 5hmC
 
 
+\subsection{Nanopore Development}
+\label{subsec:state_of_art:nanopore}
 
-\section{Nanopore Sequencing in the Literature}
-\label{sec:state_of_art:nanopore_literature}
+\subsection{Bacterial Strain}
+\label{subsec:state_of_art:strain}
 
-\begin{itemize}
-    \item Motivation: Too many publications to read, too fast progress to stay up to date
-    \item Motivation: OpenSyllabusGallxy visualizing books read in NA universities.
-    \item Introduce S2ORC dataset, summary, paper, journals, topics
-    \item Complement with Crossref API
-    \item Plot UMAP of all publications, highlight 'nanopore cluster'
-    %\item paper over time, impact (over time?) topics
-    \item wordclouds or timeline to illustrate usage of the technology
-    \item most impact by incoming citations, normalized by year/age
-    \item missing but relevant publications for this work, limitations of computational literature scan
-\end{itemize}
+\subsection{Assembly}
+\label{subsec:state_of_art:assembly}
+
+\subsection{Isoform Detection}
+\label{subsec:state_of_art:isoform}
+
+PacBio 4M reads per smart cell
+Nanopore 5-10M for cDNA kit, 1M direct RNA kit
+
+\subsection{Epigenetics}
+\label{subsec:state_of_art:epigenetics}
+
+
+
+
+\section{Focus Nanopore Sequencing}
+\label{sec:state_of_art:nanopore}
 
 
 
 
 \section{\Biorxiv\ Preprints}
 \label{sec:state_of_art:biorxiv}
-
-\begin{itemize}
-    \item Role of preprints for nanopore, bioRxiv as platform
-    \item stats of bioRxiv, paper, topics, nanopore paper, publication rate and impact
-    \item Example of read-until, visible for in-field experts, hidden for outsider?
-    \item Comment/Opinion on preprints in fast-moving fields, coronavirus example, weight potential against risks
-    \item Mention Twitter as fast but also least reliable source
-\end{itemize}
 
 
 
