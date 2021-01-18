@@ -2,6 +2,7 @@
 \label{cha:state_of_art}
 
 
+Following latest developments in third generation sequencing is therefore equally essential for both, users and developers.
 
 \begin{figure}[h]
 	\centering
@@ -9,7 +10,7 @@
 	\label{fig:state_of_art:ga}
 \end{figure}
 
-
+The chapter starts with a \textbf{background} in \ref{sec:state_of_art:background} followed by the setup and usage of a \textbf{literature database} containing scientific publication metadata in \ref{sec:state_of_art:database}. A big picture overview of \textbf{third generation sequencing} technologies in \ref{sec:state_of_art:third_generation}, is followed by a focus on \textbf{nanopore sequencing} in \ref{sec:state_of_art:nanopore}. Finally, most recent \textbf{throughput and accuracy} benchmarks on in-house data close the state of the art evaluation.
 
 
 \section{Background}
@@ -81,7 +82,7 @@ Large Scale illustration of interplay.
 
 
 
-\section{Third Generation Sequencing in the Literature}
+\section{Third Generation Sequencing}
 \label{sec:state_of_art:third_generation}
 
 PacBio seed 2900, nanopore seed 2852.
@@ -127,8 +128,16 @@ Extract most variant keyword tokens by TF-IDF embedding and generate word clouds
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/wcs_minion.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 10, 24 and 19.}
+	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 2, 3 and 5.}
 	\label{fig:state_of_art:wcs_minion}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_cluster.pdf}
+	\captionsetup{format=plain}
+	\caption[Third generation sequencing cluster]{Third generation sequencing cluster}
+	\label{fig:state_of_art:umap_cluster}
 \end{figure}
 
 PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
@@ -162,8 +171,8 @@ Nanopore 5-10M for cDNA kit, 1M direct RNA kit
 
 
 
-\section{\Biorxiv\ Preprints}
-\label{sec:state_of_art:biorxiv}
+%\section{\Biorxiv\ Preprints}
+%\label{sec:state_of_art:biorxiv}
 
 
 

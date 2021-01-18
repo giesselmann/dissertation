@@ -43,12 +43,12 @@ draft=false,				% value for draft version
 	% --------------------------
 	% Front matter
 	% --------------------------
-	\pagenumbering{roman}			% roman page numbing (invisible for empty page style)
-	\pagestyle{empty}				% no header or footers
+	\pagenumbering{roman}					% roman page numbing (invisible for empty page style)
+	\pagestyle{empty}						% no header or footers
 	\input{tex/sections/titlepages}			% INCLUDE: all titlepages
 	\cleardoublepage
 	
-	\pagestyle{plain}				% display just page numbers
+	\pagestyle{plain}						% display just page numbers
 	\input{tex/sections/abstract}			% INCLUDE: the abstracts (english and german)
 	\cleardoublepage
 	\input{tex/sections/bib}
@@ -59,16 +59,16 @@ draft=false,				% value for draft version
 
 	
 	%
-	\setcounter{tocdepth}{2}		% define depth of toc
-	\tableofcontents				% display table of contents
+	\setcounter{tocdepth}{2}				% define depth of toc
+	\tableofcontents						% display table of contents
 	\cleardoublepage
 	
 	% --------------------------
 	% Body matter
 	% --------------------------
-	\pagenumbering{arabic}			% arabic page numbering
-	\setcounter{page}{1}			% set page counter
-	\pagestyle{maincontentstyle} 	% fancy header and footer
+	\pagenumbering{arabic}					% arabic page numbering
+	\setcounter{page}{1}					% set page counter
+	\pagestyle{maincontentstyle} 			% fancy header and footer
 	
 	\input{tex/sections/introduction}
 	\input{tex/sections/state_of_art}
