@@ -1,16 +1,14 @@
 \chapter{State of the Art}
 \label{cha:state_of_art}
 
-Single-molecule real-time and nanopore sequencing are commonly referred to as third generation sequencing technologies.
-Continuous improvements on platform, library preparation and analysis software led to increasing throughput and accuracy.
-Following latest developments in third generation sequencing is therefore equally essential for both, users and developers.
-The availability of significantly longer reads enabled novel insights for example in assemblies, structural variant and isoform detection.
-At the same time, a rapidly growing number of studies impedes a systematic and unbiased manual literature research.
-Thus, the following review is based on the computational evaluation of meta data from publications in scientific journals.
+Single-molecule real-time- and nanopore sequencing are commonly referred to as third generation sequencing technologies.
+Continuous improvements on platform, library preparation and analysis software still lead to throughput and accuracy enhancements.
+Following latest developments in third generation sequencing is therefore equally important for both, users and developers.
+The availability of significantly longer reads enables novel insights, published in a rapidly growing number of studies, making a systematic and unbiased manual literature research increasingly complex.
+The following review is therefore backed by the computational evaluation of meta data from publications in scientific journals.
 Combining title, abstract and citations into a literature graph opens a unique perspective and provides a scalable approach to sweep any number of publications.
-
-More bacterial
-Largely separated pacbio and ont
+In addition to the major application fields of assembly, structural variant and isoform detection, we find a largely separated landscape, either relying on Pacific Biosciences or Oxford Nanopore Technologies.
+The code for this chapter is available at \textit{https://github.com/giesselmann/scholar}.
 
 \begin{figure}[h]
 	\centering
@@ -24,6 +22,9 @@ The chapter starts with a \textbf{background} in \ref{sec:state_of_art:backgroun
 \section{Background}
 \label{sec:state_of_art:background}
 
+Number of journals and publications is exponentially growing, even when focusing on only journals publishing over at least five years and publications with more than ten citations.
+
+
 Zoom out history \cite{Deamer2016}, fast growing field, too many papers to track big picture perspective
 MinION, PromethION, Flongle
 
@@ -35,10 +36,8 @@ MinION, PromethION, Flongle
 	\label{fig:state_of_art:paper_count}
 \end{figure}
 
-
-Open Syllabus Galaxy\footnote{\url{https://galaxy.opensyllabus.org/}, accessed 01/2021}
-co-assignment graph for books appearing in the same course
-160k nodes (at least 20 assignments), 20M edges
+The following computer aided literature analysis is inspired by the Open Syllabus Galaxy\footnote{\url{https://galaxy.opensyllabus.org/}, accessed 01/2021} project.
+Based on co-assignments of books in university courses, a literature graph of 160k books illustrates the linkage between research fields.
 
 
 
