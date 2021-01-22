@@ -8,7 +8,7 @@ The availability of significantly longer reads enables novel insights, published
 The following review is therefore backed by the computational evaluation of meta data from publications in scientific journals.
 Combining title, abstract and citations into a literature graph opens a unique perspective and provides a scalable approach to sweep any number of publications.
 In addition to the major application fields of assembly, structural variant and isoform detection, we find a largely separated landscape, either relying on Pacific Biosciences or Oxford Nanopore Technologies.
-The code for this chapter is available at \textit{https://github.com/giesselmann/scholar}.
+Supplementary code for this chapter is available at \textit{https://github.com/giesselmann/scholar}.
 
 \begin{figure}[h]
 	\centering
@@ -22,22 +22,24 @@ The chapter starts with a \textbf{background} in \ref{sec:state_of_art:backgroun
 \section{Background}
 \label{sec:state_of_art:background}
 
-Number of journals and publications is exponentially growing, even when focusing on only journals publishing over at least five years and publications with more than ten citations.
+The number of studies published in scientific journals is exponentially growing (Fig. \ref{fig:state_of_art:paper_count}).
+Including only records with a digital object identifier (DOI) tracked by CrossRef and Semantic Scholar, results in a conservative estimation of 100k journals and a total of 5M paper being published only in 2020.
+While the targeted discovery of specific studies remains feasible by indexing in search engines, the extensive and continuous tracking of an entire field of research becomes increasingly difficult.
+Especially for the fast evolving field of nanopore sequencing, a zoomed out perspective is equally valuable for the orientation of newcomers and adaptation to latest developments in experienced groups.
+A data driven literature scan can here help to cluster results and identify key publications in an unbiased way.
 
-
-Zoom out history \cite{Deamer2016}, fast growing field, too many papers to track big picture perspective
-MinION, PromethION, Flongle
+%Zoom out history \cite{Deamer2016}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/paper_count.pdf}
 	\captionsetup{format=plain}
-	\caption[Journals and publications per year]{Active journals and new publications per year:}
+	\caption[Journals and publications per year]{Journals and new publications per year: \textbf{a}, Actively publishing scientific journals per year and journals with a history of at least five years. \textbf{b}, New publications per year and publications with at least 10 citations. (Semantic Scholar and CrossRef combined, only records with DOI)}
 	\label{fig:state_of_art:paper_count}
 \end{figure}
 
 The following computer aided literature analysis is inspired by the Open Syllabus Galaxy\footnote{\url{https://galaxy.opensyllabus.org/}, accessed 01/2021} project.
-Based on co-assignments of books in university courses, a literature graph of 160k books illustrates the linkage between research fields.
+Based on co-assignments of books in North American university courses, their literature graph of 160k books visualizes the linkage between research fields.
 
 
 
@@ -45,8 +47,8 @@ Based on co-assignments of books in university courses, a literature graph of 16
 \section{Literature Database}
 \label{sec:state_of_art:database}
 
-Allen Institute for AI S2ORC database, complement with CrossRef REST API\footnote{\url{https://github.com/CrossRef/rest-api-doc}, accessed 01/2021}
-and COCI CrossRef OpenCitations Index
+Allen Institute for AI S2ORC \cite{Lo2020} database, complement with CrossRef REST API\footnote{\url{https://github.com/CrossRef/rest-api-doc}, accessed 01/2021}
+and COCI CrossRef OpenCitations Index \cite{Peroni2020}
 
 
 \begin{table}[ht]
@@ -76,7 +78,7 @@ Some publications annotated with field from Microsoft Academic (MA), count in- a
 	\label{fig:state_of_art:field_interactions}
 \end{figure}
 
-Embed literature graph using node2vec is infeasible. GraphVite has fast GPU implementation of DeepWalk.
+Embed literature graph using node2vec is infeasible. GraphVite \cite{Zhu2019} has fast GPU implementation of DeepWalk \cite{Perozzi2014}.
 Large Scale illustration of interplay.
 
 \begin{figure}[h]
