@@ -19,14 +19,16 @@ Supplementary code for this chapter is available at \textit{https://github.com/g
 The chapter starts with a \textbf{background} in \ref{sec:state_of_art:background} followed by the setup and usage of a \textbf{literature database} containing scientific publication meta data in \ref{sec:state_of_art:database}. A big picture overview of \textbf{third generation sequencing} technologies in \ref{sec:state_of_art:third_generation}, is followed by a focus on \textbf{nanopore sequencing} in \ref{sec:state_of_art:nanopore}. Finally, most recent \textbf{throughput and accuracy} benchmarks on in-house data close the state of the art evaluation.
 
 
+
+
 \section{Background}
 \label{sec:state_of_art:background}
 
-The number of studies published in scientific journals is exponentially growing (Fig. \ref{fig:state_of_art:paper_count}).
+The number of studies published per year in scientific journals is exponentially growing (Fig. \ref{fig:state_of_art:paper_count}).
 Including only records with a digital object identifier (DOI) tracked by CrossRef and Semantic Scholar, results in a conservative estimation of 100k journals and a total of 5M paper being published only in 2020.
 While the targeted discovery of specific studies remains feasible by indexing in search engines, the extensive and continuous tracking of an entire field of research becomes increasingly difficult.
 Especially for the fast evolving field of nanopore sequencing, a zoomed out perspective is equally valuable for the orientation of newcomers and adaptation to latest developments in experienced groups.
-A data driven literature scan can here help to cluster results and identify key publications in an unbiased way.
+A data driven literature scan facilitates the clustering of results and identification of key publications in an unbiased way.
 
 %Zoom out history \cite{Deamer2016}
 
@@ -40,6 +42,9 @@ A data driven literature scan can here help to cluster results and identify key 
 
 The following computer aided literature analysis is inspired by the Open Syllabus Galaxy\footnote{\url{https://galaxy.opensyllabus.org/}, accessed 01/2021} project.
 Based on co-assignments of books in North American university courses, their literature graph of 160k books visualizes the linkage between research fields.
+Applied to scientific journal publications, the success of the method is limited by the availability and quality of large scale meta data such as title, abstract and citations.
+A number of platforms like Google Scholar, Web of Science, Dimensions or Microsoft Academic operate online literature databases, though without access to larger data chunks for systematic offline analysis.
+Additional full text for advanced text mining is commonly only available through paid access from individual journals.
 
 
 
@@ -96,6 +101,7 @@ Large Scale illustration of interplay.
 \label{sec:state_of_art:third_generation}
 
 PacBio seed 2900, nanopore seed 2852.
+Compare to Dimensions: 3147 publications for 'nanopore AND sequencing' (01/2021)
 While the PacBio and Nanopore cluster grow to similar sizes of 6159 and 6085 publications respectively, the number of nodes reached by both extensions is only 492.
 
 
