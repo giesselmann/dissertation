@@ -52,18 +52,26 @@ Additional full text for advanced text mining is commonly only available through
 \section{Literature Database}
 \label{sec:state_of_art:database}
 
-Allen Institute for AI S2ORC \cite{Lo2020} database, complement with CrossRef REST API\footnote{\url{https://github.com/CrossRef/rest-api-doc}, accessed 01/2021}
-and COCI CrossRef OpenCitations Index \cite{Peroni2020}
-
+For the purpose of tracing citations and clustering larger numbers of publications, we first setup a custom literature database.
+The Semantic Scholar open research corpus (S2ORC) provides the largest available collection of scientific paper meta data and serves as starting point in this work \cite{Lo2020}.
+Collected 07/2020, the data contains 77M papers linked by 333M citations.
+Provided as compressed JSON files, the records are re-organized into a SQLite database with two main tables for records and citations.
+Each record is uniquely identified by it's DOI and can additionally contain year, journal, title and abstract.
+Citations are unique pairs of citing and cited DOI, referencing rows in the records table.
+To further improve completeness of records and citations, we incrementally query the CrossRef REST API\footnote{\url{https://github.com/CrossRef/rest-api-doc}, accessed 01/2021} for novel entries, most recently in January 2021.
+Citations are part of CrossRef but not provided through the API.
+The CrossRef Open Citations Index (COCI) however, is regularly parsing and dumping citations and therefore integrated as well \cite{Peroni2020}.
+Metrics of the final database used for this work are summarized in table \ref{tab:state_of_art:graph}. 
+For comparison, the Dimensions\footnote{'url{https://www.dimensions.ai/}, accessed 01/2021} online platform lists 114M records and 1.3G citations.
 
 \begin{table}[ht]
 	\centering
-	\caption[Literature Graph Metrics]{Literature graph metrics}
+	\caption[Literature Graph Metrics]{Literature database metrics}
 	\label{tab:state_of_art:graph}
 	\begin{tabular}{l|r}
 		\hline
-		edges (citations)           & 901 M 	\\
-		nodes (paper)               & 116 M 	\\ \hline
+		citations (edges)           & 901 M 	\\
+		paper (nodes)               & 116 M 	\\ \hline
 		with title					& 115 M		\\
 		with title \& abstract		&  57 M		\\ \hline
 		connected nodes             &  68.4 M 	\\
@@ -73,15 +81,24 @@ and COCI CrossRef OpenCitations Index \cite{Peroni2020}
 	\end{tabular}
 \end{table}
 
-Some publications annotated with field from Microsoft Academic (MA), count in- and outgoing citations per field and cluster in heatmap:
+The network of publications and citations can also be interpreted as a literature graph with papers as nodes and citations as edges.
+Only a fraction of 68M publications has either citing or cited edges.
+The lack of citing (outgoing) edges indicates insufficient parsing of the papers reference sections, while the lack of cited (incoming) edges is likely a combination of technical limitations and unrecognized publications.
+Striking though is the presence of the largest connected component of 67.9M publications, where each paper can be reached via at least one citation edge.
+
+A subset of publications originating from the S2ORC data set is annotated with a primary field of research from Microsoft Academic (MA). 
+To get an impression of the value of a literature graph, we first extract all edges connecting papers with an annotated field of research.
+A hierarchical clustering of summarized citation counts per field is plotted as heatmap in Fig. \ref{fig:state_of_art:field_interactions}, and shows an intuitive grouping of natural- and social sciences.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/field_interactions.pdf}
 	\captionsetup{format=plain}
-	\caption[Scientific field interactions]{Citation edges summarized by field of research:}
+	\caption[Scientific field interactions]{Citation edges summarized by field of research: Sum of citations (log10) between and within fields of research (Hierarchical clustering, method: centroid, distance: cosine).}
 	\label{fig:state_of_art:field_interactions}
 \end{figure}
+
+
 
 Embed literature graph using node2vec is infeasible. GraphVite \cite{Zhu2019} has fast GPU implementation of DeepWalk \cite{Perozzi2014}.
 Large Scale illustration of interplay.
@@ -90,7 +107,7 @@ Large Scale illustration of interplay.
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_global.pdf}
 	\captionsetup{format=plain}
-	\caption[Scientific literature graph]{Scientific publication graph embedding: UMAP visualization of DeepWalk graph embedding colored by field of research. Publications from 1980 onward with at least 20 citations. (n=9M embedded, n=50k random sample plotted)}
+	\caption[Scientific literature graph]{Scientific publication graph embedding: UMAP visualization of DeepWalk graph embedding colored by field of research. Publications from 1980 onward with at least 20 citations (n=9M embedded, n=50k random sample plotted).}
 	\label{fig:state_of_art:umap_global}
 \end{figure}
 
