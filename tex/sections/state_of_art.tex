@@ -24,6 +24,8 @@ The chapter starts with a \textbf{background} in \ref{sec:state_of_art:backgroun
 \section{Background}
 \label{sec:state_of_art:background}
 
+% stretch a bit more the general usage, not only for the novel nanopore field
+
 The number of studies published per year in scientific journals is exponentially growing (Fig. \ref{fig:state_of_art:paper_count}).
 Including only records with a digital object identifier (DOI) tracked by CrossRef and Semantic Scholar, results in a conservative estimation of 100k journals and a total of 5M paper being published only in 2020.
 While the targeted discovery of specific studies remains feasible by indexing in search engines, the extensive and continuous tracking of an entire field of research becomes increasingly difficult.
@@ -31,12 +33,13 @@ Especially for the fast evolving field of nanopore sequencing, a zoomed out pers
 A data driven literature scan facilitates the clustering of results and identification of key publications in an unbiased way.
 
 %Zoom out history \cite{Deamer2016}
+% axis labels capital, explain journal >= 5years, align legends to y-axis
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/paper_count.pdf}
 	\captionsetup{format=plain}
-	\caption[Journals and publications per year]{Journals and new publications per year: \textbf{a}, Actively publishing scientific journals per year and journals with a history of at least five years. \textbf{b}, New publications per year and publications with at least 10 citations. (Semantic Scholar and CrossRef combined, only records with DOI)}
+	\caption[Journals and publications per year]{Journals and new publications per year: \textbf{a}, Actively publishing scientific journals per year and journals with a publication history of at least five years. \textbf{b}, New publications per year and publications with at least 10 citations. (Semantic Scholar and CrossRef combined, only records with DOI)}
 	\label{fig:state_of_art:paper_count}
 \end{figure}
 
@@ -62,7 +65,7 @@ To further improve completeness of records and citations, we incrementally query
 Citations are part of CrossRef but not provided through the API.
 The CrossRef Open Citations Index (COCI) however, is regularly parsing and dumping citations and therefore integrated as well \cite{Peroni2020}.
 Metrics of the final database used for this work are summarized in table \ref{tab:state_of_art:graph}. 
-For comparison, the Dimensions\footnote{'url{https://www.dimensions.ai/}, accessed 01/2021} online platform lists 114M records and 1.3G citations.
+For comparison, the Dimensions\footnote{\url{https://www.dimensions.ai/}, accessed 01/2021} online platform lists 114M records and 1.3G citations.
 
 \begin{table}[ht]
 	\centering
@@ -168,7 +171,7 @@ Applying the same \textit{DeepWalk} configuration and dimensionality reduction a
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_lr.pdf}
 	\captionsetup{format=plain}
-	\caption[Third generation sequencing cluster]{Third generation sequencing cluster: The UMAP projection shows the \textit{DeepWalk} graph embedding with points scaled by number of citations. Colors indicated technology and seed/extend source.}
+	\caption[Third generation sequencing cluster]{Third generation sequencing cluster: The UMAP projection shows the \textit{DeepWalk} graph embedding with points scaled by number of citations. Colors indicate technology and seed/extend source.}
 	\label{fig:state_of_art:umap_lr}
 \end{figure}
 
@@ -193,7 +196,7 @@ Extract most variant keyword tokens by TF-IDF embedding and generate word clouds
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/wcs_minion.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 2, 3 and 5.}
+	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 1, 15 and 16.}
 	\label{fig:state_of_art:wcs_minion}
 \end{figure}
 
