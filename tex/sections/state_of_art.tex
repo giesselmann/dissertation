@@ -220,25 +220,27 @@ Not all word clouds can be translated into meaningful cluster labels.
 Especially cluster with few publications or a high extension to seed ratio are difficult to characterize.
 Nonetheless, for most cluster a high-level label is found and annotated into the graph embedding (Fig. \ref{fig:state_of_art:umap_cluster}).
 Surprisingly, while mentioning nanopore sequencing, the isolated clusters (ID 20-23) have no direct reference to Oxford Nanopore Technologies, but cover the development of novel protein and graphen based nanopores.
-Beyond that, the token 'assembl' is one of the most prominent, and with different scaling found in almost all clusters.
+Beyond that, the token 'assembl' (words: assembly, assemble, assembling etc.) is one of the most prominent, and with different scaling found in almost all clusters.
 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_cluster.pdf}
 	\captionsetup{format=plain}
-	\caption[Third generation sequencing applications]{Third generation sequencing applications: The UMAP projection shows the \textit{DeepWalk} graph embedding with points scaled by number of citations. Colors indicate cluster with labels derived of most descriptive word tokens.}
+	\caption[Third generation sequencing applications]{Third generation sequencing applications: The UMAP projection shows the \textit{DeepWalk} graph embedding with points scaled by number of citations (1 for content linked publications). Colors indicate cluster with labels derived of most descriptive word tokens.}
 	\label{fig:state_of_art:umap_cluster}
 \end{figure}
 
 The following sub-sections aim to provide a brief insight into major application fields for long-read sequencing technologies.
 Key publications are determined as highly cited records compared to the cluster community.
-The content of the composite 'MinION' cluster (ID 15) is further analyzed in section \ref{sec:state_of_art:nanopore}, concluding with the investigation of use cases within the so far hidden epigenetics.
+The content of the composite 'MinION' cluster (ID 15) is further analyzed in section \ref{sec:state_of_art:nanopore}, concluding with the investigation of so far hidden use cases in epigenetics.
 
 
 
 \subsection{Bacterial \& Viral Strain Analysis}
 \label{subsec:state_of_art:strain}
+
+
 
 \subsection{Metagenomics \& Microbiomics}
 \label{subsec:state_of_art:metagenomics}
