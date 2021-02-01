@@ -138,18 +138,22 @@ To address this issue, a future version with weighted pseudo-citations based on 
 
 Both, the \textit{Nanopype} pipeline in chapter \ref{cha:nanopype} and \textit{STRique} repeat detection in chapter \ref{cha:strique} are exclusively developed for nanopore sequencing data.
 Nevertheless, from a review perspective, both long read platforms are of interest, in particular when portability or initial acquisition cost play a secondary role.
-The identification of third generation sequencing related publications is implemented in two steps of seed and extend.
+The identification of third generation sequencing related publications is implemented in three steps of seed, extend and connect.
 First, publications with keywords in either title or abstract are marked as seed paper.
-The second step extends clusters around seed paper by following their citation edges in the literature graph.
+The second step extends clusters around seed papers by following their citation edges in the literature graph.
+Lastly, additional edges derived from text similarities and random walks in the \textbf{core\_20} backbone graph reduce the sparsity of the third generation citation graph.
 
 Title and abstract columns of the records table are indexed for full text search using the SQLite \textit{FTS5} extension. 
 For PacBio SMRT sequencing, the respective query is 'pacbio OR single molecule real time sequencing', for ONT 'nanopore sequencing' is used.
 \textit{FTS5} is case-insensitive and works based on tokens, 'sequencing' for instance, is stemmed to 'sequenc', requiring a post processing step to validate matches and reduce false positives.
 The number of seed papers for PacBio is 2900, for ONT 2852 paper contain the words 'nanopore' and 'sequencing' in title or abstract.
 The output is comparable to the online platform Dimensions, which lists 3147 publications for 'nanopore sequencing' (queried 01/2021).
+
 The extension of paper clusters around keywords is achieved by iteratively adding publications with a minimum number of citations and with a strong binding to the cluster.
 The binding is computed as the fraction of in- or outgoing edges reaching nodes in the current cluster.
 The seed extension is evaluated for different parameter combinations, with five citations and a minimum binding of 0.2 resulting in the largest stable cluster (Fig. \ref{fig:state_of_art:cluster_convergence}).
+The PacBio and Nanopore cluster grow to similar sizes of 4392 and 4689 publications respectively and form the third generation sequencing cluster. 
+The number of nodes reached by both extensions though, is with 308 unexpectedly low.
 
 \begin{figure}[h]
 	\centering
@@ -159,13 +163,17 @@ The seed extension is evaluated for different parameter combinations, with five 
 	\label{fig:state_of_art:cluster_convergence}
 \end{figure}
 
-The PacBio and Nanopore cluster grow to similar sizes of 4392 and 4689 publications respectively and form the third generation sequencing cluster. 
-The number of nodes reached by both extensions though, is with 308 unexpectedly low.
-Of the 8.7k third generation sequencing cluster nodes, only 7.6k have citing or cited edges and form a sub-graph suitable for embedding.
-To further link isolated connected components and for additional preservation of the global graph structure, we complement the third generation sub-graph by random walks in the \textbf{core\_20} backbone graph.
-Each walk starts at a cluster node which is also part of the \textbf{core\_20} graph and follows citation edges within the \textbf{core\_20} backbone until another core-cluster intersection node is found or a maximum length is reached.
+To further link isolated connected components and for additional preservation of the global graph structure, we complement the extracted third generation sub-graph by random walks in the \textbf{core\_20} backbone graph.
+Each walk starts at a sub-graph node which is also contained in the \textbf{core\_20} graph and follows citation edges within the \textbf{core\_20} backbone, until another shared node is found, or a maximum length is reached.
 Edges of random walks are only used for embedding, the additional nodes are ignored in the subsequent content analysis.
-Applying the same \textit{DeepWalk} configuration and dimensionality reduction as above results in the long-read graph embedding shown in Fig. \ref{fig:state_of_art:umap_lr}.
+Of the initial 8.7k third generation sequencing sub-graph nodes, only 7.6k have citing or cited edges suitable for embedding.
+In order to also integrate publications without citations, we add additional weighted edges based on text similarities between documents.
+Specifically, a MinHash LSH Forest is used to perform top-k queries based on approximated Jaccard similarities \cite{Bawa2005}.
+The LSH Forest is build of hashed titles and abstracts of all publications in the random walk expanded third generation graph.
+For each publication, edges to the top 500 most similar documents in the set are stored as candidates, with the approximated Jaccard similarity as weight.
+Of all candidate edges, the top 20\% edges between highly similar documents are added to the third generation graph.
+For the embedding, the graph is treated as un-directed and weighted, with a constant weight of 1.0 assigned to all citation edges.
+Applying the same \textit{DeepWalk} configuration and dimensionality reduction as above results in the third generation graph embedding shown in Fig. \ref{fig:state_of_art:umap_lr}.
 
 \begin{figure}[h]
 	\centering
@@ -176,47 +184,64 @@ Applying the same \textit{DeepWalk} configuration and dimensionality reduction a
 \end{figure}
 
 The third generation literature graph embedding reveals a largely separated field of publications relying on either PacBio or Oxford Nanopore Technologies.
-Aside from small outlier groups, a broad PacBio field is accompanied by two distinct accumulations of nanopore related work.
+Aside from small outlier groups, a broad PacBio field is accompanied by three distinct accumulations of nanopore related work.
 
-
-
-Hierarchical clustering of cluster centers, publication year distribution and seed to extension composition of clusters.
+The embedding of only the third generation sequencing sub-graph is clustered after discarding nodes added by the random walk expansion.
+Using the KMeans algorithm, an optimal number of clusters is found with 24 based on the distortion score.
+A subsequent hierarchical clustering of cluster centers results in a distance based sorting (Fig. \ref{fig:state_of_art:cluster_sizes} a).
+The ratio of seed to extension papers per technology and cluster confirms the previously noted separation of PacBio and ONT (Fig. \ref{fig:state_of_art:cluster_sizes} b).
+Aside from small clusters of virtually only extension publications (ID 0, 6-7, 17-19), two major groups of which one (ID 20-23) contains only nanopore seeds and extensions become visible.
+Remarkable is, that clusters with on average older publications tend to have a higher proportion of extensions.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/cluster_sizes.pdf}
 	\captionsetup{format=plain}
-	\caption[Long-Read Application Cluster]{Cluster of long-read applications:}
+	\caption[Long-Read Application Cluster]{Cluster of long-read applications: \textbf{a}, Hierarchical clustering of cluster centers assigns cluster IDs based on inter-cluster distance. \textbf{b}, Cluster size, seed to extend and technology composition are shown as stacked bar plots. \textbf{c}, Distributions of publication years per cluster with data as boxplots (centerline, median; box limits, first and third quartiles; whiskers, 1.5x interquartile range).}
 	\label{fig:state_of_art:cluster_sizes}
 \end{figure}
 
-Extract most variant keyword tokens by TF-IDF embedding and generate word clouds of tokens with high inter-cluster variance.
+Word clouds provide an intuitive way for high-level content analysis of each cluster.
+First, titles and abstracts are split into word tokens and further reduced to their stem using the Porter Stemming Algorithm.
+Descriptive tokens are extracted using a term-frequency inverse-document-frequency (TF-IDF) embedding.
+After filtering out tokens occurring in less than 10 documents or more than 20\% of the corpus, each token in each document is assigned a score based on how frequent it is mentioned in the document (for titles and abstracts commonly one) as opposed to how frequent it is found in the corpus.
+The result is a word embedding matrix of 8k third generation sequencing publications times 4.6k descriptive word tokens.
+After averaging TF-IDF scores per cluster, each clusters top 200 highest scoring tokens are illustrated as word clouds, of which three examples are shown in Fig. \ref{fig:state_of_art:wcs_minion}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/wcs_minion.pdf}
 	\captionsetup{format=plain}
-	\caption[Nanopore Sequencing Wordclouds]{Nanopore sequencing word clouds of cluster 1, 15 and 16.}
+	\caption[Nanopore Sequencing Word Clouds]{Nanopore sequencing word clouds of cluster 1, 15 and 16 reveal a virus identification, a composite cluster around the usage of the MinION and an algorithmic cluster around assembling, error correction and alignments.}
 	\label{fig:state_of_art:wcs_minion}
 \end{figure}
+
+Not all word clouds can be translated into meaningful cluster labels.
+Especially cluster with few publications or a high extension to seed ratio are difficult to characterize.
+Nonetheless, for most cluster a high-level label is found and annotated into the graph embedding (Fig. \ref{fig:state_of_art:umap_cluster}).
+Surprisingly, while mentioning nanopore sequencing, the isolated clusters (ID 20-23) have no direct reference to Oxford Nanopore Technologies, but cover the development of novel protein and graphen based nanopores.
+Beyond that, the token 'assembl' is one of the most prominent, and with different scaling found in almost all clusters.
+
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/state_of_art/umap_cluster.pdf}
 	\captionsetup{format=plain}
-	\caption[Third generation sequencing cluster]{Third generation sequencing cluster}
+	\caption[Third generation sequencing applications]{Third generation sequencing applications: The UMAP projection shows the \textit{DeepWalk} graph embedding with points scaled by number of citations. Colors indicate cluster with labels derived of most descriptive word tokens.}
 	\label{fig:state_of_art:umap_cluster}
 \end{figure}
 
-PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
-25X for 6mA but 250X for 5mC and 5hmC
+The following sub-sections aim to provide a brief insight into major application fields for long-read sequencing technologies.
+Key publications are determined as highly cited records compared to the cluster community.
+The content of the composite 'MinION' cluster (ID 15) is further analyzed in section \ref{sec:state_of_art:nanopore}, concluding with the investigation of use cases within the so far hidden epigenetics.
 
 
-\subsection{Nanopore Development}
-\label{subsec:state_of_art:nanopore}
 
-\subsection{Bacterial Strain}
+\subsection{Bacterial \& Viral Strain Analysis}
 \label{subsec:state_of_art:strain}
+
+\subsection{Metagenomics \& Microbiomics}
+\label{subsec:state_of_art:metagenomics}
 
 \subsection{Assembly}
 \label{subsec:state_of_art:assembly}
@@ -227,20 +252,19 @@ PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/upl
 PacBio 4M reads per smart cell
 Nanopore 5-10M for cDNA kit, 1M direct RNA kit
 
-\subsection{Metagenomics}
-\label{subsec:state_of_art:metagenomics}
-
 
 
 
 \section{Focus Nanopore Sequencing}
 \label{sec:state_of_art:nanopore}
 
-
+PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
+25X for 6mA but 250X for 5mC and 5hmC
 
 
 %\section{\Biorxiv\ Preprints}
 %\label{sec:state_of_art:biorxiv}
+
 
 
 
