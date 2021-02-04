@@ -219,9 +219,8 @@ After averaging TF-IDF scores per cluster, each clusters top 200 highest scoring
 Not all word clouds can be translated into meaningful cluster labels.
 Especially cluster with few publications or a high extension to seed ratio are difficult to characterize.
 Nonetheless, for most cluster a high-level label is found and annotated into the graph embedding (Fig. \ref{fig:state_of_art:umap_cluster}).
-Surprisingly, while mentioning nanopore sequencing, the isolated clusters (ID 20-23) have no direct reference to Oxford Nanopore Technologies, but cover the development of novel protein and graphen based nanopores.
+Surprisingly, while referring to nanopore sequencing, the isolated clusters (ID 20-23) have no direct reference to Oxford Nanopore Technologies, but cover the development of novel protein and graphen based nanopores.
 Beyond that, the token 'assembl' (words: assembly, assemble, assembling etc.) is one of the most prominent, and with different scaling found in almost all clusters.
-
 
 \begin{figure}[h]
 	\centering
@@ -231,28 +230,11 @@ Beyond that, the token 'assembl' (words: assembly, assemble, assembling etc.) is
 	\label{fig:state_of_art:umap_cluster}
 \end{figure}
 
-The following sub-sections aim to provide a brief insight into major application fields for long-read sequencing technologies.
-Key publications are determined as highly cited records compared to the cluster community.
+The following section aims to provide a brief insight into major application fields for long-read sequencing technologies.
+Key publications are determined as highly cited records per year and compared to the cluster community.
+In clusters with only few seed publications, these are primarily mentioned to emphasize the role of the technology within the field.
+An example for such a cluster is the transcriptomics field (ID 8,9).
 The content of the composite 'MinION' cluster (ID 15) is further analyzed in section \ref{sec:state_of_art:nanopore}, concluding with the investigation of so far hidden use cases in epigenetics.
-
-
-
-\subsection{Bacterial \& Viral Strain Analysis}
-\label{subsec:state_of_art:strain}
-
-
-
-\subsection{Metagenomics \& Microbiomics}
-\label{subsec:state_of_art:metagenomics}
-
-\subsection{Assembly}
-\label{subsec:state_of_art:assembly}
-
-\subsection{Isoform Detection}
-\label{subsec:state_of_art:isoform}
-
-PacBio 4M reads per smart cell
-Nanopore 5-10M for cDNA kit, 1M direct RNA kit
 
 
 
@@ -260,13 +242,205 @@ Nanopore 5-10M for cDNA kit, 1M direct RNA kit
 \section{Focus Nanopore Sequencing}
 \label{sec:state_of_art:nanopore}
 
+Review: Successful test launch for nanopore sequencing \cite{Loman2015a}
+
+
+
+\subsection{Bioinformatics}
+\label{subsec:state_of_art:bioinf}
+
+Simulation (SMRT):
+PBSIM: PacBio reads simulator—toward accurate genome assembly \cite{Ono2013}
+SimLoRD: Simulation of Long Read Data \cite{Stoecker2016}
+
+Visualization:
+Poretools: a toolkit for analyzing nanopore sequence data \cite{Loman2014}
+PoRe: An R package for the visualization and analysis of nanopore sequencing data \cite{Watson2014}
+NanoOK: multi-reference alignment analysis of nanopore sequencing data, quality and error profiles \cite{Leggett2016}
+NanoPack: visualizing and processing long-read sequencing data \cite{DeCoster2018}
+
+Error correction:
+Hybrid error correction and de novo assembly of single-molecule sequencing reads \cite{Koren2012}
+proovread: large-scale high-accuracy PacBio correction through iterative short read consensus \cite{Hackl2014}
+Oxford Nanopore sequencing, hybrid error correction, and de novo assembly of a eukaryotic genome \cite{Goodwin2015}
+
+Basecalling:
+Metrichor, albacore, guppy
+DeepNano: Deep recurrent neural networks for base calling in MinION nanopore reads \cite{Boza2017}
+Nanocall: an open source basecaller for Oxford Nanopore sequencing data \cite{David2017}
+Chiron: translating nanopore raw signal directly into nucleotide sequence using deep learning \cite{Teng2018}
+Performance of neural network basecalling tools for Oxford Nanopore sequencing \cite{Wick2019}
+Nanopore Github:
+\url{https://github.com/nanoporetech/bonito}
+\url{https://github.com/nanoporetech/flappie}
+\url{https://github.com/nanoporetech/scrappie}
+
+Alignment:
+Mapping single molecule sequencing reads using basic local alignment with successive refinement (BLASR): application and theory \cite{Chaisson2012}
+Minimap and miniasm: fast mapping and de novo assembly for noisy long sequences \cite{Li2016}
+Fast and sensitive mapping of nanopore sequencing reads with GraphMap \cite{Sovic2016}
+NRMLR is missing: Accurate detection of complex structural variations using single-molecule sequencing \cite{Sedlazeck2018}
+
+
+
+
+\subsection{Assembly}
+\label{subsec:state_of_art:assembly}
+
+Mind the Gap: Upgrading Genomes with Pacific Biosciences RS Long-Read Sequencing Technology \cite{English2012}
+SSPACE-LongRead: scaffolding bacterial draft genomes using long read sequence information \cite{Boetzer2014}
+Single-Molecule Real-Time Sequencing Combined with Optical Mapping Yields Completely Finished Fungal Genome \cite{Faino2015}
+
+A hybrid approach for the automated finishing of bacterial genomes \cite{Bashir2012}
+hybridSPAdes: an algorithm for hybrid assembly of short and long reads \cite{Antipov2016}
+Phased diploid genome assembly with single-molecule real-time sequencing \cite{Chin2016}
+
+A complete bacterial genome assembled de novo using only nanopore sequencing data \cite{Loman2015}
+
+Chromosome-scale assemblies of plant genomes using nanopore long reads and optical maps \cite{Belser2018}
+An improved assembly and annotation of the allohexaploid wheat genome identifies complete families of agronomic genes and provides genomic evidence for chromosomal translocations \cite{Clavijo2017}
+Improved maize reference genome with single-molecule technologies \cite{Jiao2017}
+Hybrid assembly of the large and highly repetitive genome of Aegilops tauschii, a progenitor of bread wheat, with the MaSuRCA mega-reads algorithm \cite{Zimin2017}
+Draft genome sequence of Camellia sinensis var. sinensis provides insights into the evolution of the tea genome and tea quality \cite{Wei2018}
+A high-quality apple genome assembly reveals the association of a retrotransposon and red fruit colour \cite{Zhang2019}
+
+
+Tools:
+Racon: Fast and accurate de novo genome assembly from long uncorrected reads \cite{Vaser2017}
+Nanopore sequencing and the Shasta toolkit enable efficient de novo assembly of eleven human genomes \cite{Shafin2020}
+Canu: scalable and accurate long-read assembly via adaptive k-mer weighting and repeat separation \cite{Koren2017}
+
+
+Two important publications in 2020 are \textit{Flye} \cite{Kolmogorov2019} and \textit{Wtdbg2} \cite{Ruan2020}, both missed by the state of the art analysis so far.
+Both abstracts do not contain a direct reference to either one of the long-read technologies and despite having already high citation counts, both are not reached by the extension strategy.
+This example points to two shortcomings of the proposed literature mining strategy: First, it is only sensitive to topics (tokens) present in title and abstract.
+Second, its success and coverage are decisively impacted by the seed-extension strategy.
+Nonetheless, if specifically interested in assembling, the token 'assembl' would have picked both examples as seed publications.
+
+
+\subsection{Structural Variant Detection}
+\label{subsec:state_of_art:sv}
+
+Mapping and phasing of structural variation in patient genomes using nanopore sequencing \cite{Stancu2017}
+Structural variants identified by Oxford Nanopore PromethION sequencing of the human genome \cite{Coster2019}
+SVIM: structural variant identification using mapped long reads \cite{Heller2019}
+Missing NRMLR/Sniffles \cite{Sedlazeck2018}
+
+Long read nanopore sequencing for detection of HLA and CYP2D6 variants and haplotypes \cite{Ammar2015}
+Advances in DNA sequencing technologies for high resolution HLA typing \cite{Cereb2015}
+PacBio-LITS: a large-insert targeted sequencing method for characterization of human disease-associated chromosomal structural variations \cite{Wang2015}
+
+Dual redundant sequencing strategy: Full-length gene characterisation of 1056 novel and confirmatory HLA alleles \cite{Albrecht2017}
+Profiling of Short-Tandem-Repeat Disease Alleles in 12,632 Human Whole Genomes \cite{Tang2017}
+
+
+
+
+\subsection{Bacterial \& Viral Strain Analysis}
+\label{subsec:state_of_art:strain}
+
+proof concepts
+Nanopore DNA Sequencing and Genome Assembly on the International Space Station \cite{Castro-Wallace2017}
+Real-Time DNA Sequencing in the Antarctic Dry Valleys Using the Oxford Nanopore Sequencer \cite{Johnson2017}
+
+ebola, zika, lassa fever
+Real-time, portable genome sequencing for Ebola surveillance \cite{Quick2016}
+Mobile real-time surveillance of Zika virus in Brazil \cite{Faria2016}
+Metagenomic sequencing at the epicenter of the Nigeria 2018 Lassa fever outbreak \cite{Kafetzopoulou2019}
+Direct RNA nanopore sequencing of full-length coronavirus genomes provides novel insights into structural variants and enables modification analysis \cite{Viehweger2019}
+
+strain resistance
+cite importance from one of the review-like papers
+Diverse antibiotic resistance genes in dairy cow manure \cite{Wichmann2014}
+MinION nanopore sequencing identifies the position and structure of a bacterial antibiotic resistance island \cite{Ashton2015}
+Rapid antibiotic-resistance predictions from genome sequence data for Staphylococcus aureus and Mycobacterium tuberculosis \cite{Bradley2015}
+Streaming algorithms for identification of pathogens and antibiotic resistance potential from real-time MinION(TM) sequencing \cite{Cao2016}
+
+Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
+Same-Day Diagnostic and Surveillance Data for Tuberculosis via Whole-Genome Sequencing of Direct Respiratory Samples \cite{Votintseva2017}
+Identification of bacterial pathogens and antimicrobial resistance directly from clinical urines by nanopore-based metagenomic sequencing \cite{Schmidt2017}
+Nanopore metagenomics enables rapid clinical diagnosis of bacterial lower respiratory infection \cite{Charalampous2019}
+Rapid inference of antibiotic resistance and susceptibility by genomic neighbour typing \cite{Brinda2020}
+
+Rapid Pathogen Identification in Bacterial Pneumonia Using Real-Time Metagenomics \cite{Pendleton2017}
+Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
+
+
+
+
+\subsection{Metagenomics \& Microbiomics}
+\label{subsec:state_of_art:metagenomics}
+
+Microbial phylogenetic profiling with the Pacific Biosciences sequencing platform \cite{Fichot2013}
+Reducing assembly complexity of microbial genomes with single-molecule sequencing \cite{Koren2013}
+Rapid metagenomic identification of viral pathogens in clinical samples by real-time nanopore sequencing analysis \cite{Greninger2015}
+Complete, closed bacterial genomes from microbiomes using nanopore sequencing \cite{Moss2020}
+
+16s
+Improved performance of the PacBio SMRT technology for 16S rDNA sequencing \cite{Mosher2014}
+Sequencing 16S rRNA gene fragments using the PacBio SMRT DNA sequencing system \cite{Schloss2016}
+Evaluation of PacBio sequencing for full-length bacterial 16S rRNA gene classification \cite{Wagner2016}
+Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION portable nanopore sequencer \cite{Benitez-Paez2016}
+
+Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak of Salmonella \cite{Quick2015}
+
+
+
+
+
+\subsection{Isoform Detection}
+\label{subsec:state_of_art:isoform}
+
+PacBio 4M reads per smart cell
+Nanopore 5-10M for cDNA kit, 1M direct RNA kit
+
+Comprehensive comparison of Pacific Biosciences and Oxford Nanopore Technologies and their applications to transcriptome analysis \cite{Weirather2017}
+A comprehensive examination of Nanopore native RNA sequencing for characterization of complex transcriptomes \cite{Soneson2019}
+
+Characterization of Novel Transcripts in Pseudorabies Virus \cite{Tombacz2015}
+Unveiling the complexity of the maize transcriptome by single-molecule long-read sequencing \cite{Wang2016}
+A comprehensive approach to expression of L1 loci \cite{Deininger2017}
+Characterization of the Dynamic Transcriptome of a Herpesvirus with Long-read Single Molecule Real-Time Sequencing \cite{Tombacz2017}
+PacBio full-length cDNA sequencing integrated with RNA-seq reads drastically improves the discovery of splicing transcripts in rice \cite{Zhang2019a}
+Full-length transcript characterization of SF3B1 mutation in chronic lymphocytic leukemia reveals downregulation of retained introns \cite{Tang2020}
+
+Nanopore native RNA sequencing of a human poly(A) transcriptome \cite{Workman2019}
+
+Potential but so far few publications
+Accurate detection of m6A RNA modifications in native RNA sequences \cite{Liu2019}
+Nanopore direct RNA sequencing maps the complexity of Arabidopsis mRNA processing and m6A modification \cite{Parker2020}
+
+nanopore accuracy improvement
+
+
+
+
+\subsection{Base Modification Detection}
+\label{subsec:state_of_art:basemod}
+
+Proof of readability paper \cite{Schreiber2013}
+Compare to WGBS > methylation calling from mismatch in alignment
+
+simpson \cite{Simpson2017}
+rand \cite{Rand2017}
+basecaller iterations, file format changes
+
+ONT software: lack of methods/training data visibility
+DeepMod: outdated on publication day, issues on reproducibility
+DeepSignal: works with tombo on event tables written into raw data
+
 PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
 25X for 6mA but 250X for 5mC and 5hmC
 
+Benchmark
+Systematic benchmarking of tools for CpG methylation detection from Nanopore sequencing \cite{Yuen2020}
 
-%\section{\Biorxiv\ Preprints}
-%\label{sec:state_of_art:biorxiv}
+Application with SV:
+Same-day genomic and epigenomic diagnosis of brain tumors using real-time nanopore sequencing \cite{Euskirchen2017}
 
+Novel:
+Accurate targeted long-read DNA methylation and hydroxymethylation sequencing with TAPS \cite{Liu2020}
+Simultaneous profiling of chromatin accessibility and methylation on human cell lines with nanopore sequencing \cite{Lee2020}
 
 
 
@@ -313,6 +487,7 @@ PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/upl
 
 \section{Summary}
 \label{sec:stat_of_art:summary}
+
 
 
 
