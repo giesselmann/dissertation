@@ -232,7 +232,7 @@ Beyond that, the token 'assembl' (words: assembly, assemble, assembling etc.) is
 \end{figure}
 
 The following section aims to provide a brief insight into major application fields for long-read sequencing technologies, while in particular highlighting the contribution of nanopore sequencing.
-Key publications are determined as highly cited paper per year and in comparison to their respective cluster community.
+Key publications are determined as highly cited paper per year, in comparison to their respective cluster community.
 In clusters with only few seed publications, these are primarily mentioned to emphasize the role of the technology within the field.
 
 \textbf{Limitations:} 
@@ -250,9 +250,24 @@ Contributing to an emerging application field of assembling variants and detecti
 Publications of the composite 'MinION' cluster (ID 15) receive, with an average of 28, the most citations.
 Followed by 18 for the 'Assembly' cluster (ID 12) and 16 for 'Bioinformatics \& Algorithms' (ID 16), these clusters form the most recognized section of the third generation sequencing field.
 None of the other clusters is reaching more than 11 citations on average.
-Based on the keyword analysis, these highly cited clusters contribute primarily methods and proof of concept studies, while the surrounding clusters define the broader field of application with in detail very specific studies.
-An interesting exception is the interplay of 'Bioinformatics \& Algorithms' and the 'Assembly' arm of the bacterial strain analysis field (Fig. \ref{fig:state_of_art:cluster_sizes} ID 16 and 3, Fig. \ref{fig:state_of_art:umap_cluster} light purple and dark red).
+Based on a first inspection, these highly cited clusters contribute primarily methods and proof of concept studies, while the surrounding clusters define the broader field of application with in detail very specific studies.
+Major application fields are identified as:
+
+\begin{packed_enum}
+	\item Bioinformatics
+	\item Assembly
+	\item Structural variant detection
+	\item Bacterial and viral strain analysis
+	\item Metagenomics and microbiomics
+	\item Isoform detection
+\end{packed_enum}
+
+For the 'MinION' cluster in general and otherwise where appropriate, publications are mentioned in the context of their primary usage, regardless of their cluster assignment.
+An interesting example is the interplay of 'Bioinformatics \& Algorithms' and the 'Assembly' arm of the bacterial strain analysis field (Fig. \ref{fig:state_of_art:cluster_sizes} ID 16 and 3, Fig. \ref{fig:state_of_art:umap_cluster} light purple and dark red).
 While a variety of tools and pipelines for \textit{de-novo} genome assembly have been published, the most prominent \textit{Canu} \cite{Koren2017} is assigned to cluster ID 3, pulled towards its application to bacterial and viral strains.
+A central cluster with respect to the UMAP projection (Fig. \ref{fig:state_of_art:umap_cluster}, ID 14) covers clinical applications. Yet individual publications rely on methods of the surrounding clusters, for example detection of disease associated structural variations or analysis of antibiotic-resistant strains.
+So far not visible as independent cluster, but of particular interest for this work, is the detection of epigenetic base modifications using nanopore sequencing.
+An according section with current methods and proof of concept studies is therefore appended.
 
 
 
@@ -260,42 +275,36 @@ While a variety of tools and pipelines for \textit{de-novo} genome assembly have
 \subsection{Bioinformatics}
 \label{subsec:state_of_art:bioinf}
 
-Significantly longer reads in combination with higher error rates compared to NGS technologies required adaptation of existing and development of novel bioinformatics software.
-Among the earliest publications are \textbf{simulators} for SMRT sequencing data, generating unlimited amounts of artificial long reads with characteristic length distributions and error profiles \cite{Ono2013, Stoecker2016}.
+Significantly longer reads, in combination with higher error rates compared to NGS technologies, require adaptation of existing and development of novel bioinformatics software.
+Among the earliest publications are tools providing \textbf{simulations} of SMRT sequencing data \cite{Ono2013, Stoecker2016}.
+Virtually unlimited amounts of artificial long reads with characteristic length distributions and error profiles facilitate early development and testing of downstream applications, independent of the real data throughput at the time.
 Similar tools exist for nanopore signal and sequence data, but are not visible by their citations.
 With existing data and experience from SMRT sequencing, we hypothesize, that the nanopore versions are primarily for the development and debugging of for instance streaming algorithms and become less important with more real data being publicly available.
 %Simulation (SMRT):
 %PBSIM: PacBio reads simulator—toward accurate genome assembly \cite{Ono2013}
 %SimLoRD: Simulation of Long Read Data \cite{Stoecker2016}
-Visualization:
-Poretools: a toolkit for analyzing nanopore sequence data \cite{Loman2014}
-PoRe: An R package for the visualization and analysis of nanopore sequencing data \cite{Watson2014}
-NanoOK: multi-reference alignment analysis of nanopore sequencing data, quality and error profiles \cite{Leggett2016}
-NanoPack: visualizing and processing long-read sequencing data \cite{DeCoster2018}
 
-Error correction:
-Hybrid error correction and de novo assembly of single-molecule sequencing reads \cite{Koren2012}
-proovread: large-scale high-accuracy PacBio correction through iterative short read consensus \cite{Hackl2014}
-Oxford Nanopore sequencing, hybrid error correction, and de novo assembly of a eukaryotic genome \cite{Goodwin2015}
+Despite ongoing improvements, the error rate of third generation sequencing technologies requires constant quality control. Particularly for nanopore sequencing, a number of \textbf{visualization} packages have been developed.
+Having received a lot of attention, none of \textit{Poretools} \cite{Loman2014},
+\textit{PoRe} \cite{Watson2014} or \textit{NanoOK} \cite{Leggett2016} is actively maintained and would be able to handle the most recent ONT file formats.
+Functional and under active development is \textit{NanoPack} \cite{DeCoster2018}, supporting both, SMRT and nanopore data.
 
-Basecalling:
-Metrichor, albacore, guppy
-DeepNano: Deep recurrent neural networks for base calling in MinION nanopore reads \cite{Boza2017}
-Nanocall: an open source basecaller for Oxford Nanopore sequencing data \cite{David2017}
-Chiron: translating nanopore raw signal directly into nucleotide sequence using deep learning \cite{Teng2018}
-Performance of neural network basecalling tools for Oxford Nanopore sequencing \cite{Wick2019}
-Nanopore Github:
-\url{https://github.com/nanoporetech/bonito}
-\url{https://github.com/nanoporetech/flappie}
-\url{https://github.com/nanoporetech/scrappie}
+Translating the primary signal into sequences during \textbf{basecalling} is a crucial processing step for third generation sequencing reads.
+High-fidelity (HiFi) SMRT reads and advancing algorithms for nanopore basecalling render initial read-level error correction methods obsolete \cite{Koren2012, Hackl2014, Goodwin2015}.
+For nanopore reads, the single read accuracy has increased from \textasciitilde85\% using the cloud-based \textit{Metrichor} over \textasciitilde87\% in \textit{albacore} to 95\% in the most recent recurrent neural network basecaller \textit{guppy}.
+Clearly headed by the manufacturers, a couple of community methods have been proposed, namely 
+\textit{DeepNano} \cite{Boza2017} \textit{Nanocall} \cite{David2017} and \textit{Chiron} \cite{Teng2018}.
+Although free and open-source, these are not competitive in terms of accuracy and run time.
+The performance of neural network basecalling tools for ONT data has recently been reviewed \cite{Wick2019}.
+Yet, the ongoing improvement of production grade, and promising experimental platforms such as \textit{bonito}\footnote{\url{https://github.com/nanoporetech/bonito}}, require constant quality assessment on patch to patch level.
 
-Alignment:
-Mapping single molecule sequencing reads using basic local alignment with successive refinement (BLASR): application and theory \cite{Chaisson2012}
+Shared by most downstream applications is the \textbf{alignment} of reads against a reference genome.
+BLASR \cite{Chaisson2012}
 Minimap and miniasm: fast mapping and de novo assembly for noisy long sequences \cite{Li2016}
 Fast and sensitive mapping of nanopore sequencing reads with GraphMap \cite{Sovic2016}
 NRMLR is missing: Accurate detection of complex structural variations using single-molecule sequencing \cite{Sedlazeck2018}
 
-
+Minimap2 \cite{Li2018}
 
 
 \subsection{Assembly}

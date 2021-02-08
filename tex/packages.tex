@@ -45,6 +45,14 @@ bibstyle=numeric,
 \definecolor{LightOrange}{RGB}{255, 217, 179}
 
 
+\newenvironment{packed_enum}{
+\begin{enumerate}
+	\setlength{\itemsep}{1pt}
+	\setlength{\parskip}{0pt}
+	\setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+
 %% Listings
 \usepackage{listings}
 
