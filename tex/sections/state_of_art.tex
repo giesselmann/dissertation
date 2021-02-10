@@ -299,16 +299,22 @@ The performance of neural network basecalling tools for ONT data has recently be
 Yet, the ongoing improvement of production grade, and promising experimental platforms such as \textit{bonito}\footnote{\url{https://github.com/nanoporetech/bonito}}, require constant quality assessment on patch to patch level.
 
 Shared by most downstream applications is the \textbf{alignment} of reads against a reference genome.
-BLASR \cite{Chaisson2012}
-Minimap and miniasm: fast mapping and de novo assembly for noisy long sequences \cite{Li2016}
-Fast and sensitive mapping of nanopore sequencing reads with GraphMap \cite{Sovic2016}
-NRMLR is missing: Accurate detection of complex structural variations using single-molecule sequencing \cite{Sedlazeck2018}
+The first recognized long read aligner is \textit{BLASR} \cite{Chaisson2012}, maintained by PacBio and for SMRT reads only.
+Published in 2016, \textit{minimap} \cite{Li2016} and \textit{GraphMap} \cite{Sovic2016} are both developed for long, noisy read alignments.
+While \textit{minimap} computes very fast approximate mappings, \textit{GraphMap} is very sensitive, but requires, due to its reference index structure, considerably more memory.
+Actively improved and maintained in version two, \textit{minimap2} \cite{Li2018} and \textit{GraphMap2} \cite{Maric2019} support additional spliced alignments for transcript reads.
+The fast and memory efficient algorithm of \textit{minimap2} make it to one of the most used aligners in the field.
+An aligner, especially developed for the mapping of structural variations is \textit{NGMLR} \cite{Sedlazeck2018}.
+Splitting of reads into fragments of few kilobases, and subsequent individual alignment using a convex gap cost model, improves the accurate detection of breakpoints
+Using parameter presets, \textit{minimap2}, \textit{GraphMap2} and \textit{NGMLR} are capable of mapping both, SMRT and nanopore reads.
 
-Minimap2 \cite{Li2018}
+
 
 
 \subsection{Assembly}
 \label{subsec:state_of_art:assembly}
+
+\textit{De-novo} assembling of previously unknown and improving quality of existing draft genomes are a primary application of long read sequencing.
 
 Mind the Gap: Upgrading Genomes with Pacific Biosciences RS Long-Read Sequencing Technology \cite{English2012}
 SSPACE-LongRead: scaffolding bacterial draft genomes using long read sequence information \cite{Boetzer2014}
