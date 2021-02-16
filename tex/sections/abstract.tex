@@ -7,20 +7,23 @@
 
 Third-generation long-read technologies denote the latest progression in high throughput DNA and RNA sequence analysis.
 Complementing the widespread second-generation short-read platforms, long-read sequencing adds unique application opportunities by generating previously unattainable read lengths.
-Commercially available systems include single-molecule real-time sequencing (SMRT), distributed by Pacific Biosciences (PacBio), and nanopore sequencing, provided by Oxford Nanopore Technologies (ONT).
-Despite the remaining higher error rate compared to short reads, these are already today state-of-the-art for de novo genome assemblies and identification of structural variants.
-Direct readout of chemical base modifications, in particular 5-methylcytosine, enables the investigation of previously difficult to access genomic regions or resolution of long distance relations, promoting the usage of nanopore sequencing in the epigenetic field.
+%Commercially available systems include single-molecule real-time sequencing (SMRT), distributed by Pacific Biosciences (PacBio), and nanopore sequencing, provided by Oxford Nanopore Technologies (ONT).
+Despite the remaining higher error rate compared to short-reads, single-molecule real-time sequencing (SMRT) and nanopore sequencing advanced to be state-of-the-art for \textit{de-novo} genome assemblies and identification of structural variants.
+%Direct readout of chemical base modifications, in particular 5-methylcytosine, enables the investigation of previously difficult to access genomic regions or resolution of long distance relations, promoting the usage of nanopore sequencing in the epigenetic field.
+Continuous platform and accuracy improvements lead to development of novel methods and insights at a fast pace.
+Observing an exponentially increasing number of publications, we employ a data driven literature research, identifying major application fields and their respective bioinformatic methods.
+The integration of citations and keywords into a literature graph provides a scaling approach to analyze thousands of third-generation sequencing related publications.
 Increasing throughput and novel raw data types demand for efficient data processing and archiving strategies.
 Even though sparking the development of countless bioinformatics software, the streamlined nanopore data processing into standardized formats is still lacking.
 As an enabling step for its successful application, we developed \textit{Nanopype}, a modular and scalable pipeline. 
 Our approach facilitates the basic steps of basecalling, alignment, methylation- and structural variant detection with exchangeable tools in each module.
 Optimized for the usage on high performance compute clusters, we propose a raw data management, capable of handling multiple sequencing devices placed locally and remotely.
-Strict version control of integrated tools, and deployment as containerized software, ensure reproducibility across projects and laboratories.
+Strict version control of integrated tools and deployment as containerized software, ensure reproducibility across projects and laboratories.
 Enhancing the accessibility of repetitive genomic regions is a particular advantage of long-read sequencing.
 The expansion of unstable genomic short tandem repeats (STRs) is of particular interest as it causes more than 30 Mendelian human disorders.
 Long stretches of repetitive sequence render these regions inaccessible for short-read sequencing by synthesis.
 Furthermore, finding current nanopore basecalling algorithms insufficient to resolve the repeat length, we developed \textit{STRique}, a raw nanopore signal based repeat detection and quantification software.
-On patient derived samples containing C9orf72 and FMR1 repeat expansions, we demonstrate the precise analysis of repeat lengths.
+We demonstrate the precise analysis of repeat lengths on patient-derived samples containing C9orf72 and FMR1 repeat expansions. 
 The additional integration of repeat- and nearby promoter-methylation levels reveal a repeat length depending gain, suggesting an epigenetic response to the expansion.
 Taken together, this work contributes to further increase the usability and provides novel insights based on third-generation nanopore sequencing.
 

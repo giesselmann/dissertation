@@ -1,13 +1,13 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-It is astonishing how cells in an organism can differentiate into a variety of specialized types with a multitude of different tasks, although being based on the same genetic information coded into the DNA.
+It is astonishing how cells in an organism can differentiate into a variety of specialized types with a multitude of different tasks despite being based on the same genetic information coded into the DNA.
 Beginning with a single cell, a temporal, spatial and functional coordination determines the growth and body formation of eukaryotic organisms.
-Depending on the cell state, only a fraction of genes is actively transcribed, while others remain repressed.
-Acting as an additional regulatory layer, the epigenome describes a set of chemical modifications made to the DNA, controlling, among other things, the activation and transcription of genes into RNA and ultimately proteins.
-Present sequencing technologies and connected bioinformatics provide researchers with the tools to study sequence and epigenetic state down to single-cell and single-molecule resolution.
-Starting 1990 and taking over a decade until completion, the human genome project incorporated an international team of researchers to decipher for the first time the genetic blueprint to build a human being. 
-Based on basic sequencing technology, the outcome was already a nearly complete reference sequence, including gene annotations.
+Depending on the cell state, only a fraction of genes is actively transcribed in a given cell while others remain repressed.
+Acting as an additional regulatory layer, the epigenome describes a set of chemical modifications made to the DNA, controlling, among other things, the activation and transcription of genes into RNA, and ultimately, proteins.
+Current sequencing technologies and their connected bioinformatics provide researchers with the tools to study DNA sequence and epigenetic state down to single-cell and single-molecule resolution.
+Starting in 1990, and taking over a decade until completion, the human genome project incorporated an international team of researchers to decipher the first genetic blueprint to build a human being. 
+Based on first-generation sequencing technology, the outcome was a nearly complete reference sequence, including gene annotations.
 Since then, the development of high-throughput, next-generation sequencing (NGS) technologies enabled studies of countless organisms, cell types and disease conditions. 
 While being very reliable in terms of throughput and accuracy, sequenced fragments of a few hundreds nucleotides in length still limit the readout from repetitive regions or the resolution of long distance dependencies on a single-molecule.
 
@@ -17,11 +17,14 @@ While being very reliable in terms of throughput and accuracy, sequenced fragmen
 \section{Motivation}
 \label{sec:intro:motivation}
 
-Most recently, a third-generation of sequencing techniques is introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. 
-Still under active development and with frequent improvements, long-read sequencing provides new opportunities by, visually speaking, increasing the size of the puzzle pieces.
+In the past five years, a third-generation of sequencing techniques is introducing new perspectives to the field of genome analysis by generating previously unattainable read lengths with averages in the tens of thousands of nucleotides. 
+Under active development with frequent improvements, long-read sequencing provides new opportunities by, visually speaking, increasing the size of the puzzle pieces.
 Moreover, direct sequencing of DNA and RNA molecules using the nanopore technology facilitates the detection of different base modifications.
-Therefore, modern nanopore sequencing devices, producing large data sets within a few days, open therefore a new research field at the intersection of genomics, computer science and engineering. 
-New data types, formats and error characteristics demand here the adaptation of existing and development of new algorithms for bioinformatic software.
+% old german english
+%Therefore, modern nanopore sequencing devices, producing large data sets within a few days, open therefore a new research field at the intersection of genomics, computer science and engineering.
+% made by Sandy
+Nanopore sequencing can be used to produce large, multifaceted data sets within a few days, and therefore provides the opportunity for a new field of long read sequencing research at the intersection of genomics, computer science and engineering. 
+New data types, formats and error characteristics demand here the adaptation of existing, or even the development of new, algorithms for bioinformatic software.
 
 
 
@@ -30,9 +33,9 @@ New data types, formats and error characteristics demand here the adaptation of 
 \label{sec:intro:bio}
 
 Most cell types of an eukaryotic organism contain a copy of the genetic code in form of folded DNA in the nucleus.
-Virtually all mammals have diploid cells with homologous maternal and paternal copies, organized into chromosome pairs with the same genes at the same locations.
-While the entire human genome comprises about three billion nucleotides in total, the longest continuous stretch of DNA is the first of 23 chromosome pairs with 247 million base pairs. 
-To maintain its integrity and to support the chromatin structure formation, the DNA is wrapped around octamers of histone proteins called nucleosomes (Fig. \ref{fig:intro:chromatin}).
+Virtually all mammals have diploid cells with homologous maternal and paternal copies, organized into chromosome pairs with the same genes at the same genomic locations.
+While the entire human genome is comprised of about three billion nucleotides in total, the longest continuous stretch of DNA is the first of 23 chromosome pairs with 247 million base pairs. 
+To maintain its integrity and to support the chromatin structure formation, chromosomal DNA is wrapped around octamers of histone proteins (H2A, H2B, H3 and H4) called nucleosomes (Fig. \ref{fig:intro:chromatin}).
 
 
 \begin{figure}[h]
@@ -46,13 +49,13 @@ To maintain its integrity and to support the chromatin structure formation, the 
 The \textasciitilde 147bp of DNA directly twisted around each nucleosome is protected against physical access from, for instance, transcription factors (TFs). 
 The dynamic positioning of nucleosomes is therefore part of the epigenetic regulation process during transcription and replication.
 Accordingly, nucleosomes are enriched at compacted heterochromatin in mostly inactive genomic regions, while being thinned out at regulatory elements such as enhancers, insulators and transcribed genes \cite{Klemm2019}. 
-A growing number of chemical modifications to histone tails (H2A, H2B, H3 and H4) is reported to impact inter-nucleosomal interactions, but also leading to recruitment of proteins and complexes involved in transcription, replication and DNA repair \cite{Bannister2011}. 
+A growing number of chemical modifications to histone tails is reported to impact inter-nucleosomal interactions, and also leads to recruitment of proteins and complexes involved in transcription, replication and DNA repair \cite{Bannister2011}. 
 A well-characterized example is the methylation of lysine 79 on the H3 tail (H3K79me3) found at the transcription start sites (TSS) of active genes \cite{Lawrence2016}. 
-To be further mentioned in this context are H3K4me3 marking active euchromatin, while H3K9me3 is indicating repressive heterochromatin.
-Gene expression may be influenced by nearby active enhancer sites with enrichment of H3K27ac (acetylation).
+In addition, the modification H3K4me3 marks active euchromatin, while H3K9me3 marks repressive heterochromatin.
+Gene expression is influenced by nearby active enhancer sites that are typically enriched with H3K27ac (acetylation).
 Finally, repressed and bivalent promoters are modified with H3K27me3 and the combination of H3K4me4 and H3K27me3, respectively.
 
-For embryonic development in mammals, the methylation of cytosine in the CpG-context (5-methylcytosine, 5mC) is a vital epigenetic modification. Prominent examples of its importance are the X-chromosome inactivation in females and genomic imprinting.
+For embryonic development in mammals, the methylation of cytosine in the CpG-context (5-methylcytosine, 5mC) is a vital epigenetic modification. Prominent examples of its importance include the X-chromosome inactivation in females and genomic imprinting.
 Furthermore, DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
 In general, \textit{de-novo} methylation of the DNA is primarily established by the DNMT3A and DNMT3B enzymes. 
 During cell division, the methylation state on the nascent strand in the symmetric CpG-context is restored by the maintenance methyltransferase DNMT1.
@@ -75,15 +78,15 @@ Thus, the conservation under evolutionary pressure underlines the importance of 
 %\end{figure}
 
 
-Characteristic for human somatic cells is a genome-wide mean methylation of approximately 70\%-80\% \cite{Bird2002}.
+Human somatic cells typically have a genome-wide mean methylation of approximately 70\%-80\% \cite{Bird2002}.
 In bulk methylation sequencing, millions of cells are measured at once, resulting in an averaging of the binary 5mC state of individual cells and yielding mean methylation levels per genomic position.
 The underlying distribution of methylation levels is not random, but follows a bimodal distribution, with CpG dense regions, also referred to as CpG islands (CGIs), being mostly unmethylated, while the genomic background of more isolated CpGs is mostly methylated \cite{Bird2002}.
-Many CGIs in mammals act as promoters, nonetheless the majority remains unmethylated during differentiation and gene silencing is driven by H3K27 methylation \cite{Larsen1992, Greenberg2019}.
-A well-studied example where DNA methylation is sufficient to repress transcription are imprinted genes, of which either the maternal or paternal allele is transcribed, while the other one remains silenced.
+Many CGIs in mammals act as promoters, however the majority remain unmethylated during differentiation even as gene silencing is driven by H3K27 methylation \cite{Larsen1992, Greenberg2019}.
+In contrast, a well-studied example where DNA methylation is sufficient to repress transcription is imprinted genes, where either the maternal or paternal allele is transcribed, while the other allele remains silenced.
 
 In general, the DNA methylation levels remain stable across cell divisions but show distinct patterns among different cell types. 
 Aberrant DNA-methylation levels have been observed in different disease contexts, in particular with a heavy deregulation in cancer. 
-While sharing a trend towards global hypomethylation and CGI hypermethylation compared to normal tissues (Fig. \ref{fig:intro:cancer}), different tumor types can still be identified, only based on their methylation footprint \cite{Capper2018}.
+While sharing a trend towards global hypomethylation and CGI hypermethylation compared to normal tissues (Fig. \ref{fig:intro:cancer}), different tumor types can still be identified, based only on their methylation footprint \cite{Capper2018}.
 
 \begin{figure}[h]
 	\centering
@@ -93,7 +96,7 @@ While sharing a trend towards global hypomethylation and CGI hypermethylation co
 	\label{fig:intro:cancer}
 \end{figure}
 
-While several epigenetic regulators have been discovered and sequencing data for transcriptomes, histone modifications and methylation are available in abundance, the unknown function of high gene body methylation or similarities between extraembryonic tissue and altered methylation in cancer are only two examples of epigenetic regulated processes under active investigation \cite{McGuire2020}.
+While several epigenetic regulators have been discovered and sequencing data for transcriptomes, histone modifications and methylation are available in abundance, the unknown function of high gene body methylation or similarities between extraembryonic tissue and altered methylation in cancer are only two examples of epigenetically regulated processes under active investigation \cite{McGuire2020}.
 
 
 
@@ -102,12 +105,22 @@ While several epigenetic regulators have been discovered and sequencing data for
 \label{sec:intro:sequencing}
 
 \textit{"For their contributions concerning the determination of base sequences in nucleic acids"}, Walter Gilbert and Frederick Sanger received the 1980 Nobel Prize in Chemistry.
-Referred to as first-generation or Sanger sequencing, their 'dideoxy method' allowed for the first time to determine the nucleotide sequence of an entire organism with high accuracy \cite{Sanger1977}.
-While superseded by second- and third-generation technologies on genome wide level, Sanger sequencing can still be the method of choice, for instance to verify plasmid sequences, check genotypes or confirm genome editing.
+% old german english by Pay
+% Referred to as first-generation or Sanger sequencing, their 'dideoxy method' allowed for the first time to determine the nucleotide sequence of an entire organism with high accuracy \cite{Sanger1977}.
+% new and fancy by Sandy
+Referred to as first-generation or Sanger sequencing, their 'dideoxy method' allowed the nucleotide sequence of an entire organism to be determined for the first time and with high accuracy \cite{Sanger1977}.
+While eventually superseded by second- and third-generation technologies, Sanger sequencing is still widely used as a method of verifying plasmid sequences or determining genotypes and sites of genome editing.
 
-Starting in 2005 with the 454 Genome Sequencer, the development and commercialization of sequencing by synthesis approaches lead to increasing throughput and broad availability of the second-, also termed next-generation sequencing (NGS) technologies.
-Different platforms, all with typical read lengths of a few hundred nucleotides include 454, Illumina, SOLiD and Ion torrent.
-As marked leader, and with the HiSeq X Ten platform the first company to break the milestone of US\$1000 for a human genome in 2014, Illumina sequencing serves as gold standard and second-generation reference in this work \cite{Dijk2014}.
+% old ...
+%Starting in 2005 with the 454 Genome Sequencer, the development and commercialization of sequencing by synthesis approaches lead to increasing throughput and broad availability of the second-, also termed next-generation sequencing (NGS) technologies.
+%Different platforms, all with typical read lengths of a few hundred nucleotides include 454, Illumina, SOLiD and Ion torrent.
+% new :)
+The development and commercialization of sequencing by synthesis approaches started in 2005 with the 454 Genome Sequencer and expanded from there to increase throughput and availability. 
+These technologies are collectively referred to as next-generation sequencing (NGS) technologies.
+Different NGS platforms such as 454, Illumina, SOLiD and Ion torrent all rely on short reads of around a few hundred nucleotides in length. 
+%As marked leader, and with the HiSeq X Ten platform the first company to break the milestone of US\$1000 for a human genome in 2014, Illumina sequencing serves as gold standard and second-generation reference in this work \cite{Dijk2014}.
+% Again very German sentence structure. Just state the facts directly and add details after. 
+Illumina has long been an industry leader and was the first company to reach the milestone of sequencing the human genome for only \$1,000 USD with their HiSeq X Ten platform. Today, Illumina serves as the gold standard for second-generation sequencing \cite{Dijk2014}. 
 
 \subsection{Next Generation Sequencing}
 \label{subsec:intro:ngs}
@@ -123,7 +136,7 @@ As illustrated in Fig. \ref{fig:intro:sbs}, the process can be divided into libr
 	\label{fig:intro:sbs}
 \end{figure}
 
-In brief: Genomic input DNA is first randomly fragmented and ligated to distinct 5' and 3' end adapters.
+In brief: Genomic input DNA is first sheared into fragments and ligated to distinct 5' and 3' end adapters.
 A polymerase chain reaction (PCR) amplification purifies the library for fragments with sequencing adapters on both ends.
 Subsequently, the double-stranded DNA is denatured and washed over a flow cell coated with short oligonucleotides, complementary to the sequencing adapters.
 The ends of single-stranded fragments ligate in sparse density with both, 5' and 3' adapter to the flow cell.
@@ -141,11 +154,11 @@ After unblocking and removal of the fluorophore, the process is repeated until t
 
 Amplification during library preparation and the synthesis during sequencing are virtually error-free.
 However, the sequence quality, is affected by clusters running out of phase. 
-Sporadic dropouts of the polymerase result in missing nucleotide incorporation within single fragments, leading to an increasing number of fragments lacking behind the cluster's synchronization.
+Sporadic dropouts of the polymerase result in missing nucleotide incorporation within single fragments, leading to an increasing number of fragments lagging behind the cluster's synchronization.
 The resulting signal overlap is monitored by the basecaller and translated into a quality score per nucleotide and cluster.
-De-phsing of clusters is currently limiting the maximum sequencing length of NGS platforms to \textasciitilde250nt.
+De-phsing of clusters currently limits the maximum sequencing length of NGS platforms to \textasciitilde250nt.
 
-Except for \textit{de-novo} assemblies, a shared first processing step after genome wide sequencing is the alignment.
+With the exception of \textit{de-novo} assemblies, a shared first processing step after genome wide sequencing is the alignment.
 After fragmentation and sequencing, the genomic origin of each read is initially unknown.
 An alignment algorithm determines all possible mappings of a read, commonly allowing for a certain degree of mismatches, insertions and deletions.
 Dissimilarities in read and reference sequence can result from either sequencing errors or differences between reference and the individual genome.
@@ -153,22 +166,21 @@ At repetitive elements short reads may align to multiple genomic positions with 
 Depending on the application, filtering for unique alignments can therefore be necessary.
 
 \textbf{Sequencing the Epigenome}
-
-Enabled by high throughput second generation sequencing, a variety of protocols have been developed to extend the application beyond the readout of solely the genomic sequence.
-In concordance with the already introduced epigenetic regulation, the methods to detect histone modifications and DNA methylation are briefly outlined below.
+High throughput second-generation sequencing has enabled a variety of protocols to be developed to extend their application beyond the readout of solely genomic sequence.
+The methods to detect histone modifications and DNA methylation by NGS are briefly outlined below.
 
 Chromatin immunoprecipitation sequencing (ChIP-Seq) is a versatile genome-wide method to identify binding sites of DNA-associated proteins.
-Crosslinking of DNA-protein complexes fixes the current position of for instance histones. 
+Crosslinking of DNA-protein complexes fixes the current position of histones, for instance.
 First, a fragmentation step separates the DNA in protein-bound and unbound sections.
-Then, a modification specific magnetic antibody is used, to immunoprecipitate the complex and pull down only sequence fragments directly adjacent to a histone carrying the epigenetic modification of interest.
+Then, a modification specific magnetic antibody is used to immunoprecipitate the complex and pull down only the sequence fragments directly adjacent to a histone carrying the epigenetic modification of interest.
 Sequencing and data analysis reveal histone modifications as peaks from local accumulations of reads.
 
-Whole genome bisulfite sequencing (WGBS) is the state-of-the-art method to detect methylation on individual molecules \cite{Frommer1992}.
+Whole genome bisulfite sequencing (WGBS) is the state-of-the-art method to detect methylation at single base resolution on individual molecules \cite{Frommer1992}.
 A reaction with sodium bisulfite converts any unmethylated cytosine to uracil, while 5-methylcytosine remains unchanged and consequently encodes the methylation state into the sequence. 
 Uracil and thymine are both amplified and sequenced as thymine (T), while only methylated cytosine is read as C.
-At genomic C positions, a read alignment containing a C indicates therefore a previously methylated site, while a mismatching T indicates an unmethylated site.
+At genomic C positions, a read alignment containing a C indicates, therefore, a previously methylated site, while a mismatching T indicates an unmethylated site.
 The methylation state of individual reads is then summarized to a methylation rate per genomic position.
-A minimum coverage of 5X to 10X has been shown to be robust against inter-cell variability and allow the comparison across samples \cite{Ziller2015}.
+A minimum coverage of 5X to 10X has been shown to be robust against inter-cell variability and allows the comparison across samples \cite{Ziller2015}.
 
 
 
@@ -176,12 +188,12 @@ A minimum coverage of 5X to 10X has been shown to be robust against inter-cell v
 \subsection{Third Generation Sequencing}
 \label{subsec:intro:tgs}
 
-In contrast to high-throughput short-read sequencing, third generation long-read technologies do not necessarily require amplification and yield read lengths in the range of tens of thousands nucleotides. 
+In contrast to high-throughput short-read sequencing, third generation long-read technologies do not necessarily require amplification and yield read lengths in the range of tens of thousands of nucleotides. 
 Single-molecule real-time sequencing (SMRT), introduced by Pacific Biosciences (PacBio) in 2011, is considered the first commercially available long-read technology \cite{Dijk2018}.
 While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as the first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
 Single-molecule real-time sequencing is based on individual DNA fragments fixed into zero-mode waveguides (ZMW).
-For the library preparation, genomic input DNA is fragmented to typically 8-15kB and ligated to hairpin adapters.
+For the library preparation, genomic input DNA is fragmented to typically 8-15kb and ligated to hairpin adapters.
 Termed SMRTbell, each molecule is denatured and as circular single stranded DNA fixed into the ZMWs on the flow cell.
 During the sequencing process, a polymerase located at the transparent bottom of each well synthesizes the complementary strand from nucleotides labeled with a fluorescent dye.
 At a speed of 10nt/s, light impulses from laser-excited fluorescence are the primary measurement to determine the nucleotide sequence of each read (Fig. \ref{fig:intro:longread}, left box).
@@ -203,9 +215,9 @@ However, the sensitivity to 5mC remains a proof of concept and studies reporting
 Interestingly, both NGS and SMRT sequencing technologies utilize the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
 Nanopore sequencing follows a fundamentally different principle.
 The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, in contrast to the previous parallel approaches.
-Additionally, nanopore sequencing can not only process double stranded DNA, but also directly read single stranded RNA.
-The nanopore flow cell is build of pores embedded into a membrane separating two chambers.
-After loading the flow cell with a run buffer, a voltage applied over the membrane causes a constant ionic current through each pore.
+Additionally, nanopore sequencing is not limited to processing only double stranded DNA, but also directly reads single stranded RNA.
+The nanopore flow cell is built of pores embedded into a membrane separating two chambers.
+After loading the flow cell with a running buffer, a voltage applied over the membrane causes a constant ionic current through each pore.
 With impact in the range of pico ampere, any molecule passing through the pore reduces the level of the ionic current depending on its physical and chemical properties.
 
 Initial steps of the library preparation like fragmentation, end-repair and size selection are shared across long-read technologies.
@@ -217,8 +229,10 @@ Without amplification of the input, the nanopore is sensitive to different base 
 
 Among other devices distributed by Oxford Nanopore Technologies, the MinION in particular is gaining prominence. 
 The portability and very low acquisition costs open new perspectives of real-time sequencing in the field or in clinical settings.
-Operational directly in the lab and sensitive to base modifications relevant in mouse and human, the nanopore platform is deemed to be the preferable third generation technology for an epigenetics lab.
-
+% old 
+%Operational directly in the lab and sensitive to base modifications relevant in mouse and human, the nanopore platform is deemed to be the preferable third generation technology for an epigenetics lab.
+% new and cool
+The Nanopore platform is poised to become the gold standard for third-generation sequencing technology given its ease of use in the lab and sensitivity of base modification detection, all qualities essential to studying mammalian epigenomes. 
 
 
 

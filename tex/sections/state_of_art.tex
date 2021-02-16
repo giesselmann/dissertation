@@ -16,7 +16,7 @@ Supplementary code for this chapter is available at \textit{https://github.com/g
 	\label{fig:state_of_art:ga}
 \end{figure}
 
-The chapter starts with a \textbf{background} in \ref{sec:state_of_art:background} followed by the setup and usage of a \textbf{literature database} containing scientific publication meta data in \ref{sec:state_of_art:database}. A big picture overview of \textbf{third generation sequencing} technologies in \ref{sec:state_of_art:third_generation}, is followed by a focus on \textbf{nanopore sequencing} in \ref{sec:state_of_art:nanopore}. Finally, most recent \textbf{throughput and accuracy} benchmarks on in-house data close the state of the art evaluation.
+The chapter starts with a \textbf{background} in \ref{sec:state_of_art:background} followed by the setup and usage of a \textbf{literature database} containing scientific publication meta data in \ref{sec:state_of_art:database}. A big picture overview of \textbf{third generation sequencing} technologies in \ref{sec:state_of_art:third_generation}, is followed by a focus on \textbf{nanopore sequencing} in \ref{sec:state_of_art:nanopore}. Finally, most recent \textbf{throughput and accuracy} benchmarks on in-house data close the state-of-the-art evaluation.
 
 
 
@@ -302,8 +302,8 @@ Shared by most downstream applications is the \textbf{alignment} of reads agains
 The first recognized long read aligner is \textit{BLASR} \cite{Chaisson2012}, maintained by PacBio and for SMRT reads only.
 Published in 2016, \textit{minimap} \cite{Li2016} and \textit{GraphMap} \cite{Sovic2016} are both developed for long, noisy read alignments.
 While \textit{minimap} computes very fast approximate mappings, \textit{GraphMap} is very sensitive, but requires, due to its reference index structure, considerably more memory.
-Actively improved and maintained in version two, \textit{minimap2} \cite{Li2018} and \textit{GraphMap2} \cite{Maric2019} additionally support spliced alignments for transcript reads.
-The fast and memory efficient algorithm of \textit{minimap2} make it to one of the most used aligners in the field.
+Actively improved and maintained in version two, \textit{minimap2} \cite{Li2018} and \textit{GraphMap2} \cite{Maric2019} additionally support spliced alignments of transcript reads.
+The fast and memory efficient algorithm of \textit{minimap2} makes it to one of the most used aligners in the field.
 An aligner, especially developed for the mapping of structural variations is \textit{NGMLR} \cite{Sedlazeck2018}.
 Splitting of reads into fragments of few kilobases, and subsequent individual alignment using a convex gap cost model, improves the accurate detection of breakpoints.
 Using parameter presets, \textit{minimap2}, \textit{GraphMap2} and \textit{NGMLR} are capable of mapping both, SMRT and nanopore reads.
@@ -315,38 +315,55 @@ Using parameter presets, \textit{minimap2}, \textit{GraphMap2} and \textit{NGMLR
 \label{subsec:state_of_art:assembly}
 
 \textit{De-novo} assembling of previously unknown and improving the quality of existing draft genomes is a primary application of long read sequencing.
+Assembling greatly benefits from increased throughput per flow cell, read-lengths and single-read accuracy, replacing next- by third-generation technologies as current gold standard.
+Both, PacBio and ONT enable state-of-the-art genome assemblies, especially for viral and bacterial genomes.
+The choice of a suitable platform therefore also depends on already available data, portability and instrument acquisition cost.
+Limited by throughput and accuracy, initial SMRT assemblies focused on the scaffolding and completion of existing bacterial draft genomes \cite{English2012, Boetzer2014}.
+Hybrid approaches combine next- and third-generation sequencing data, and thus integrate the accuracy of short reads with the continuity of noisy long-reads \cite{Bashir2012, Antipov2016}.
+%Mind the Gap: Upgrading Genomes with Pacific Biosciences RS Long-Read Sequencing Technology \cite{English2012}
+%SSPACE-LongRead: scaffolding bacterial draft genomes using long read sequence information \cite{Boetzer2014}
+%A hybrid approach for the automated finishing of bacterial genomes \cite{Bashir2012}
+%hybridSPAdes: an algorithm for hybrid assembly of short and long reads \cite{Antipov2016}
+First third-generation-only assemblies include a finished fungal genome (\textit{Verticillium dahliae}, 35Mb) \cite{Faino2015} based on SMRT reads and optical mappings and a nanopore-only assembly of \textit{Escherichia coli} (4.6Mb) \cite{Loman2015}.
+%Single-Molecule Real-Time Sequencing Combined with Optical Mapping Yields Completely Finished Fungal Genome \cite{Faino2015}
+%A complete bacterial genome assembled de novo using only nanopore sequencing data \cite{Loman2015}
+More recently, studies report the successful assembly of \textasciitilde80\% of the hexaploid wheat genome (\textit{Triticum aestivum}, 17Gb) with NG50s of 88kb and 480kb \cite{Clavijo2017, Zimin2017} and an improved maize reference (\textit{Zea mays }, 2.1 Gb, NG50 1.2Mb) \cite{Jiao2017}, each using SMRT sequencing in combination with optical mapping.
+%An improved assembly and annotation of the allohexaploid wheat genome identifies complete families of agronomic genes and provides genomic evidence for chromosomal translocations \cite{Clavijo2017}
+%Improved maize reference genome with single-molecule technologies \cite{Jiao2017}
+%Hybrid assembly of the large and highly repetitive genome of Aegilops tauschii, a progenitor of bread wheat, with the MaSuRCA mega-reads algorithm \cite{Zimin2017}
+Further examples of improved genome sequences are tea (\textit{Camellia sinensis var. sinensis}, 3.1Gb, NG50 1.4Mb) \cite{Wei2018}  and apple (\textit{Malus x domestica}, \textasciitilde700Mb, NG50 7.0Mb) \cite{Zhang2019}, with the latter using a combination of optical mapping and Hi-C (Chromosome conformation capture) data for scaffolding.
+%Draft genome sequence of Camellia sinensis var. sinensis provides insights into the evolution of the tea genome and tea quality \cite{Wei2018}
+%A high-quality apple genome assembly reveals the association of a retrotransposon and red fruit colour \cite{Zhang2019}
+In summary current state-of-the-art chromosome-scale assemblies of large, potentially di- or polyploid genomes can be build solely based on SMRT or nanopore reads in combination with optical mapping and/or Hi-C data for scaffolding \cite{Belser2018}.
+%Chromosome-scale assemblies of plant genomes using nanopore long reads and optical maps \cite{Belser2018}
 
-Mind the Gap: Upgrading Genomes with Pacific Biosciences RS Long-Read Sequencing Technology \cite{English2012}
-SSPACE-LongRead: scaffolding bacterial draft genomes using long read sequence information \cite{Boetzer2014}
-Single-Molecule Real-Time Sequencing Combined with Optical Mapping Yields Completely Finished Fungal Genome \cite{Faino2015}
-
-A hybrid approach for the automated finishing of bacterial genomes \cite{Bashir2012}
-hybridSPAdes: an algorithm for hybrid assembly of short and long reads \cite{Antipov2016}
-Phased diploid genome assembly with single-molecule real-time sequencing \cite{Chin2016}
-
-A complete bacterial genome assembled de novo using only nanopore sequencing data \cite{Loman2015}
-
-An improved assembly and annotation of the allohexaploid wheat genome identifies complete families of agronomic genes and provides genomic evidence for chromosomal translocations \cite{Clavijo2017}
-Improved maize reference genome with single-molecule technologies \cite{Jiao2017}
-Chromosome-scale assemblies of plant genomes using nanopore long reads and optical maps \cite{Belser2018}
-
-Hybrid assembly of the large and highly repetitive genome of Aegilops tauschii, a progenitor of bread wheat, with the MaSuRCA mega-reads algorithm \cite{Zimin2017}
-Draft genome sequence of Camellia sinensis var. sinensis provides insights into the evolution of the tea genome and tea quality \cite{Wei2018}
-A high-quality apple genome assembly reveals the association of a retrotransposon and red fruit colour \cite{Zhang2019}
-
-
-Tools:
-Racon: Fast and accurate de novo genome assembly from long uncorrected reads \cite{Vaser2017}
-Canu: scalable and accurate long-read assembly via adaptive k-mer weighting and repeat separation \cite{Koren2017}
-Nanopore sequencing and the Shasta toolkit enable efficient de novo assembly of eleven human genomes \cite{Shafin2020}
-
-
-
-Two important publications in 2020 are \textit{Flye} \cite{Kolmogorov2019} and \textit{Wtdbg2} \cite{Ruan2020}, both missed by the state of the art analysis so far.
+A number of standalone tools and pipelines for genome assembly have been published.
+% strain assembly, 2400 citations
+% Canu: scalable and accurate long-read assembly via adaptive k-mer weighting and repeat separation \cite{Koren2017}
+% strain resistance, in long read mode using racon and miniasm \cite{Li2016}, 1400 citations
+% Unicycler: Resolving bacterial genome assemblies from short and long sequencing reads \cite{Wick2017}
+Based on their citations, \textit{Canu} \cite{Koren2017} and \textit{Unicycler} \cite{Wick2017} are the most used assembly pipelines. Both are not assigned to the core-assembly cluster (ID 12, 13), but are part of the strain-assembly and strain-resistance cluster respectively, highlighting their importance for a large user group.
+% FALCON, 540 citations
+% Phased diploid genome assembly with single-molecule real-time sequencing \cite{Chin2016}
+Developed exclusively for SMRT sequencing is \textit{FALCON} \cite{Chin2016}, with the additional function of phasing diploid genomes.
+% minion cluster 622 citations
+% Racon: Fast and accurate de novo genome assembly from long uncorrected reads \cite{Vaser2017}
+\textit{Racon} \cite{Vaser2017} and \textit{miniasm} \cite{Li2016} are lightweight standalone assembly tools, both assigned to the 'MinION' composite cluster. 
+Together they are forming the computational backend of \textit{Unicycler} when processing long-reads and \textit{Racon} is performing the initial consensus assembly of transcript reads in the ONT isoform detection pipeline \textit{Pinfish}\footnote{\url{https://github.com/nanoporetech/pinfish}, accessed 02/2021}.
+% minion cluster
+%Nanopore sequencing and the Shasta toolkit enable efficient de novo assembly of eleven human genomes \cite{Shafin2020}
+Two important standalone assemblers published in 2020 are \textit{Flye} \cite{Kolmogorov2019} and \textit{Wtdbg2} \cite{Ruan2020}, both missed by the data driven state-of-the-art analysis so far.
 Both abstracts do not contain a direct reference to either one of the long-read technologies and despite having already high citation counts, both are not reached by the extension strategy.
 This example points to two shortcomings of the proposed literature mining strategy: First, it is only sensitive to topics (tokens) present in title and abstract.
 Second, its success and coverage are decisively impacted by the seed-extension strategy.
 Nonetheless, if specifically interested in assembling, the token 'assembl' would have picked both examples as seed publications.
+
+Similar to the continuous improvement of basecalling algorithms, the assembly field is advancing at a fast paste.
+Published in 2018, Jain et al. report the linear assembly of the centromere on the human Y chromosome and later the assembly of a human genome using only nanopore long-reads \cite{Jain2018, Jain2018b}.
+%Linear assembly of a human centromere on the Y chromosome \cite{Jain2018}
+%Nanopore sequencing and assembly of a human genome with ultra-long reads \cite{Jain2018b}
+Only two years after publication, the reported NG50 of 6.4Mb based on \textit{Metrichor} basecalling and \textit{Canu} assembly is clearly outperformed by more recent workflows.
+An in-house benchmark of \textit{Flye} on a human data set with 30X coverage and 20kb N50 read length lead to a draft genome assembly with 25Mb NG50, further outperformed by the developer benchmark, reporting up to 40Mb NG50 on comparable coverage\footnote{\url{https://github.com/fenderglass/Flye}, accessed 02/2021}.
 
 
 
@@ -420,7 +437,6 @@ Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak 
 
 
 
-
 \subsection{Isoform Detection}
 \label{subsec:state_of_art:isoform}
 
@@ -483,15 +499,16 @@ Simultaneous profiling of chromatin accessibility and methylation on human cell 
 
 Improved data analysis for the {MinION} nanopore sequencer \cite{Jain2015} 85\% accuracy
 
-\begin{itemize}
-    \item Representative Flow-Cells over time (from 3 to 30 GBp in 48h)
-    \item Size selection, shearing, nuclease flush
-    \item accuracy guppy-fast, guppy-hac (mention albacore flappie, scrappie, SACall, chiron, ...)
-    \item cite benchmark paper, illustrate need for in-house benchmark of each new version
-    \item Mapping of long reads depending on genomic context, read length, Q-Score etc.
-    \item Accuracy of base modifications: Nanopolish, Signalign, DeepMod, DeepSignal etc.
-    %\item Nanopolish context and signal level analysis
-\end{itemize}
+Representative Flow-Cells over time (from 3 to 30 GBp in 48h)
+
+Size selection, shearing, nuclease flush
+
+accuracy guppy-fast, guppy-hac (mention albacore flappie, scrappie, SACall, chiron, ...)
+
+cite benchmark paper, illustrate need for in-house benchmark of each new version
+
+Accuracy of base modifications: Nanopolish, Signalign, DeepMod, DeepSignal etc.
+
 
 \begin{figure}[h]
     \centering
