@@ -356,7 +356,7 @@ Two important standalone assemblers published in 2020 are \textit{Flye} \cite{Ko
 Both abstracts do not contain a direct reference to either one of the long-read technologies and despite having already high citation counts, both are not reached by the extension strategy.
 This example points to two shortcomings of the proposed literature mining strategy: First, it is only sensitive to topics (tokens) present in title and abstract.
 Second, its success and coverage are decisively impacted by the seed-extension strategy.
-Nonetheless, if specifically interested in assembling, the token 'assembl' would have picked both examples as seed publications.
+Nonetheless, if specifically interested in assembling, the token 'assembl' would have picked up both examples as seed publications.
 
 Similar to the continuous improvement of basecalling algorithms, the assembly field is advancing at a fast paste.
 Published in 2018, Jain et al. report the linear assembly of the centromere on the human Y chromosome and later the assembly of a human genome using only nanopore long-reads \cite{Jain2018, Jain2018b}.
@@ -368,20 +368,42 @@ An in-house benchmark of \textit{Flye} on a human data set with 30X coverage and
 
 
 
-\subsection{Structural Variant Detection}
+\subsection{Structural Variant and Haplotype Resolution}
 \label{subsec:state_of_art:sv}
 
-Mapping and phasing of structural variation in patient genomes using nanopore sequencing \cite{Stancu2017}
-Structural variants identified by Oxford Nanopore PromethION sequencing of the human genome \cite{Coster2019}
-SVIM: structural variant identification using mapped long reads \cite{Heller2019}
-Missing NRMLR/Sniffles \cite{Sedlazeck2018}
+Structural variations (SVs) describe differences, for instance deletions, insertions, or translocations, between individual genomes and a reference sequence.
+On individual base level, single-nucleotide polymorphisms (SNP) are substitutions of single bases in the genome, observable in a fraction of a population.
+Both variation types are detectable by NGS technologies, advantages of long-read sequencing are the accurate detection of large variants and the long-distance haplotype resolution based on SNPs.
+With no dedicated cluster for structural variant detection, respective tools got assigned to the bioinformatic cluster (ID 16), while applications are mostly found within the clinical application cluster (ID 14).
+Currently available SV detection tools include \textit{NanoSV} \cite{Stancu2017}, \textit{Sniffles} \cite{Sedlazeck2018} and \textit{SVIM} \cite{Heller2019}.
+With sequence alignments as inputs, these are commonly applicable to SMRT and nanopore reads.
+The performance is, however, influenced by the preceding alignment, finding the combination of \textit{minimap2} and \textit{Sniffles} the currently most sensitive and fastest option \cite{Coster2019}.
+% NanoSV
+%Mapping and phasing of structural variation in patient genomes using nanopore sequencing \cite{Stancu2017}
+%Missing NRMLR/Sniffles \cite{Sedlazeck2018}
+%SVIM: structural variant identification using mapped long reads \cite{Heller2019}
+% sniffles vs svim evaluation on minimap2 and NGMLR alignment
+%Structural variants identified by Oxford Nanopore PromethION sequencing of the human genome \cite{Coster2019}
 
-Long read nanopore sequencing for detection of HLA and CYP2D6 variants and haplotypes \cite{Ammar2015}
-Advances in DNA sequencing technologies for high resolution HLA typing \cite{Cereb2015}
-PacBio-LITS: a large-insert targeted sequencing method for characterization of human disease-associated chromosomal structural variations \cite{Wang2015}
-
-Dual redundant sequencing strategy: Full-length gene characterisation of 1056 novel and confirmatory HLA alleles \cite{Albrecht2017}
-Profiling of Short-Tandem-Repeat Disease Alleles in 12,632 Human Whole Genomes \cite{Tang2017}
+The analysis of human leukocyte antigen (HLA) variants is a major clinical application relying on both, NGS and third-generation sequencing.
+The polymorphic HLA genes are essential for the human immune system. 
+Before organ transplantation, their characterization is essential to minimize the chance of rejection by the receiving patient.
+In addition to high-throughput NGS methods, both SMRT and nanopore sequencing are applied to detect HLA variants \cite{Cereb2015, Ammar2015}, leading to characterizations of novel and confirmation of know alleles \cite{Albrecht2017}.
+%
+% single minion flow-cell, R7 pore, limited by low throughput
+% Long read nanopore sequencing for detection of HLA and CYP2D6 variants and haplotypes \cite{Ammar2015}
+% HLA molecular testing service
+% Advances in DNA sequencing technologies for high resolution HLA typing \cite{Cereb2015}
+% Dual redundant sequencing strategy: Full-length gene characterisation of 1056 novel and confirmatory HLA alleles \cite{Albrecht2017}
+%
+% SMRT enrichment
+% delineating the breakpoint junctions of low copy repeat (LCR)-associated complex structural rearrangements on chr17p11.2 in patients diagnosed with Potocki–Lupski syndrome (PTLS; MIM#610883). 
+% PacBio-LITS: a large-insert targeted sequencing method for characterization of human disease-associated chromosomal structural variations \cite{Wang2015}
+% Nanopore sequencing detects structural variants in cancer \cite{Norris2016}
+% Profiling of Short-Tandem-Repeat Disease Alleles in 12,632 Human Whole Genomes \cite{Tang2017}
+%
+Furthermore, long-read sequencing is used to characterize disease-associated structural variations, for instance segmental duplications in patients with Potocki–Lupski syndrome (PTLS) \cite{Wang2015} or deletions causing tumor suppressor gene inactivation in pancreatic cancer \cite{Norris2016}.
+Nonetheless, NGS still plays a major role, especially in the analysis of large patient cohorts, where available library preparation input material and sequencing cost have to be taken into account \cite{Tang2017}.
 
 
 
