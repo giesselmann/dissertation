@@ -342,7 +342,7 @@ A number of standalone tools and pipelines for genome assembly have been publish
 % Canu: scalable and accurate long-read assembly via adaptive k-mer weighting and repeat separation \cite{Koren2017}
 % strain resistance, in long read mode using racon and miniasm \cite{Li2016}, 1400 citations
 % Unicycler: Resolving bacterial genome assemblies from short and long sequencing reads \cite{Wick2017}
-Based on their citations, \textit{Canu} \cite{Koren2017} and \textit{Unicycler} \cite{Wick2017} are the most used assembly pipelines. Both are not assigned to the core-assembly cluster (ID 12, 13), but are part of the strain-assembly and strain-resistance cluster respectively, highlighting their importance for a large user group.
+Based on their citations, \textit{Canu} \cite{Koren2017} and \textit{Unicycler} \cite{Wick2017a} are the most used assembly pipelines. Both are not assigned to the core-assembly cluster (ID 12, 13), but are part of the strain-assembly and strain-resistance cluster respectively, highlighting their importance for a large user group.
 % FALCON, 540 citations
 % Phased diploid genome assembly with single-molecule real-time sequencing \cite{Chin2016}
 Developed exclusively for SMRT sequencing is \textit{FALCON} \cite{Chin2016}, with the additional function of phasing diploid genomes.
@@ -411,41 +411,51 @@ Nonetheless, NGS still plays a major role, especially in the analysis of large p
 \subsection{Bacterial \& Viral Strain Analysis}
 \label{subsec:state_of_art:strain}
 
-proof concepts
-Nanopore DNA Sequencing and Genome Assembly on the International Space Station \cite{Castro-Wallace2017}
-Real-Time DNA Sequencing in the Antarctic Dry Valleys Using the Oxford Nanopore Sequencer \cite{Johnson2017}
+The identification and analysis of viral and bacterial strains is, in terms of publication counts, the largest application field for long-read sequencing.
+Significantly smaller genomes compared to mammals and plants facilitate the early adaptation of third-generation technologies by compensating the initial error rates with high sequencing coverage.
+In stationary operation, the PacBio Sequel II and the ONT MinION appear to be equally well suited platforms.
+However, based on citation counts, publications relying on the real-time and mobility aspect of the MinION stick out in the following.
+In contrast to the massively parallel SMRT sequencing, individual reads from a nanopore sequencer can be analyzed directly after passing through the pore.
+Proof of concept studies have demonstrated mobile nanopore sequencing in challenging environments on the International Space Station \cite{Castro-Wallace2017} and in the Antarctic \cite{Johnson2017}.
+This section is subdivided into the mobile identification of viral strains (Cluster ID 1), analysis of bacterial antibiotic resistance (ID 5, 6) and metagenomic identification of bacterial and viral pathogens (ID 15).
 
+%Nanopore DNA Sequencing and Genome Assembly on the International Space Station \cite{Castro-Wallace2017}
+%Real-Time DNA Sequencing in the Antarctic Dry Valleys Using the Oxford Nanopore Sequencer \cite{Johnson2017}
+
+% mobile virus
 ebola, zika, lassa fever
 Real-time, portable genome sequencing for Ebola surveillance \cite{Quick2016}
 Mobile real-time surveillance of Zika virus in Brazil \cite{Faria2016}
 Metagenomic sequencing at the epicenter of the Nigeria 2018 Lassa fever outbreak \cite{Kafetzopoulou2019}
 Direct RNA nanopore sequencing of full-length coronavirus genomes provides novel insights into structural variants and enables modification analysis \cite{Viehweger2019}
 
-strain resistance
-cite importance from one of the review-like papers
+% strain resistance
+\textit{"Preventing, reducing, and controlling the emergence of antimicrobial-resistant organisms is a major public health challenge requiring the participation of the entire medical community and public health agencies."} \cite{Septimus2011}
 Diverse antibiotic resistance genes in dairy cow manure \cite{Wichmann2014}
 MinION nanopore sequencing identifies the position and structure of a bacterial antibiotic resistance island \cite{Ashton2015}
 Rapid antibiotic-resistance predictions from genome sequence data for Staphylococcus aureus and Mycobacterium tuberculosis \cite{Bradley2015}
 Streaming algorithms for identification of pathogens and antibiotic resistance potential from real-time MinION(TM) sequencing \cite{Cao2016}
-
 Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
-Same-Day Diagnostic and Surveillance Data for Tuberculosis via Whole-Genome Sequencing of Direct Respiratory Samples \cite{Votintseva2017}
-Identification of bacterial pathogens and antimicrobial resistance directly from clinical urines by nanopore-based metagenomic sequencing \cite{Schmidt2017}
-Nanopore metagenomics enables rapid clinical diagnosis of bacterial lower respiratory infection \cite{Charalampous2019}
 Rapid inference of antibiotic resistance and susceptibility by genomic neighbour typing \cite{Brinda2020}
 
+% pathogen
+Rapid metagenomic identification of viral pathogens in clinical samples by real-time nanopore sequencing analysis \cite{Greninger2015}
+Same-Day Diagnostic and Surveillance Data for Tuberculosis via Whole-Genome Sequencing of Direct Respiratory Samples \cite{Votintseva2017}
+Nanopore metagenomics enables rapid clinical diagnosis of bacterial lower respiratory infection \cite{Charalampous2019}
+Identification of bacterial pathogens and antimicrobial resistance directly from clinical urines by nanopore-based metagenomic sequencing \cite{Schmidt2017}
+
+Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak of Salmonella \cite{Quick2015}
 Rapid Pathogen Identification in Bacterial Pneumonia Using Real-Time Metagenomics \cite{Pendleton2017}
-Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
+Completing bacterial genome assemblies with multiplex MinION sequencing \cite{Wick2017}
 
 
 
 
-\subsection{Metagenomics \& Microbiomics}
+\subsection{Microbiomics}
 \label{subsec:state_of_art:metagenomics}
 
 Microbial phylogenetic profiling with the Pacific Biosciences sequencing platform \cite{Fichot2013}
 Reducing assembly complexity of microbial genomes with single-molecule sequencing \cite{Koren2013}
-Rapid metagenomic identification of viral pathogens in clinical samples by real-time nanopore sequencing analysis \cite{Greninger2015}
 Complete, closed bacterial genomes from microbiomes using nanopore sequencing \cite{Moss2020}
 
 16s
@@ -453,8 +463,6 @@ Improved performance of the PacBio SMRT technology for 16S rDNA sequencing \cite
 Sequencing 16S rRNA gene fragments using the PacBio SMRT DNA sequencing system \cite{Schloss2016}
 Evaluation of PacBio sequencing for full-length bacterial 16S rRNA gene classification \cite{Wagner2016}
 Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION portable nanopore sequencer \cite{Benitez-Paez2016}
-
-Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak of Salmonella \cite{Quick2015}
 
 
 
@@ -481,7 +489,7 @@ Potential but so far few publications
 Accurate detection of m6A RNA modifications in native RNA sequences \cite{Liu2019}
 Nanopore direct RNA sequencing maps the complexity of Arabidopsis mRNA processing and m6A modification \cite{Parker2020}
 
-nanopore accuracy improvement
+nanopore accuracy improvement in mid 2020
 
 
 
@@ -489,7 +497,8 @@ nanopore accuracy improvement
 \subsection{Base Modification Detection}
 \label{subsec:state_of_art:basemod}
 
-Proof of readability paper \cite{Schreiber2013}
+Detection and mapping of 5-methylcytosine and 5-hydroxymethylcytosine with nanopore {MspA} \cite{Laszlo2013}
+Error rates for nanopore discrimination among cytosine, methylcytosine, and hydroxymethylcytosine along individual DNA strands \cite{Schreiber2013}
 Compare to WGBS > methylation calling from mismatch in alignment
 
 simpson \cite{Simpson2017}
@@ -564,6 +573,9 @@ Accuracy of base modifications: Nanopolish, Signalign, DeepMod, DeepSignal etc.
 
 
 Review: Successful test launch for nanopore sequencing \cite{Loman2015a}
+
+Real-time selective sequencing using nanopore technology \cite{Loose2016}
+
 
 
 
