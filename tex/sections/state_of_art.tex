@@ -363,7 +363,7 @@ Published in 2018, Jain et al. report the linear assembly of the centromere on t
 %Linear assembly of a human centromere on the Y chromosome \cite{Jain2018}
 %Nanopore sequencing and assembly of a human genome with ultra-long reads \cite{Jain2018b}
 Only two years after publication, the reported NG50 of 6.4Mb based on \textit{Metrichor} basecalling and \textit{Canu} assembly is clearly outperformed by more recent workflows.
-An in-house benchmark of \textit{Flye} on a human data set with 30X coverage and 20kb N50 read length lead to a draft genome assembly with 25Mb NG50, further outperformed by the developer benchmark, reporting up to 40Mb NG50 on comparable coverage\footnote{\url{https://github.com/fenderglass/Flye}, accessed 02/2021}.
+An in-house benchmark of \textit{Flye} on a human data set with 30X coverage and 20kb N50 read length lead to a draft genome assembly with 25Mb NG50, further outperformed by the developer benchmark, reporting up to 40Mb NG50 using comparable coverage\footnote{\url{https://github.com/fenderglass/Flye}, accessed 02/2021}.
 
 
 
@@ -473,6 +473,9 @@ Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION
 PacBio 4M reads per smart cell
 Nanopore 5-10M for cDNA kit, 1M direct RNA kit
 
+Both third-generation platform support the sequencing of full-length transcripts after conversion to cDNA. 
+In addition are the nanopore devices by ONT capable of directly sequencing RNA, enabling the analysis of preserved RNA modifications.
+
 Comprehensive comparison of Pacific Biosciences and Oxford Nanopore Technologies and their applications to transcriptome analysis \cite{Weirather2017}
 A comprehensive examination of Nanopore native RNA sequencing for characterization of complex transcriptomes \cite{Soneson2019}
 
@@ -497,35 +500,32 @@ nanopore accuracy improvement in mid 2020
 \subsection{Base Modification Detection}
 \label{subsec:state_of_art:basemod}
 
-Single-molecule real-time sequencing is sensitive for a number of base modifications, in particular N6-methyladenine \cite{Flusberg2010}.
+Single-molecule real-time sequencing is sensitive for a number of base modifications, in particular N6-methyladenine (6mA) \cite{Flusberg2010}.
 Modifications impact the kinetics of the polymerase while synthesizing the complementary strand, leading to characteristic pulse duration changes.
-
-
-PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
-25X for 6mA but 250X for 5mC and 5hmC
-
-
-The sensitivity of nanopores to detect chemical base modifications, in particular 5-methylcytosine and 5-hydroxymethylcytosine, has been reported in advance to the release of the ONT sequencing platform \cite{Laszlo2013, Schreiber2013}.
+The sensitivity of SMRT sequencing for different modifications varies, the recommended coverage is ranging from 25X for 6mA to 250X for 5-methylcytosine (5mC) and 5-hydroxymethylcytosine (5hmC)\footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}.
+With a focus on mammalian genomes and a primary interest in 5mC, such high coverage is, aside from sequencing costs, also not allowing for any single read analysis.
+The sensitivity of nanopores to detect chemical base modifications, in particular 5mC and 5hmC, has already been reported in advance to the release of the ONT sequencing platform \cite{Laszlo2013, Schreiber2013}.
 Modified bases cause a characteristic level change in the ionic current signal, which can be detected by downstream analysis software.
-Both technologies can at individual base level only report a modification probability, leading to overall lower accuracy and missing values compared to whole genome bisulfite sequencing.
-
+Both third-generation technologies can at individual-read and -base level only report a modification probability, leading to overall lower accuracy and missing values compared to whole genome bisulfite sequencing.
 %Detection and mapping of 5-methylcytosine and 5-hydroxymethylcytosine with nanopore {MspA} \cite{Laszlo2013}
 %Error rates for nanopore discrimination among cytosine, methylcytosine, and hydroxymethylcytosine along individual DNA strands \cite{Schreiber2013}
 
-\textit{Nanopolish} \cite{Simpson2017} and \textit{SignalAlign} \cite{Rand2017} are the first tools detecting base modifications based on the ONT MinION platform.
+\textit{Nanopolish} \cite{Simpson2017} and \textit{SignalAlign} \cite{Rand2017} are the first tools detecting base modifications based on reads from the ONT MinION platform.
 Developed for the R7 pore generation, \textit{Nanopolish} is reporting 5mC, \textit{SignalAlign} 6mA, 5mC and 5hmC.
-However, only \textit{Nanopolish} is actively maintained, supporting the R9 pore and current raw signal file formats.
+However, only \textit{Nanopolish} is maintained, supporting the R9 pore and current raw signal file formats.
 More recently, neural network based approaches in ONT \textit{Megalodon}\footnote{\url{https://github.com/nanoporetech/megalodon}}, \textit{DeepMod} \cite{Liu2019a} and \textit{DeepSignal} \cite{Ni2018} show promising accuracy improvements reviewed in \cite{Yuen2020}.
 %Systematic benchmarking of tools for CpG methylation detection from Nanopore sequencing \cite{Yuen2020}
 Yet, broad usability is hampered by non-standard output formats, lack of maintenance and complex software dependencies such as the ONT \textit{tombo}\footnote{\url{https://github.com/nanoporetech/tombo}} signal alignment and the \textit{tensorflow} environment.
 
+Nanopore sequencing in epigenetics appears to be in a proof of concept and development state, with no demarcated publication cluster visible at the moment.
+An example of its successful application is the rapid classification of brain tumors using nanopore sequencing, combining structural variant, epigenetic profiling and real-time analysis \cite{Euskirchen2017}.
+%Same-day genomic and epigenomic diagnosis of brain tumors using real-time nanopore sequencing \cite{Euskirchen2017}
+Furthermore, a recent proof of concept reports the simultaneous profiling of chromatin accessibility and methylation by induced GpC methylation called nanoNOMe sequencing \cite{Lee2020}.
+Finally, for targeted profiling of 5mC and 5hmC, TAPS sequencing combines the accuracy of short-read bisulfite sequencing with long-read phasing information \cite{Liu2020}.
+Both methods are promising developments towards integration of additional information on single-molecule level and improved detection accuracy of DNA methylation.
 
-Application with SV:
-Same-day genomic and epigenomic diagnosis of brain tumors using real-time nanopore sequencing \cite{Euskirchen2017}
-
-Novel:
-Accurate targeted long-read DNA methylation and hydroxymethylation sequencing with TAPS \cite{Liu2020}
-Simultaneous profiling of chromatin accessibility and methylation on human cell lines with nanopore sequencing \cite{Lee2020}
+%Accurate targeted long-read DNA methylation and hydroxymethylation sequencing with TAPS \cite{Liu2020}
+%Simultaneous profiling of chromatin accessibility and methylation on human cell lines with nanopore sequencing \cite{Lee2020}
 
 
 
