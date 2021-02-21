@@ -497,23 +497,28 @@ nanopore accuracy improvement in mid 2020
 \subsection{Base Modification Detection}
 \label{subsec:state_of_art:basemod}
 
-Detection and mapping of 5-methylcytosine and 5-hydroxymethylcytosine with nanopore {MspA} \cite{Laszlo2013}
-Error rates for nanopore discrimination among cytosine, methylcytosine, and hydroxymethylcytosine along individual DNA strands \cite{Schreiber2013}
-Compare to WGBS > methylation calling from mismatch in alignment
+Single-molecule real-time sequencing is sensitive for a number of base modifications, in particular N6-methyladenine \cite{Flusberg2010}.
+Modifications impact the kinetics of the polymerase while synthesizing the complementary strand, leading to characteristic pulse duration changes.
 
-simpson \cite{Simpson2017}
-rand \cite{Rand2017}
-basecaller iterations, file format changes
-
-ONT software: lack of methods/training data visibility
-DeepMod: outdated on publication day, issues on reproducibility
-DeepSignal: works with tombo on event tables written into raw data
 
 PacBio methylation whitepaper \footnote{\url{https://www.pacb.com/wp-content/uploads/2015/09/WP_Detecting_DNA_Base_Modifications_Using_SMRT_Sequencing.pdf}, accessed 01/2021}:
 25X for 6mA but 250X for 5mC and 5hmC
 
-Benchmark
-Systematic benchmarking of tools for CpG methylation detection from Nanopore sequencing \cite{Yuen2020}
+
+The sensitivity of nanopores to detect chemical base modifications, in particular 5-methylcytosine and 5-hydroxymethylcytosine, has been reported in advance to the release of the ONT sequencing platform \cite{Laszlo2013, Schreiber2013}.
+Modified bases cause a characteristic level change in the ionic current signal, which can be detected by downstream analysis software.
+Both technologies can at individual base level only report a modification probability, leading to overall lower accuracy and missing values compared to whole genome bisulfite sequencing.
+
+%Detection and mapping of 5-methylcytosine and 5-hydroxymethylcytosine with nanopore {MspA} \cite{Laszlo2013}
+%Error rates for nanopore discrimination among cytosine, methylcytosine, and hydroxymethylcytosine along individual DNA strands \cite{Schreiber2013}
+
+\textit{Nanopolish} \cite{Simpson2017} and \textit{SignalAlign} \cite{Rand2017} are the first tools detecting base modifications based on the ONT MinION platform.
+Developed for the R7 pore generation, \textit{Nanopolish} is reporting 5mC, \textit{SignalAlign} 6mA, 5mC and 5hmC.
+However, only \textit{Nanopolish} is actively maintained, supporting the R9 pore and current raw signal file formats.
+More recently, neural network based approaches in ONT \textit{Megalodon}\footnote{\url{https://github.com/nanoporetech/megalodon}}, \textit{DeepMod} \cite{Liu2019a} and \textit{DeepSignal} \cite{Ni2018} show promising accuracy improvements reviewed in \cite{Yuen2020}.
+%Systematic benchmarking of tools for CpG methylation detection from Nanopore sequencing \cite{Yuen2020}
+Yet, broad usability is hampered by non-standard output formats, lack of maintenance and complex software dependencies such as the ONT \textit{tombo}\footnote{\url{https://github.com/nanoporetech/tombo}} signal alignment and the \textit{tensorflow} environment.
+
 
 Application with SV:
 Same-day genomic and epigenomic diagnosis of brain tumors using real-time nanopore sequencing \cite{Euskirchen2017}
