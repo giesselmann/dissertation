@@ -539,42 +539,59 @@ Both methods are promising developments towards integration of additional inform
 \section{Throughput and Accuracy}
 \label{sec:stat_of_art:throughput}
 
+Flow cell quality, library preparation protocols and bioinformatic analysis software underwent continuous improvements since the first release of the ONT MinION platform.
+A similar, but delayed, trend is observed for the high-throughput PromethION sequencer.
+Rapid development requires the constant evaluation of novel and existing workflows, in order to stay up to date with latest advancements in the field.
 
+A MinION flow cell can have up to 2048 pores of which, limited by the number of ionic current sensors, at most 512 can sequence at the same time.
+Pores are multiplexed to sensors in groups of four, the sequencing software \textit{MinKNOW} is controlling the pore selection in order to maximize the sensor occupancy.
+In 2017, MinION flow cells had an average of 1200 pores, yielding on average 4Gbp in in-house experiments.
+These numbers increased to around 1400 pores and an average throughput of 7Gbp between 2018 and 2019.
+Recently, the flow cell quality is mostly stable at 1400 pores, with consistent throughput of at least 8Gbp and up to 25Gbp from single MinION flow cells (1500-1600 pores) using a nuclease flush protocol.
+The nuclease flush increases the throughput by unblocking clogged pores. 
+After a certain period of sequencing time, stuck DNA fragments are digested and the flow cell is reloaded with a fresh library (Fig. \ref{fig:state_of_art:throughput} a).
 
-Improved data analysis for the {MinION} nanopore sequencer \cite{Jain2015} 85\% accuracy
-
-Representative Flow-Cells over time (from 3 to 30 GBp in 48h)
-
-Size selection, shearing, nuclease flush
-
-accuracy guppy-fast, guppy-hac (mention albacore flappie, scrappie, SACall, chiron, ...)
-
-cite benchmark paper, illustrate need for in-house benchmark of each new version
-
-Accuracy of base modifications: Nanopolish, Signalign, DeepMod, DeepSignal etc.
-
+Starting with \textasciitilde85\% accuracy in 2015 \cite{Jain2015}, subsequent basecaller generations have improved the single read accuracy to 95\% median in the most recent \textit{Guppy} high-accuracy model (Fig. \ref{fig:state_of_art:throughput} b).
+Importantly, any sample sequenced with the same pore version (currently R9.4) can be re-analyzed and benefit from the latest accuracy.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/state_of_art/throughput.pdf}
     \captionsetup{format=plain}
-    \caption[Throughput and accuracy]{Throughput and single read accuracy. \textbf{a}, Cumulative sequencing throughput over time of one representative MinION flow cell. Nuclease flushes unblock clogged pores and reload the flow cell with a new library. \textbf{b}, Density plot comparing single read accuracy (BLAST identiy) of 4k random reads basecalled with fast and high-accuracy model of \textit{Guppy} v3.5 and high-accuracy model of \textit{Guppy} v4.0 (Median accuracy: 0.90, 0.93, 0.95; Modal: 0.92, 0.94, 0.95).}
+    \caption[Throughput and accuracy]{Throughput and single read accuracy. \textbf{a}, Cumulative sequencing throughput over time of one representative MinION flow cell. Nuclease flushes unblock clogged pores and the flow cell can be reloaded with a new library. \textbf{b}, Density plot comparing single read accuracy (BLAST identiy) of 4k random reads basecalled with fast and high-accuracy model of \textit{Guppy} v3.5 and high-accuracy model of \textit{Guppy} v4.0 (Median accuracy: 0.90, 0.93, 0.95; Modal: 0.92, 0.94, 0.95).}
     \label{fig:state_of_art:throughput}
 \end{figure}
+
+
+Without adapter and quality trimming of reads, the throughput of an NGS run equals read count times read length.
+The read length distribution of a nanopore sequencing run depends on the library preparation, with median and N50 read length as common metrics.
+The N50 is the minimum read length in the larger half of the total throughput, in other words, half of the total sequencing throughput is supported by reads longer than the N50.
+Read length distributions, median and N50 are compared for two libraries (Fig. \ref{fig:state_of_art:read_length}), of which one included a size selection step.
+The selection for reads of around 15kB is visible in the distribution, but not reflected in the median (Fig. \ref{fig:state_of_art:read_length} a).
+The throughput as a function of read length is shown in Fig. \ref{fig:state_of_art:read_length} b, revealing a higher yield (area under curve) for the size-selected library, but a larger N50 for the untreated one.
+In summary is the restriction of read lengths beneficial for the absolute throughput, however larger N50s are for instance crucial for the continuity of genome assemblies.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/state_of_art/read_length.pdf}
     \captionsetup{format=plain}
-    \caption[Read length median and N50]{Read length distribution: \textbf{a}, Read length distributions shown as number of reads per length (bins of 500nt) of two PromethION flow cells loaded with libraries from different DNA extraction methods. Dashed lines show median read length at 15883 (HUES8) and 14281 (J1). \textbf{b}, Read length distributions shown as sequenced basepairs per read length. Dashed lines show N50 at 21041 (HUES8) and 31906 (J1).}
+    \caption[Read length median and N50]{Read length distribution: \textbf{a}, Read length distributions shown as number of reads per length (bins of 500nt) of two PromethION flow cells loaded with libraries from different preparation methods. The preparation of the HUES8 library included an additional size selection. Dashed lines show median read length at 15883 (HUES8) and 14281 (J1). \textbf{b}, Read length distributions shown as sequenced basepairs per read length. Dashed lines show N50 at 21041 (HUES8) and 31906 (J1).}
     \label{fig:state_of_art:read_length}
 \end{figure}
+
+Single molecule base modification detection of for instance 5-methylcytosine is a key advantage of nanopore sequencing and of particular interest for this work.
+Accuracy and scalability of \textit{Nanoplish} are decisive arguments for its use on a daily production level.
+The accuracy is assessed in comparison to whole genome bisulfite sequencing of the same human cell line in Fig. \ref{fig:state_of_art:methylation} a, resulting in a correlation coefficient of 0.9 on 23M intersected CpGs.
+The methylation state per CpG on single-read level is reported as a methylation probability (HMM methods) or confidence score (NN methods).
+Both require subsequent filtering to reduce the overall error rate.
+The impact of a log-likelihodd threshold on the \textit{Nanopolish} methylation detection accuracy is shown in Fig. \ref{fig:state_of_art:methylation} b.
+More stringent thresholds reduce the error rate, at the cost of less CpGs passing the filter (Fig. \ref{fig:state_of_art:methylation} c).
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{figures/state_of_art/methylation.pdf}
     \captionsetup{format=plain}
-    \caption[Nanopore methylation detection]{Nanopore 5mC methylation detection: \textbf{a}, Correlation of whole genome bisulfite sequencing (WGBS) and nanopore sequenced mean methylation rates per genomic position (\textit{Nanopolish} detection with abs. log-p threshold: 2.5, min. coverage: 10X, reference hg19). \textbf{b}, Detection error depending on the applied absolute log-likelihood ratio (methylation probability) threshold. \textbf{c}, Fraction of dataset remaining depending on log-p value threshold.}
+    \caption[Nanopore methylation detection]{Nanopore 5mC methylation detection: \textbf{a}, Correlation of whole genome bisulfite sequencing (WGBS) and nanopore sequenced mean methylation rates per genomic position (Pearson correlation, \textit{Nanopolish} detection with abs. log-p threshold: 2.5, min. coverage: 10X, reference hg19). \textbf{b}, Detection error depending on the applied absolute log-likelihood ratio (methylation probability) threshold. \textbf{c}, Fraction of dataset remaining depending on log-p value threshold.}
     \label{fig:state_of_art:methylation}
 \end{figure}
 
