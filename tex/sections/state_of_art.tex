@@ -454,15 +454,20 @@ Completing bacterial genome assemblies with multiplex MinION sequencing \cite{Wi
 \subsection{Microbiomics}
 \label{subsec:state_of_art:metagenomics}
 
-Microbial phylogenetic profiling with the Pacific Biosciences sequencing platform \cite{Fichot2013}
-Reducing assembly complexity of microbial genomes with single-molecule sequencing \cite{Koren2013}
-Complete, closed bacterial genomes from microbiomes using nanopore sequencing \cite{Moss2020}
+An isolated cluster (ID 10, Fig \ref{fig:state_of_art:umap_cluster} orange) of comparable high density covers long-read sequencing in micobiomics.
+Two major identified applications are the improved assembly of bacterial genomes from microbiomes \cite{Koren2013, Moss2020} and phylogenetic profiling using 16S rRNA sequencing.
+%Reducing assembly complexity of microbial genomes with single-molecule sequencing \cite{Koren2013}
+%Complete, closed bacterial genomes from microbiomes using nanopore sequencing \cite{Moss2020}
+The 16S ribosomal RNA is a conserved subunit of prokaryotic ribosomes, allowing the species identification in complex microbiomes. 
+The longer reads of SMRT sequencing have become a cost efficient alternative to Roche's 454 Genome Sequencer in studying microbial diversity \cite{Fichot2013, Mosher2014}.
+Based on publication counts, PacBio appears to be the primarily used platform, however, the portability and decreasing error rates of the ONT MinION make it an alternative to consider \cite{Benitez-Paez2016}.
 
-16s
-Improved performance of the PacBio SMRT technology for 16S rDNA sequencing \cite{Mosher2014}
-Sequencing 16S rRNA gene fragments using the PacBio SMRT DNA sequencing system \cite{Schloss2016}
-Evaluation of PacBio sequencing for full-length bacterial 16S rRNA gene classification \cite{Wagner2016}
-Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION portable nanopore sequencer \cite{Benitez-Paez2016}
+%Microbial phylogenetic profiling with the Pacific Biosciences sequencing platform \cite{Fichot2013}
+%Improved performance of the PacBio SMRT technology for 16S rDNA sequencing \cite{Mosher2014}
+%Sequencing 16S rRNA gene fragments using the PacBio SMRT DNA sequencing system \cite{Schloss2016}
+%Evaluation of PacBio sequencing for full-length bacterial 16S rRNA gene classification \cite{Wagner2016}
+
+%Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION portable nanopore sequencer \cite{Benitez-Paez2016}
 
 
 
@@ -470,29 +475,30 @@ Species-level resolution of 16S rRNA gene amplicons sequenced through the MinION
 \subsection{Isoform Detection}
 \label{subsec:state_of_art:isoform}
 
-PacBio 4M reads per smart cell
-Nanopore 5-10M for cDNA kit, 1M direct RNA kit
+Both third-generation platforms support the sequencing of full-length RNA transcripts after conversion to cDNA. 
+In addition are the nanopore devices by ONT capable of directly sequencing RNA, providing the potential to analyze RNA modifications.
+For RNA sequencing, the number of reads is crucial in order to capture a maximum amount of transcripts.
+The parallel SMRT sequencing is capped at around 4M reads per flow cell, whereas the throughput of a nanopore cDNA run is impacted by flow cell and library quality, ranging from 5 to 10M reads.
+The direct RNA nanopore sequencing is performed at lower speed with only 70nt/s (450nt/s DNA), resulting in lower throughput of around 1M reads per MinION flow cell.
 
-Both third-generation platform support the sequencing of full-length transcripts after conversion to cDNA. 
-In addition are the nanopore devices by ONT capable of directly sequencing RNA, enabling the analysis of preserved RNA modifications.
+SMRT and nanopore sequencing are able to characterize and quantify transcripts, with improved accuracy by employing short-read hybrid approaches \cite{Weirather2017, Zhang2019a}.
+%Comprehensive comparison of Pacific Biosciences and Oxford Nanopore Technologies and their applications to transcriptome analysis \cite{Weirather2017}
+%PacBio full-length cDNA sequencing integrated with RNA-seq reads drastically improves the discovery of splicing transcripts in rice \cite{Zhang2019a}
+However, ambiguous alignments and frequently truncated fragments make isoform detection and quantification more challenging than anticipated \cite{Soneson2019}.
+%A comprehensive examination of Nanopore native RNA sequencing for characterization of complex transcriptomes \cite{Soneson2019}
+Applications utilizing the full-length transcript sequencing include characterization of novel transcripts \cite{Tombacz2015}, expression analysis of human LINE1 transposable elements \cite{Deininger2017} and estimation of poly(A) tail lengths \cite{Workman2019}.
+%Characterization of Novel Transcripts in Pseudorabies Virus \cite{Tombacz2015}
+%Unveiling the complexity of the maize transcriptome by single-molecule long-read sequencing \cite{Wang2016}
+%A comprehensive approach to expression of L1 loci \cite{Deininger2017}
+%Characterization of the Dynamic Transcriptome of a Herpesvirus with Long-read Single Molecule Real-Time Sequencing \cite{Tombacz2017}
+%Full-length transcript characterization of SF3B1 mutation in chronic lymphocytic leukemia reveals downregulation of retained introns \cite{Tang2020}
+%Nanopore native RNA sequencing of a human poly(A) transcriptome \cite{Workman2019}
 
-Comprehensive comparison of Pacific Biosciences and Oxford Nanopore Technologies and their applications to transcriptome analysis \cite{Weirather2017}
-A comprehensive examination of Nanopore native RNA sequencing for characterization of complex transcriptomes \cite{Soneson2019}
-
-Characterization of Novel Transcripts in Pseudorabies Virus \cite{Tombacz2015}
-Unveiling the complexity of the maize transcriptome by single-molecule long-read sequencing \cite{Wang2016}
-A comprehensive approach to expression of L1 loci \cite{Deininger2017}
-Characterization of the Dynamic Transcriptome of a Herpesvirus with Long-read Single Molecule Real-Time Sequencing \cite{Tombacz2017}
-PacBio full-length cDNA sequencing integrated with RNA-seq reads drastically improves the discovery of splicing transcripts in rice \cite{Zhang2019a}
-Full-length transcript characterization of SF3B1 mutation in chronic lymphocytic leukemia reveals downregulation of retained introns \cite{Tang2020}
-
-Nanopore native RNA sequencing of a human poly(A) transcriptome \cite{Workman2019}
-
-Potential but so far few publications
-Accurate detection of m6A RNA modifications in native RNA sequences \cite{Liu2019}
-Nanopore direct RNA sequencing maps the complexity of Arabidopsis mRNA processing and m6A modification \cite{Parker2020}
-
-nanopore accuracy improvement in mid 2020
+Frequently mentioned in the context of nanopore direct RNA sequencing is the ability to detect RNA modifications.
+Current methods to detect m6A in nanopore transcript reads are based on the error profile of the used basecalling algorithm \cite{Liu2019, Parker2020}.
+Highly dependent on the basecaller version, these approaches can only be proof of concepts, demanding for more reliable signal based methods.
+%Accurate detection of m6A RNA modifications in native RNA sequences \cite{Liu2019}
+%Nanopore direct RNA sequencing maps the complexity of Arabidopsis mRNA processing and m6A modification \cite{Parker2020}
 
 
 
@@ -532,6 +538,8 @@ Both methods are promising developments towards integration of additional inform
 
 \section{Throughput and Accuracy}
 \label{sec:stat_of_art:throughput}
+
+
 
 Improved data analysis for the {MinION} nanopore sequencer \cite{Jain2015} 85\% accuracy
 
@@ -579,7 +587,7 @@ Accuracy of base modifications: Nanopolish, Signalign, DeepMod, DeepSignal etc.
 
 Review: Successful test launch for nanopore sequencing \cite{Loman2015a}
 
-Real-time selective sequencing using nanopore technology \cite{Loose2016}
+Real-time selective sequencing using nanopore technology \cite{Loose2016}	
 
 
 
