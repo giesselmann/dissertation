@@ -423,30 +423,39 @@ This section is subdivided into the mobile identification of viral strains (Clus
 %Real-Time DNA Sequencing in the Antarctic Dry Valleys Using the Oxford Nanopore Sequencer \cite{Johnson2017}
 
 % mobile virus
-ebola, zika, lassa fever
-Real-time, portable genome sequencing for Ebola surveillance \cite{Quick2016}
-Mobile real-time surveillance of Zika virus in Brazil \cite{Faria2016}
-Metagenomic sequencing at the epicenter of the Nigeria 2018 Lassa fever outbreak \cite{Kafetzopoulou2019}
-Direct RNA nanopore sequencing of full-length coronavirus genomes provides novel insights into structural variants and enables modification analysis \cite{Viehweger2019}
+The ability to perform in-field sequencing is a unique feature of the ONT MinION device.
+The 2015 outbreak of Ebola in West Africa \cite{Quick2016}, the Zika virus epidemic 2016 in Brazil \cite{Faria2016} and the 2018 Lassa fever outbreak in Nigeria \cite{Kafetzopoulou2019} have been monitored using nanopore sequencing, proving the feasibility of on-site metagenomic analysis.
+The studies demonstrate direct sequencing of viral genomes without the need for complex laboratory infrastructure.
+Potential applications include guidance of control measures by reconstructing epidemic origins, monitoring transmission rates of different strains and generation of genomic information for vaccine development.
+
+%Real-time, portable genome sequencing for Ebola surveillance \cite{Quick2016}
+%Mobile real-time surveillance of Zika virus in Brazil \cite{Faria2016}
+%Metagenomic sequencing at the epicenter of the Nigeria 2018 Lassa fever outbreak \cite{Kafetzopoulou2019}
+%Direct RNA nanopore sequencing of full-length coronavirus genomes provides novel insights into structural variants and enables modification analysis \cite{Viehweger2019}
 
 % strain resistance
 \textit{"Preventing, reducing, and controlling the emergence of antimicrobial-resistant organisms is a major public health challenge requiring the participation of the entire medical community and public health agencies."} \cite{Septimus2011}
-Diverse antibiotic resistance genes in dairy cow manure \cite{Wichmann2014}
-MinION nanopore sequencing identifies the position and structure of a bacterial antibiotic resistance island \cite{Ashton2015}
-Rapid antibiotic-resistance predictions from genome sequence data for Staphylococcus aureus and Mycobacterium tuberculosis \cite{Bradley2015}
-Streaming algorithms for identification of pathogens and antibiotic resistance potential from real-time MinION(TM) sequencing \cite{Cao2016}
-Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
-Rapid inference of antibiotic resistance and susceptibility by genomic neighbour typing \cite{Brinda2020}
+Nanopore sequencing is used to identify bacterial antibiotic resistance genes \cite{Ashton2015, Bradley2015, Schmidt2017}.
+In a clinical environment the sequencing, assembly and antimicrobial resistance gene annotation has been demonstrated in less than 6h \cite{Lemon2017}.
+%Diverse antibiotic resistance genes in dairy cow manure \cite{Wichmann2014}
+%MinION nanopore sequencing identifies the position and structure of a bacterial antibiotic resistance island \cite{Ashton2015}
+%Rapid antibiotic-resistance predictions from genome sequence data for Staphylococcus aureus and Mycobacterium tuberculosis \cite{Bradley2015}
+%Streaming algorithms for identification of pathogens and antibiotic resistance potential from real-time MinION(TM) sequencing \cite{Cao2016}
+%Rapid Nanopore Sequencing of Plasmids and Resistance Gene Detection in Clinical Isolates \cite{Lemon2017}
+%Identification of bacterial pathogens and antimicrobial resistance directly from clinical urines by nanopore-based metagenomic sequencing \cite{Schmidt2017}
+%Rapid inference of antibiotic resistance and susceptibility by genomic neighbour typing \cite{Brinda2020}
 
 % pathogen
-Rapid metagenomic identification of viral pathogens in clinical samples by real-time nanopore sequencing analysis \cite{Greninger2015}
-Same-Day Diagnostic and Surveillance Data for Tuberculosis via Whole-Genome Sequencing of Direct Respiratory Samples \cite{Votintseva2017}
-Nanopore metagenomics enables rapid clinical diagnosis of bacterial lower respiratory infection \cite{Charalampous2019}
-Identification of bacterial pathogens and antimicrobial resistance directly from clinical urines by nanopore-based metagenomic sequencing \cite{Schmidt2017}
+Furthermore, the applications of nanopore sequencing in a clinical setting includes the identification and characterization of viral \cite{Greninger2015} and bacterial \cite{Charalampous2019} pathogens.
+An example is the same-day antibiotic susceptibility prediction of Mycobacterium tuberculosis with a turnaround time of 7.5h \cite{Votintseva2017}
+Recent throughput advancements enable multiplexed sequencing of multiple samples on a single flow cell and thus improve the economic efficiency \cite{Wick2017}.
+%Rapid metagenomic identification of viral pathogens in clinical samples by real-time nanopore sequencing analysis \cite{Greninger2015}
+%Same-Day Diagnostic and Surveillance Data for Tuberculosis via Whole-Genome Sequencing of Direct Respiratory Samples \cite{Votintseva2017}
+%Nanopore metagenomics enables rapid clinical diagnosis of bacterial lower respiratory infection \cite{Charalampous2019}
 
-Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak of Salmonella \cite{Quick2015}
-Rapid Pathogen Identification in Bacterial Pneumonia Using Real-Time Metagenomics \cite{Pendleton2017}
-Completing bacterial genome assemblies with multiplex MinION sequencing \cite{Wick2017}
+%Rapid draft sequencing and real-time nanopore sequencing in a hospital outbreak of Salmonella \cite{Quick2015}
+%Rapid Pathogen Identification in Bacterial Pneumonia Using Real-Time Metagenomics \cite{Pendleton2017}
+%Completing bacterial genome assemblies with multiplex MinION sequencing \cite{Wick2017}
 
 
 
@@ -542,7 +551,6 @@ Both methods are promising developments towards integration of additional inform
 Flow cell quality, library preparation protocols and bioinformatic analysis software underwent continuous improvements since the first release of the ONT MinION platform.
 A similar, but delayed, trend is observed for the high-throughput PromethION sequencer.
 Rapid development requires the constant evaluation of novel and existing workflows, in order to stay up to date with latest advancements in the field.
-
 A MinION flow cell can have up to 2048 pores of which, limited by the number of ionic current sensors, at most 512 can sequence at the same time.
 Pores are multiplexed to sensors in groups of four, the sequencing software \textit{MinKNOW} is controlling the pore selection in order to maximize the sensor occupancy.
 In 2017, MinION flow cells had an average of 1200 pores, yielding on average 4Gbp in in-house experiments.
@@ -601,10 +609,17 @@ More stringent thresholds reduce the error rate, at the cost of less CpGs passin
 \section{Summary}
 \label{sec:stat_of_art:summary}
 
+In 2015, a year after the release of the ONT MinION, Loman et al. review the potential of nanopore sequencing \cite{Loman2015a}.
+Despite the initially high error rates, they anticipate the application in genome assembly, real-time pathogen sequencing in hospitals and environmental monitoring.
+Five years later, our systematic review of third-generation sequencing literature identifies these topics as major application areas.
+We demonstrate a data driven literature analysis, suitable to generate a big picture overview of an emerging technology.
+Citation and content based clustering allows us to characterize application fields of nanopore and SMRT sequencing.
+Advancements on laboratory and bioinformatic side have promoted long-read sequencing to become state-of-the-art in genome assembly and structural variant detection.
+%Review: Successful test launch for nanopore sequencing \cite{Loman2015a}
+On the other hand, persistent shortcomings such as the unchanged high amount (>1ug) of input DNA for library preparation remain and inhibit usage in areas, where input material is rare.
 
-Review: Successful test launch for nanopore sequencing \cite{Loman2015a}
 
-Real-time selective sequencing using nanopore technology \cite{Loose2016}	
+%Real-time selective sequencing using nanopore technology \cite{Loose2016}	
 
 
 
