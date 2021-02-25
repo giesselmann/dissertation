@@ -159,7 +159,7 @@ The described approach is limited by the modeling of event lengths with affine g
 Read lengths of multiple hundred kilobases make direct alignments in signal space increasingly ill-suited to annotate the full read. 
 Implementations in \textit{Tombo} and \textit{Nanopolish} \cite{Simpson2017, Gamaarachchi2020} address this issue with banded alignments, without appreciating the underlying problem of an oversampled square wave like signal.
 
-Inspired by a general concept for the discretization of time series into symbolic strings \cite{Lin2003}, we further improve our signal alignment by an event compression and discretization step. Exploiting the distinct steps between events after histogram equalization and morphological noise reduction, we apply an image processing edge detection on the normalized signal using a one-dimensional convolution with the kernel [-3\ -1\ 1\ 3]. 
+Inspired by a general concept for the discretization of time series into symbolic strings \cite{Lin2003}, we further improve our signal alignment by an event compression and discretization step. Exploiting the distinct steps between events after histogram equalization and morphological noise reduction, we apply an image processing edge detection on the normalized signal using a one-dimensional convolution with the kernel [-3\ 0\ 3]. 
 Intermediate segments are summarized into an event table with their lengths and mean signal levels (Tab. \ref{tab:signal:events}). 
 The previously described uniform distribution of signal values enables a discretization into equally represented symbols, by splitting the signal range into evenly sized bins. 
 A lookup table mapping reference kmers from the pore model to the same symbol space can be pre-computed. 
@@ -194,7 +194,7 @@ Lastly, any generic sequence alignment library can be used to align both symboli
 
 
 Here, the event alignment is implemented using the python module of the \textit{Edlib} \cite{Sosic2017} package. Based on Myer's bit-vector algorithm and with alignment path traceback in linear memory (Hirschberg's algorithm), the library supports symbol sequence alignments over alphabets of up to 256 characters. 
-The method's overall sensitivity of the method depends on the edge detection threshold, resulting in an over- or under-detection of events and the size of the discretization alphabet. 
+The overall sensitivity of the method depends on the edge detection threshold, resulting in an over- or under-detection of events and the size of the discretization alphabet. 
 In this work, we align event sequences represented by an alphabet of 12 characters. 
 Furthermore, \textit{Edlib} allows to extend the character equality matrix, which we utilize to treat symbols to be additionally equal with adjacent symbols in terms of the signal level they represent.
 

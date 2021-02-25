@@ -2,3 +2,51 @@
 \label{cha:summary}
 
 But could you not also do that with short reads?
+Leads to research question:
+Would long reads not be the more appropriate technology or useful for confirmation?
+
+Research question: Usability of nanopore sequencing, what is working, limiting factors, unique novel applications
+
+Answer: Nanopore adapted for genome assembly and widely used to sequence bacterial and viral genomes.
+Genome size matters, bioinformatic reproducibility and quality / maintenance of developed tools
+Compare to NGS tools which can be finished, nanopore tools need to follow fast paced field
+
+
+STRique: Nanopore for inaccessible part of genome
+integrate SV detection with epigenetic modifications
+digital method of previously analogue workflow, improving accuracy and turnaround time
+shortcomings of neural network basecalling algorithms
+counting on signal level, signal manipulation to facilitate conventional methylation calling
+HMM methylation detection on repeat
+tested on FMR1 and c9orf72, but applies to any repeat in the genome.
+Reference to large e.g. satellite repeats, where sequence based methods will be accurate.
+limitations: runtime and dependencies, reported by users using PCR amplified input, less relevant for clinical diagnostic application, caused by signal level algorithm and python HMM package
+HMM needs to support states with continuous emission distributions 
+count depends on flanking signal detection, requiring sufficient coverage for filtering
+Accuracy only validated <100 repeats, larger repeats match southern blotting
+
+Nanopype: Processing to stay up to date with updating software
+storage to handle raw data, x times larger than fastq from NGS
+snakemake over shell scripts for modularity, supporting container, multiple cluster backends
+Build and functionality tests are very rare!
+Interchangeable tools for lab focused on development
+weakness: trying to maintain increasing number of integrated tools and their dependencies, example pytorch/tensorflow v1/v2 for neural networks
+Future work: freeze core pipeline, develop NanopypeXT which uses Nanopype as sub-workflow for very specific or complex to maintain tools
+
+Literature: Throughput and accuracy increasingly suitable for application to large plant and mammalian genomes
+Assembly and structural variant detection are established but will further benefit from accuracy and even longer reads
+Limitations on wet-lab side with high molecular weight DNA and amount of input material
+Limitations on bioinformatic, storage and upload, refer to STRique data being in Figshare repository
+Base modification visibility long known, lack of robust and accurate tools
+RNA modifications example of frequently mentioned potentials with only few applications up to date
+
+Future work based on pipeline backend and baseline set with signal annotation
+Base modification framework on event data without dependency to basecaller generation
+Base caller based on novel transformer neural networks with impressive results in translation and speech to text
+
+
+
+
+
+
+
