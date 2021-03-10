@@ -9,27 +9,27 @@ Yet, a broader replacement of NGS methods is not in sight, raising the question,
 The underlying research question of this work is therefore to analyze unique use-cases for nanopore sequencing, identify key limitations and provide a comprehensive investigation of the current status.
 Despite many improvements, the application of nanopore sequencing in the context of large mammalian and plant genomes remains challenging.
 At the same time are the benefits of long reads known: Reliable alignments in repetitive regions, no duplicates and biases by library amplification and the linkage of distant genetic and epigenetic features on single molecule level.
-Yet, the stable throughput, higher read accuracy and established workflows of NGS technologies justify the commitment to nanopore sequencing only for applications infeasible with short reads.
+Yet, the stable throughput, higher read accuracy and established workflows of NGS technologies, justify the commitment to nanopore sequencing only for applications infeasible with short reads.
 
-An initial niche to gain traction at applying nanopore sequencing is the analysis of repetitive regions in the human genome.
-For comparison, using short reads, the reachable part of a repeat is limited by the read length, leading to ambiguous alignments once a read contains only repeat sequence.
+A niche to gain traction at applying nanopore sequencing is the analysis of repetitive regions in the human genome.
+For comparison, using short reads, the reachable part of a repeat is limited by the read length, leading to ambiguous alignments, once a read contains only repeat sequence.
 Short tandem repeats (STRs) are accumulations of three to six nucleotide long sequence patterns, in disease cases expanded to hundreds of copies.
-The epigenetic analysis of repeats is a unique feature of nanopore sequencing, given that SMRT sequencing is on single-molecule level not sufficiently sensitive to 5-methylcytosine.
+The epigenetic analysis of repeats is a unique feature of nanopore sequencing, considering that SMRT sequencing is not sufficiently sensitive to 5-methylcytosine on single-molecule level.
 Repeat detection by sequencing is the digital advancement over southern blot based quantification, increasing the accuracy and reducing the turnaround time.
-\textit{STRique} is a bioinformatic analysis software developed to integrate the quantification of short tandem repeats with their methylation state on individual read level.
-The algorithmic key features of \textit{STRique} are raw signal alignment and sequence to signal annotation.
+\textit{STRique} is a bioinformatic analysis software, developed to integrate the quantification of short tandem repeats with their methylation state on individual read level.
+The algorithmic key features of \textit{STRique} are raw signal alignment and the sequence to signal annotation.
+Due to the oversampling of the sequencer, raw signal traces are roughly ten times longer compared to their corresponding sequence and, with respect to noise and time warping, generally more difficult to handle.
+Yet, only a signal based counting algorithm allows to bypass systematic errors induced during conventional basecalling of tandem repeats.
+Hidden Markov Models (HMM) are a powerful resource to align nanopore signals to a reference sequence.
+However, their computational complexity is scaling quadratically with the number of hidden states, limiting the usage to restricted signal and sequence windows of interest.
+The purpose of the signal alignment is therefore, to extract a signal segment over the repeat with sufficient flanking sequence to anchor a counting HMM.
+The signal alignment is the enabling and at the same time limiting step: The Viterbi path through the HMM is the most likely state-sequence given the observed signal, fed with a wrong signal alignment, it will still yield a repeat count.
+A filtering based on signal alignment scores is therefore crucial to exclude low quality counts.
+A useful side-effect of the signal alignment is the ability to mask regions within the read.
+\textit{STRique} provides a script to cut out the expanded repeat from the raw signal and creates wild-type like reads passing any conventional downstream pipeline, to detect for instance DNA-methylation in the repeat-flanking sequence.
+Taken together, \textit{STRique} is an example for a unique nanopore application, enabling more detailed investigations of short tandem repeat expansions.
 
 
-
-shortcomings of neural network basecalling algorithms
-counting on signal level, signal manipulation to facilitate conventional methylation calling
-HMM methylation detection on repeat
-tested on FMR1 and c9orf72, but applies to any repeat in the genome.
-Reference to large e.g. satellite repeats, where sequence based methods will be accurate.
-limitations: runtime and dependencies, reported by users using PCR amplified input, less relevant for clinical diagnostic application, caused by signal level algorithm and python HMM package
-HMM needs to support states with continuous emission distributions 
-count depends on flanking signal detection, requiring sufficient coverage for filtering
-Accuracy only validated <100 repeats, larger repeats match southern blotting
 
 Nanopype: Processing to stay up to date with updating software
 storage to handle raw data, x times larger than fastq from NGS
