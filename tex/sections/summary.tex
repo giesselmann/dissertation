@@ -32,8 +32,8 @@ A useful side-effect of the signal alignment is the ability to mask regions with
 Taken together, \textit{STRique} is an example for a unique nanopore application, enabling more detailed investigations of short tandem repeat expansions.
 
 Bioinformatics for nanopore sequencing are undergoing constant development.
-Even a stable nanopore workflow needs, in contrast to NGS analysis, constant maintenance to factor in accuracy improvements, new pore generations, but also for instance recent file format and compression method changes.
-Zooming out from individual tool to pipeline level, the streamlined processing and data archiving has received very little attention in the nanopore community.
+Even a stable nanopore workflow needs, in contrast to NGS analysis, constant maintenance to factor in accuracy improvements, new pore generations, but also for example recent file format and compression method changes.
+Zooming out from individual tool- to pipeline-level, the streamlined processing and data archiving has received very little attention in the nanopore community.
 Computational setups ranging from few MinION flow cells analyzed on a Laptop to high-throughput PromethION sequencing in combination with GPU accelerated cluster environments are complicating, if not inhibiting, a uniform processing strategy.
 The motivation behind the development of the \textit{Nanopype} pipeline is therefore not only to wrap the processing, but also set up a scaling data management.
 While certainly site specific on the implementation detail, the concepts of the pipeline backend transfer to any institute aiming to set up a nanopore workflow.
@@ -41,28 +41,43 @@ The ONT device control software \textit{MinKnow} is providing raw data in batche
 Further transfer to permanent storage, indexing and archiving are essential for a high-throughput environment.
 The organization in batches is, as opposed to a single \textit{fastq} file per NGS run, beneficial for distributed processing.
 \textit{Nanopype} operates on batches whenever possible, submitting for instance alignments in batches bears the advantage that multiple compute nodes can process a single sequencing run and that only few reads need to be re-processed in case of errors.
+An abstraction layer around the raw data handling is needed to be robust against different file formats (single- and bulk-\textit{fast5}) and changing output directory structures of the \textit{MinKNOW} software.
 
-Using pipeline management systems such as \textit{Nextflow} or \textit{Snakemake} over plain shell script implementations
+Using workflow management systems such as \textit{Nextflow} or \textit{Snakemake} over plain shell script implementations greatly simplifies the development and maintenance of a pipeline.
+\textit{Snakemake} workflows are becoming more popular for both, standalone pipeline development, but also to enhance the reproducibility of publications by wrapping the applied toolchain into a workflow.
+Other pipelines in the field are mostly linear in a way, that they utilize a single tool per processing step and provide specialized outputs to analyze e.g. isoforms or single-nucleotide polymorphisms (SNPs).
+Tailored to the requirements of methods development, \textit{Nanopype} provides basic processing with interchangeable methods for each module, supporting for instance \textit{minimap2}, \textit{NGMLR} and \textit{GraphMap} alignments.
+Among the greatest advantages of using \textit{Snakemake} is the support of cluster schedulers and the build-in support for \textit{Singularity} containers.
+With regard to increasing throughput and fast paced algorithmic accuracy improvements, distributed processing of nanopore datasets is an essential ability to operate on a competitive level.
+The deployment of pipeline modules as \textit{Singularity} containers is of less importance for the local usage, but is setting a new state-of-the-art for providing exactly reproducible workflows.
+\textit{Nanopype} is unique in not only embedding the order and parameters of applied tools, but also enforcing their version.
+Tool installations are commonly left to the user, by either expecting to find required tools in the systems \textit{PATH} variable or by providing options with full path configurations.
+Both ways allow the execution of the workflow, but will produce divergent outputs depending on installed versions.
+Within \textit{Nanopype}, installation wrappers ensure that tool versions are tied to the pipeline version, guaranteeing consistent outputs across labs and experiments.
+Lastly, after building the \textit{Singularity} images as part of the deployment process, functionality tests can be executed with little overhead on minimal example datasets.
+The broad functional range of \textit{Nanopype} is ideal for basic processing and serves as a baseline for both, users and developers.
+At the same time is the all-in-one approach increasingly complex to maintain and extend.
+An example is the trend to apply deep learning algorithms to raw nanopore signals, not only for basecalling, but also for barcode demultiplexing, variant- or base-modification-detection.
+Popular neural network frameworks are \textit{Tensorflow} (v1 and v2) and \textit{Pytorch}, which have to be provided by the pipeline.
+The current implementation would for instance not allow to have parallel applications requiring different versions of \textit{Tensorflow}.
+A subject of future work is therefore the further isolation of included tools, for instance through distinct python virtual environments for compatible applications.
+In order to not further increase the complexity of the core pipeline, the \textit{Snakemake} subworkflow feature could be used to implement nested extension pipelines, each requiring \textit{Nanopype} outputs as external inputs.
 
+\textit{Nanopore sequencing: What's coming next?}
 
-Nanopype: Processing to stay up to date with updating software
-storage to handle raw data, x times larger than fastq from NGS
-snakemake over shell scripts for modularity, supporting container, multiple cluster backends
-Build and functionality tests are very rare!
-Interchangeable tools for lab focused on development
-weakness: trying to maintain increasing number of integrated tools and their dependencies, example pytorch/tensorflow v1/v2 for neural networks
-Future work: freeze core pipeline, develop NanopypeXT which uses Nanopype as sub-workflow for very specific or complex to maintain tools
+The exploration of established use-cases in the literature review reveals the broad applicability of third-generation sequencing for the analysis of bacterial and viral genomes.
+Genome assembly and structural variant detection are prominent examples for applications, where NGS sequencing is no longer the primary technology.
+The thought experiment of what would be needed to fully replace NGS by nanopore sequencing allows to assess remaining limitations.
+If nanopore reads had perfect accuracy, not only on sequence, but also on base-modification level, there would be no further need to store large raw datasets for future re-processing.
+A higher accuracy would also reduce the required coverage, facilitating the widespread sequencing of larger genomes with present throughput.
+On the other hand are short reads convenient for count-based methods such as ChIP-Seq, where long reads would impede peak-calling.
+Viewing third-generation sequencing as an extension, rather than a potential replacement, appears therefore to be the most appropriate perception.
 
-Literature: Throughput and accuracy increasingly suitable for application to large plant and mammalian genomes
-Assembly and structural variant detection are established but will further benefit from accuracy and even longer reads
-Limitations on wet-lab side with high molecular weight DNA and amount of input material
-Limitations on bioinformatic, storage and upload, refer to STRique data being in Figshare repository
-Base modification visibility long known, lack of robust and accurate tools
-RNA modifications example of frequently mentioned potentials with only few applications up to date
-
-Future work based on pipeline backend and baseline set with signal annotation
-Base modification framework on event data without dependency to basecaller generation
-Base caller based on novel transformer neural networks with impressive results in translation and speech to text
+From a hardware and wet-lab perspective, shrinking the sequencing devices using voltage sensors or solid state pores could help to increase throughput and at the same time decrease the amount of input material needed for library preparation.
+From a software developer perspective, increasing the sequence and base modfication detection accuracy on existing data would have wide-ranging impact.
+Processing infrastructure and signal segmentation methods of this work are the foundation for future work on basecalling and methylation detection algorithms.
+Novel transformer neural network architectures have demonstrated impressive results on translation and speech to text conversions.
+Translating an event table of feature vectors into a genomic sequence is from an algorithmic point of view very similar and the performance of attention based learning over classical recurrent layers will be exciting to investigate.
 
 
 
