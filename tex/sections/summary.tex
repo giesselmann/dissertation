@@ -32,16 +32,17 @@ A useful side-effect of the signal alignment is the ability to mask regions with
 Taken together, \textit{STRique} is an example for a unique nanopore application, enabling more detailed investigations of short tandem repeat expansions.
 
 Bioinformatics for nanopore sequencing are undergoing constant development.
-In contrast to NGS analysis, even a stable nanopore workflow needs constant maintenance to factor in accuracy improvements, but also recent file format and compression method changes.
+Even a stable nanopore workflow needs, in contrast to NGS analysis, constant maintenance to factor in accuracy improvements, new pore generations, but also for instance recent file format and compression method changes.
 Zooming out from individual tool to pipeline level, the streamlined processing and data archiving has received very little attention in the nanopore community.
-Computational setups ranging from few MinION flow cells analyzed on a Laptop to high-throughput PromethION sequencing in combination with GPU accelerated cluster environments are complicating, if not inhibiting, a uniform vendor provided processing strategy.
+Computational setups ranging from few MinION flow cells analyzed on a Laptop to high-throughput PromethION sequencing in combination with GPU accelerated cluster environments are complicating, if not inhibiting, a uniform processing strategy.
 The motivation behind the development of the \textit{Nanopype} pipeline is therefore not only to wrap the processing, but also set up a scaling data management.
 While certainly site specific on the implementation detail, the concepts of the pipeline backend transfer to any institute aiming to set up a nanopore workflow.
-The ONT sequencing software \textit{MinKnow} is providing raw data in batches of currently 4k reads packed into \textit{fast5} files.
+The ONT device control software \textit{MinKnow} is providing raw data in batches of currently 4k reads packed into \textit{fast5} files.
 Further transfer to permanent storage, indexing and archiving are essential for a high-throughput environment.
 The organization in batches is, as opposed to a single \textit{fastq} file per NGS run, beneficial for distributed processing.
 \textit{Nanopype} operates on batches whenever possible, submitting for instance alignments in batches bears the advantage that multiple compute nodes can process a single sequencing run and that only few reads need to be re-processed in case of errors.
 
+Using pipeline management systems such as \textit{Nextflow} or \textit{Snakemake} over plain shell script implementations
 
 
 Nanopype: Processing to stay up to date with updating software
