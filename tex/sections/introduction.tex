@@ -46,7 +46,7 @@ To maintain its integrity and to support the chromatin structure formation, chro
 	\label{fig:intro:chromatin}
 \end{figure}
 
-The \textasciitilde 147bp of DNA directly twisted around each nucleosome is protected against physical access from, for instance, transcription factors (TFs). 
+The \textasciitilde 147bp of DNA directly wrapped around each nucleosome is protected against physical access from, for instance, transcription factors (TFs). 
 The dynamic positioning of nucleosomes is therefore part of the epigenetic regulation process during transcription and replication.
 Accordingly, nucleosomes are enriched at compacted heterochromatin in mostly inactive genomic regions, while being thinned out at regulatory elements such as enhancers, insulators and transcribed genes \cite{Klemm2019}. 
 A growing number of chemical modifications to histone tails is reported to impact inter-nucleosomal interactions, and also leads to recruitment of proteins and complexes involved in transcription, replication and DNA repair \cite{Bannister2011}. 
@@ -56,13 +56,13 @@ Gene expression is influenced by nearby active enhancer sites that are typically
 Finally, repressed and bivalent promoters are modified with H3K27me3 and the combination of H3K4me4 and H3K27me3, respectively.
 
 For embryonic development in mammals, the methylation of cytosine in the CpG-context (5-methylcytosine, 5mC) is a vital epigenetic modification. Prominent examples of its importance include the X-chromosome inactivation in females and genomic imprinting.
-Furthermore, DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression \cite{Greenberg2019}.
+Furthermore, DNA methylation is associated with the silencing of transposable elements, shows high levels over actively transcribed gene bodies and correlates with gene repression at promoters \cite{Greenberg2019}.
 In general, \textit{de-novo} methylation of the DNA is primarily established by the DNMT3A and DNMT3B enzymes. 
 During cell division, the methylation state on the nascent strand in the symmetric CpG-context is restored by the maintenance methyltransferase DNMT1.
 In the absence of DNMT1, the 5mC modification is therefore passively lost during each round of replication. 
 However, can also be actively removed by oxidation through the TET methylcytosine dioxygenases.
-There is a side-effect of cythosine methylation in the form of potential spontaneous deamination of 5mC, resulting in inherited C to T transitions and ultimately, a depletion of CpG sites in mammalian genomes \cite{Holliday1993}. 
-The human genome for example, contains only around 29M CpGs instead of 188M as anticipated from the genome size. 
+There is a side-effect of cytosine methylation in the form of potential spontaneous deamination of 5mC, resulting in inherited C to T transitions and ultimately, a depletion of CpG sites in mammalian genomes \cite{Holliday1993}. 
+The human haploid genome for example, contains only around 29M CpGs instead of 188M as anticipated from the genome size. 
 Thus, the conservation under evolutionary pressure underlines the importance of DNA methylation for mammals, while its diverse functions are still not fully understood.
 
 
@@ -78,11 +78,11 @@ Thus, the conservation under evolutionary pressure underlines the importance of 
 %\end{figure}
 
 
-Human somatic cells typically have a genome-wide mean methylation of approximately 70\%-80\% \cite{Bird2002}.
+Human somatic cells typically have a genome-wide mean methylation of approximately 70-80\% \cite{Bird2002}.
 In bulk methylation sequencing, millions of cells are measured at once, resulting in an averaging of the binary 5mC state of individual cells and yielding mean methylation levels per genomic position.
 The underlying distribution of methylation levels is not random, but follows a bimodal distribution, with CpG dense regions, also referred to as CpG islands (CGIs), being mostly unmethylated, while the genomic background of more isolated CpGs is mostly methylated \cite{Bird2002}.
 Many CGIs in mammals act as promoters, however the majority remain unmethylated during differentiation even as gene silencing is driven by H3K27 methylation \cite{Larsen1992, Greenberg2019}.
-In contrast, a well-studied example where DNA methylation is sufficient to repress transcription is imprinted genes, where either the maternal or paternal allele is transcribed, while the other allele remains silenced.
+In contrast, a well-studied example where DNA methylation is sufficient to repress transcription are imprinted genes, where either the maternal or paternal allele is transcribed, while the other allele remains silenced and methylated.
 
 In general, the DNA methylation levels remain stable across cell divisions but show distinct patterns among different cell types. 
 Aberrant DNA-methylation levels have been observed in different disease contexts, in particular with a heavy deregulation in cancer. 
@@ -132,7 +132,7 @@ As illustrated in Fig. \ref{fig:intro:sbs}, the process can be divided into libr
 	\centering
 	\includegraphics[width=1.0\textwidth]{figures/intro/sbs.pdf}
 	\captionsetup{format=plain}
-	\caption[Sequencing by synthesis]{Next generation sequencing: The input DNA is fragmented and amplified into clusters of identical reads on a flow cell. Sequencing by synthesis determines the nucleotide sequence of all clusters simultaneously by measuring fluorescence of incorporated bases.}
+	\caption[Sequencing by synthesis]{Next generation sequencing: The input DNA is fragmented and amplified into clusters of identical reads on a flow cell. Sequencing by synthesis determines the nucleotide sequence of all clusters simultaneously by measuring fluorescence of incorporated bases (Adapted from \cite{illumina2021}).}
 	\label{fig:intro:sbs}
 \end{figure}
 
@@ -192,7 +192,7 @@ In contrast to high-throughput short-read sequencing, third generation long-read
 Single-molecule real-time sequencing (SMRT), introduced by Pacific Biosciences (PacBio) in 2011, is considered the first commercially available long-read technology \cite{Dijk2018}.
 While the idea of nanopore sequencing goes back to the 1980s, it took until 2014 to release the pocket sized MinION as the first device by Oxford Nanopore Technologies (ONT) \cite{Deamer2016}.
 
-Single-molecule real-time sequencing is based on individual DNA fragments fixed into zero-mode waveguides (ZMW).
+SMRT is based on individual DNA fragments fixed into zero-mode waveguides (ZMW).
 For the library preparation, genomic input DNA is fragmented to typically 8-15kb and ligated to hairpin adapters.
 Termed SMRTbell, each molecule is denatured and as circular single stranded DNA fixed into the ZMWs on the flow cell.
 During the sequencing process, a polymerase located at the transparent bottom of each well synthesizes the complementary strand from nucleotides labeled with a fluorescent dye.
@@ -212,7 +212,7 @@ However, the sensitivity to 5mC remains a proof of concept and studies reporting
 	\label{fig:intro:longread}
 \end{figure}
 
-Interestingly, both NGS and SMRT sequencing technologies utilize the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
+Both NGS and SMRT sequencing technologies utilize the fluorescence signal of nucleotides synthesized into a complementary strand of the sequenced DNA fragment.
 Nanopore sequencing follows a fundamentally different principle.
 The sequencing is no longer based on the synthesis of a second strand, as individual pores asynchronously read multiple molecules one after the other, in contrast to the previous parallel approaches.
 Additionally, nanopore sequencing is not limited to processing only double stranded DNA, but also directly reads single stranded RNA.
