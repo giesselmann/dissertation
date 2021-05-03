@@ -226,28 +226,28 @@ The tethering adapter helps to guide the reads to pores on the flow-cell, where 
 During the sequencing process, the double strand is split in front of the pore and only one strand is read.
 The ionic current per pore serves as a proxy signal for the molecule passing through, is recorded and finally translated into a nucleotide sequence by the basecalling algorithm (Fig. \ref{fig:intro:longread}, right box).
 Without amplification of the input, the nanopore is sensitive to different base modifications including 5-methylcytosine, 6-methyladenine and even synthetic base analogues.
-
 Among other devices distributed by Oxford Nanopore Technologies, the MinION in particular is gaining prominence. 
 The portability and very low acquisition costs open new perspectives of real-time sequencing in the field or in clinical settings.
 % old 
 %Operational directly in the lab and sensitive to base modifications relevant in mouse and human, the nanopore platform is deemed to be the preferable third generation technology for an epigenetics lab.
 % new and cool
-The Nanopore platform is poised to become the gold standard for third-generation sequencing technology given its ease of use in the lab and sensitivity of base modification detection, all qualities essential to studying mammalian epigenomes. 
+%The Nanopore platform is poised to become the gold standard for third-generation sequencing technology given its ease of use in the lab and sensitivity of base modification detection, all qualities essential to studying mammalian epigenomes. 
 
 
 
-\section{Structure}
+\section{Results}
 \label{sec:intro:structure}
 
 The submitted work is structured into four major parts and moving from a zoomed out view into the literature to the development of a universal nanopore data processing pipeline. 
 Further on, a set of nanopore signal processing methods forms the baseline for the subsequent application development for human genetics.
+This section provides a brief overview of the contribution of this work to the field of long-read nanopore sequencing.
 
-\textbf{Chapter \ref{cha:state_of_art} - State of the Art} %\\[0.2em]
+\textbf{Chapter \ref{cha:state_of_art} - State of the Art}
 
 Entitled as \textit{the third revolution in sequencing technology}, Van Dijk et al. \cite{Dijk2018} outline the potentials within an innovative and rapidly developing field of research using third generation sequencing.
 It is indispensable to keep track of the latest developments in the nanopore field, for instance highlighted by the single read accuracy improvements from 87\% to 95\% modal, solely by enhanced basecalling algorithms applicable to existing data.
 This chapter aims to provide a comprehensive overview of the use cases for nanopore sequencing, backed by the computational analysis of millions of publications forming a literature graph of keywords and citations.
-Based on in-house data, throughput and accuracy summaries for sequence and methylation detection complete the assessment of the current status of the technology.
+Lastly, based on in-house data, throughput and accuracy summaries for sequence and methylation detection complete the assessment of the current status of the technology.
 
 
 \textbf{Chapter \ref{cha:nanopype} - Nanopype}
@@ -258,6 +258,7 @@ This chapter covers the development of the modular \textit{Snakemake} pipeline \
 A set of nanopore specific workflows cover the most common use cases such as basecalling, alignment, methylation and structural variant detection.
 Deployed as python module with automatically build and tested software containers, the pipeline maintains all of its internal dependencies, including the version control of integrated tools.
 \textit{Nanopype} is the baseline for subsequent projects and facilitates the rapid development of custom and integration of third party software.
+\textit{Nanopype} is published in Bioinformatics: \textit{Nanopype: a modular and scalable nanopore data processing pipeline}.
 
 
 \textbf{Chapter \ref{cha:signal} - Signal Processing}
@@ -267,7 +268,8 @@ In the past, advancing algorithms led to improved single read accuracy, detectio
 For the development of novel applications, the raw signal may be the input of choice, allowing to bypass basecaller induced errors.
 This chapter covers basic raw signal processing methods including simulation, normalization and signal alignment.
 A flexible raw signal framework enables the seamless integration of signal and sequence space information.
- 
+The signal processing methods form the algorithmic basis for the repeat quantification method developed in the next chapter.
+
 
 \textbf{Chapter \ref{cha:strique} - STRique}
 
@@ -275,7 +277,9 @@ Sequencing of genomic regions, previously inaccessible for short read technologi
 Stretches of repetitive DNA with low sequence complexity are difficult to investigate once they become longer than the read length.
 Short tandem repeats (STR) are an example of repeat elements being expanded to multiple thousand nucleotides in length in disease cases.
 Enabled by our processing framework and signal analysis methods, \textit{STRique} facilitates the precise analysis of STRs in synthetic and patient samples.
+\textit{STRique} solves the problem of counting repeats on individual read-level based on noisy long-read sequencing data.
 Our method allows for the first time to exactly quantify the length of STRs and integrate repeat count and methylation state on a single-molecule level.
+\textit{STRique} is published in Nature Biotechnology: \textit{Analysis of short tandem repeat expansions and their methylation state with nanopore sequencing}.
 
 
 This thesis concludes with a summary and discussion of the results.
